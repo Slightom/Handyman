@@ -1,36 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as formActions from "../../redux/actions/formActions";
+import * as seniorActions from "../../redux/actions/seniorActions";
+import * as handymanActions from "../../redux/actions/handymanActions";
+import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import FormList from "./FormList";
 
-function FormsPage(props) {
+function FormsPage({ seniors, handymans, formStatuses, actions, ...props }) {
     const [form, setForm] = useState({ info: "" });
+    const [forms, setForms] = useState([]);
 
-    function handleChange(event) {
-        const _form = { ...form, info: event.target.value };
-        setForm(_form);
-    }
+    useEffect(() => {
+        if (props.forms.length === 0) {
+            actions.loadForms().catch(error => {
+                alert("Loading forms failed" + error);
+            });
+        }
+        if (seniors.length === 0) {
+            actions.loadSeniors().catch(error => {
+                alert("Loading seniors failed" + error);
+            });
+        }
+        if (handymans.length === 0) {
+            actions.loadHandymans().catch(error => {
+                alert("Loading handymans failed" + error);
+            });
+        }
+        if (formStatuses.length === 0) {
+            actions.loadFormStatuses().catch(error => {
+                alert("Loading formStatuses failed" + error);
+            });
+        }
 
-    function handleSubmit(event) {
-        event.preventDefault();
-        props.actions.createForm(form);
-    }
+    }, [seniors, handymans, formStatuses, props.forms]);
+
+
     return (
-        <form onSubmit={handleSubmit}>
+        <>
             <h2>Forms</h2>
-            <h3>Add Form</h3>
-            <input
-                type="text"
-                onChange={handleChange}
-                value={form.info}
-            />
-
-            <input type="submit" value="Save" />
-            {props.forms.map(form => (
-                < div key={form.info} >{form.info}</div>
-            ))}
-        </form >
+            <FormList forms={props.forms} />
+        </>
     )
 }
 
@@ -41,13 +52,34 @@ FormsPage.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        forms: state.forms
+        forms: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
+            ? []
+            : state.forms.map(form => {
+                const _senior = state.seniors.find(s => s.id === form.seniorId);
+                return {
+                    ...form,
+                    senior: _senior.firstName + ' ' + _senior.lastName,
+                    address: _senior.address,
+                    phone: _senior.phone,
+                    handyman: state.handymans.find(h => h.id === form.handymanId).name,
+                    status: state.formStatuses.find(fs => fs.id === form.formStatusId).name
+                };
+            }),
+        seniors: state.seniors,
+        handymans: state.handymans,
+        formStatuses: state.formStatuses
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(formActions, dispatch)
+        //actions: bindActionCreators(formActions, dispatch)
+        actions: {
+            loadForms: bindActionCreators(formActions.loadForms, dispatch),
+            loadSeniors: bindActionCreators(seniorActions.loadSeniors, dispatch),
+            loadHandymans: bindActionCreators(handymanActions.loadHandymans, dispatch),
+            loadFormStatuses: bindActionCreators(formStatusActions.loadFormStatuses, dispatch),
+        }
     };
 }
 

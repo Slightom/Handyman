@@ -31,7 +31,7 @@ const forms = [
   { id: 2, lp: 2, seniorId: 2, handymanId: 1, formStatusId: 1, registrationDate: new Date(2021, 1, 1, 1, 0, 0), repairDate: new Date(2021, 1, 1, 1, 0, 0), info: "wymiana klamki, okno" },
   { id: 3, lp: 3, seniorId: 3, handymanId: 2, formStatusId: 2, registrationDate: new Date(2021, 1, 2, 1, 0, 0), repairDate: new Date(2021, 1, 3, 1, 0, 0), info: "regulacja okien" },
   { id: 4, lp: 4, seniorId: 4, handymanId: 2, formStatusId: 2, registrationDate: new Date(2021, 1, 2, 1, 0, 0), repairDate: new Date(2021, 1, 3, 1, 0, 0), info: "wymiana zamka" },
-  { id: 5, lp: 5, seniorId: 4, handymanId: 1, formStatusId: 2, registrationDate: new Date(2021, 1, 2, 1, 0, 0), repairDate: new Date(2021, 1, 4, 1, 0, 0), info: "montaż rolety" },
+  { id: 5, lp: 5, seniorId: 4, handymanId: 1, formStatusId: 2, registrationDate: new Date(2021, 1, 2, 1, 0, 0), repairDate: new Date(2021, 2, 4, 1, 0, 0), info: "montaż rolety" },
 ];
 
 const newForm = {
