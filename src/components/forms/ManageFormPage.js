@@ -10,7 +10,7 @@ import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 
-function ManageFormsPage({
+function ManageFormPage({
     seniors,
     handymans,
     formStatuses,
@@ -114,7 +114,7 @@ function ManageFormsPage({
         )
 }
 
-ManageFormsPage.propTypes = {
+ManageFormPage.propTypes = {
     forms: PropTypes.array.isRequired,
     seniors: PropTypes.array.isRequired,
     handymans: PropTypes.array.isRequired,
@@ -153,7 +153,7 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageFormsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageFormPage);
 
 // here is the same but divided into two lines.
 // const connectedStateAndProps = connect(mapStateToprops, mapDispatchToProps);

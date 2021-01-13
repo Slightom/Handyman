@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
 import DatePickerInput from "../common/DatePickerInput";
@@ -96,6 +97,12 @@ const FormForm = ({
             <button type="submit" disabled={saving} className="btn btn-primary">
                 {saving ? "Saving..." : "Save"}
             </button>
+            {" "}
+            <Link to="/forms">
+                <button disabled={saving} className="btn btn-secondary">
+                    Cancel
+            </button>
+            </Link>
         </form>
     );
 };

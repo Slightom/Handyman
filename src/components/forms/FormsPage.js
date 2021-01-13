@@ -10,6 +10,8 @@ import FormList from "./FormList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
@@ -37,13 +39,31 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
         }
     }, []);
 
-    async function handleDeleteForm(_form) {
+    async function confirmedDelete(_form) {
         toast.success("Form deleted.");
         try {
             await actions.deleteForm(_form);
         } catch (error) {
             toast.error("Delete failed. " + error.message, { autoClose: false })
         }
+    }
+
+    function handleDeleteForm(_form) {
+
+        confirmAlert({
+            title: 'Confirm to delete',
+            message: 'Are you sure to do this?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => confirmedDelete(_form)
+                },
+                {
+                    label: 'No',
+                    onClick: () => { return; }
+                }
+            ]
+        });
     }
 
 

@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 const FormList = ({ forms, onDeleteClick }) => {
 
@@ -29,10 +31,10 @@ const FormList = ({ forms, onDeleteClick }) => {
                 {forms.map(form => {
                     return (
                         <tr key={form.id}>
-                            <Link to={"/form/" + form.id}>
-                                <td>{form.lp}</td>
+                            <td>{form.lp}</td>
+                            <Link to={"/senior/" + form.seniorId}>
+                                <td>{form.senior}</td>
                             </Link>
-                            <td>{form.senior}</td>
                             <td>{form.address}</td>
                             <td>{form.phone}</td>
                             <td>{form.status}</td>
@@ -41,11 +43,19 @@ const FormList = ({ forms, onDeleteClick }) => {
                             <td>{generateDate(form.repairDate)}</td>
                             <td>{form.info}</td>
                             <td>
+                                <Link to={"/form/" + form.id}>
+                                    <button
+                                        class="btn btn-outline-warning"
+                                    >
+                                        <FontAwesomeIcon icon={faPencilAlt} />
+                                    </button>
+                                </Link>
+                                {" "}
                                 <button
-                                    class="btn btn-danger"
+                                    class="btn btn-outline-danger"
                                     onClick={() => onDeleteClick(form)}
                                 >
-                                    x
+                                    <FontAwesomeIcon icon={faTrashAlt} />
                                 </button>
                             </td>
                         </tr>
