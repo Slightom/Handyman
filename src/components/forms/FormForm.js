@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
-import NumberInput from "../common/NumberInput";
 import SelectInput from "../common/SelectInput";
 import DatePickerInput from "../common/DatePickerInput";
-import DatePicker from "react-datepicker";
 
 const FormForm = ({
     form,
@@ -102,13 +100,15 @@ const FormForm = ({
     );
 };
 
-// FormForm.propTypes = {
-//   authors: PropTypes.array.isRequired,
-//   course: PropTypes.object.isRequired,
-//   errors: PropTypes.object,
-//   onSave: PropTypes.func.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   saving: PropTypes.bool
-// };
+FormForm.propTypes = {
+    form: PropTypes.object.isRequired,
+    seniors: PropTypes.array.isRequired,
+    handymans: PropTypes.array.isRequired,
+    formStatuses: PropTypes.array.isRequired,
+    errors: PropTypes.object,
+    onSave: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    saving: PropTypes.bool
+};
 
 export default FormForm;

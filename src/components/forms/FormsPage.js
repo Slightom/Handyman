@@ -9,10 +9,9 @@ import { bindActionCreators } from "redux";
 import FormList from "./FormList";
 import { Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
-    const [form, setForm] = useState({ info: "" });
-    const [forms, setForms] = useState([]);
     const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
 
     useEffect(() => {
@@ -36,8 +35,16 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                 alert("Loading formStatuses failed" + error);
             });
         }
-
     }, []);
+
+    async function handleDeleteForm(_form) {
+        toast.success("Form deleted.");
+        try {
+            await actions.deleteForm(_form);
+        } catch (error) {
+            toast.error("Delete failed. " + error.message, { autoClose: false })
+        }
+    }
 
 
     return (
@@ -56,7 +63,10 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                         Add Form
                     </button>
 
-                    <FormList forms={props.forms} />
+                    <FormList
+                        onDeleteClick={handleDeleteForm}
+                        forms={props.forms}
+                    />
                 </>
 
             }
@@ -66,7 +76,11 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
 
 FormsPage.propTypes = {
     forms: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    seniors: PropTypes.array.isRequired,
+    handymans: PropTypes.array.isRequired,
+    formStatuses: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired,
+    loading: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -99,6 +113,7 @@ function mapDispatchToProps(dispatch) {
             loadSeniors: bindActionCreators(seniorActions.loadSeniors, dispatch),
             loadHandymans: bindActionCreators(handymanActions.loadHandymans, dispatch),
             loadFormStatuses: bindActionCreators(formStatusActions.loadFormStatuses, dispatch),
+            deleteForm: bindActionCreators(formActions.deleteForm, dispatch)
         }
     };
 }

@@ -11,6 +11,8 @@ export default function formReducer(state = initialState.forms, action) {
             return [...state, action.form];
         case types.UPDATE_FORM_SUCCESS:
             return state.map(form => form.id === action.form.id ? action.form : form);
+        case types.DELETE_FORM_OPTIMISTIC:
+            return state.filter(form => form.id !== action.form.id);
         default:
             return state;
     }

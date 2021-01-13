@@ -14,6 +14,10 @@ export function updateFormSuccess(form) {
     return { type: types.UPDATE_FORM_SUCCESS, form };
 }
 
+export function deleteFormOptimistic(form) {
+    return { type: types.DELETE_FORM_OPTIMISTIC, form };
+}
+
 export function loadForms() {
     return function (dispatch) {
         dispatch(beginApiCall());
@@ -44,4 +48,13 @@ export function saveForm(form) {
                 throw error;
             });
     }
+}
+
+export function deleteForm(form) {
+    return function (dispatch) {
+        // Doing optimistic delete, so not dispatching begin/end api call
+        // actions, or apiCallError action since we're not showing the loading status for this.
+        dispatch(deleteFormOptimistic(form));
+        return formApi.deleteForm(form.id);
+    };
 }

@@ -5,7 +5,6 @@ import * as seniorActions from "../../redux/actions/seniorActions";
 import * as handymanActions from "../../redux/actions/handymanActions";
 import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
-import FormList from "./FormList";
 import { newForm } from "../../tools/mockData";
 import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
@@ -117,7 +116,15 @@ function ManageFormsPage({
 
 ManageFormsPage.propTypes = {
     forms: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    seniors: PropTypes.array.isRequired,
+    handymans: PropTypes.array.isRequired,
+    formStatuses: PropTypes.array.isRequired,
+    loadForms: PropTypes.func.isRequired,
+    loadSeniors: PropTypes.func.isRequired,
+    loadHandymans: PropTypes.func.isRequired,
+    loadFormStatuses: PropTypes.func.isRequired,
+    saveForm: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
 };
 
 export function getFormById(forms, id) {

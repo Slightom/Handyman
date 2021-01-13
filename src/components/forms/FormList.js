@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-const FormList = ({ forms }) => {
+const FormList = ({ forms, onDeleteClick }) => {
 
     function generateDate(s) {
         const date = new Date(s);
@@ -22,6 +22,7 @@ const FormList = ({ forms }) => {
                     <th>Registration</th>
                     <th>Repair</th>
                     <th>Info</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +40,14 @@ const FormList = ({ forms }) => {
                             <td>{generateDate(form.registrationDate)}</td>
                             <td>{generateDate(form.repairDate)}</td>
                             <td>{form.info}</td>
+                            <td>
+                                <button
+                                    class="btn btn-danger"
+                                    onClick={() => onDeleteClick(form)}
+                                >
+                                    x
+                                </button>
+                            </td>
                         </tr>
                     );
                 })}
@@ -48,7 +57,8 @@ const FormList = ({ forms }) => {
 }
 
 FormList.prototypes = {
-    forms: PropTypes.array.isRequired
+    forms: PropTypes.array.isRequired,
+    onDeleteClick: PropTypes.func.isRequired
 }
 
 export default FormList;
