@@ -21,6 +21,7 @@ const DatePickerInput = ({
                 <div className="field">
                     <DatePicker
                         name={name}
+                        className="form-control"
                         selected={value}
                         onChange={(selected) => onChange(selected, name)}
                         dateFormat="yyyy-MM-dd"

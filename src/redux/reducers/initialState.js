@@ -3,5 +3,6 @@ export default {
     forms: [],
     seniors: [],
     handymans: [],
-    formStatuses: []
+    formStatuses: [],
+    apiCallsInProgress: 0
 };

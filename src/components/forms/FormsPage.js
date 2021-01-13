@@ -8,8 +8,9 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import FormList from "./FormList";
 import { Redirect } from "react-router-dom";
+import Spinner from "../common/Spinner";
 
-function FormsPage({ seniors, handymans, formStatuses, actions, ...props }) {
+function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [form, setForm] = useState({ info: "" });
     const [forms, setForms] = useState([]);
     const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
@@ -36,23 +37,29 @@ function FormsPage({ seniors, handymans, formStatuses, actions, ...props }) {
             });
         }
 
-    }, [seniors, handymans, formStatuses, props.forms]);
+    }, []);
 
 
     return (
         <>
             {redirectToAddFormPage && <Redirect to="/form" />}
             <h2>Forms</h2>
+            {loading
+                ? <Spinner />
+                :
+                <>
+                    <button
+                        style={{ marginBottom: 20 }}
+                        className="btn btn-primary add-form"
+                        onClick={() => setRedirectToAddFormPage(true)}
+                    >
+                        Add Form
+                    </button>
 
-            <button
-                style={{ marginBottom: 20 }}
-                className="btn btn-primary add-form"
-                onClick={() => setRedirectToAddFormPage(true)}
-            >
-                Add Form
-            </button>
+                    <FormList forms={props.forms} />
+                </>
 
-            <FormList forms={props.forms} />
+            }
         </>
     )
 }
@@ -79,7 +86,8 @@ function mapStateToProps(state) {
             }),
         seniors: state.seniors,
         handymans: state.handymans,
-        formStatuses: state.formStatuses
+        formStatuses: state.formStatuses,
+        loading: state.apiCallsInProgress > 0
     };
 }
 

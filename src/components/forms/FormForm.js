@@ -76,7 +76,7 @@ const FormForm = ({
                 label="Registration"
                 value={form.registrationDate === null ? null : new Date(form.registrationDate)}
                 onChange={onChange}
-                error={errors.registration}
+                error={errors.registrationDate}
             />
 
             <DatePickerInput
@@ -84,7 +84,7 @@ const FormForm = ({
                 label="Repair"
                 value={form.repairDate === null ? null : new Date(form.repairDate)}
                 onChange={onChange}
-                error={errors.repair}
+                error={errors.repairDate}
             />
 
             <TextInput

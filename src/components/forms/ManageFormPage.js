@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import FormList from "./FormList";
 import { newForm } from "../../tools/mockData";
 import FormForm from "./FormForm";
+import Spinner from "../common/Spinner";
+import { toast } from "react-toastify";
 
 function ManageFormsPage({
     seniors,
@@ -22,8 +24,8 @@ function ManageFormsPage({
     ...props
 }) {
     const [form, setForm] = useState({ ...props.form });
-    const [forms, setForms] = useState([]);
     const [errors, setErrors] = useState({});
+    const [saving, setSaving] = useState(false);
 
     useEffect(() => {
         if (props.forms.length === 0) {
@@ -69,16 +71,37 @@ function ManageFormsPage({
         }));
     }
 
+    function formIsValid() {
+        const { lp, seniorId, handymanId, formStatusId, registrationDate, repairDate, info } = form;
+        const errors = {};
+
+        if (!lp) errors.lp = "Lp is required.";
+        if (!seniorId) errors.senior = "Senior is required.";
+        if (!handymanId) errors.handyman = "Handyman is required.";
+        if (!formStatusId) errors.formStatus = "Form Status is required.";
+        if (!registrationDate) errors.registrationDate = "Registration date is required.";
+        if (!repairDate) errors.repairDate = "Repair date is required.";
+        if (!info) errors.info = "Info is required.";
+
+        setErrors(errors);
+
+        return Object.keys(errors).length === 0;
+    }
+
     function handleSave(event) {
         event.preventDefault();
+        if (!formIsValid()) return;
+        setSaving(true);
         saveForm(form).then(() => {
             // eslint-disable-next-line no-restricted-globals
+            toast.success("Form Saved.");
             history.push("/forms");
         });
     }
 
-    return (
-        <>
+    return (props.forms.length === 0 || seniors.length === 0 || handymans.length === 0 || formStatuses.length === 0)
+        ? <Spinner />
+        : (
             <FormForm
                 form={form}
                 seniors={seniors}
@@ -87,9 +110,9 @@ function ManageFormsPage({
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
+                saving={saving}
             />
-        </>
-    )
+        )
 }
 
 ManageFormsPage.propTypes = {
@@ -107,19 +130,7 @@ function mapStateToProps(state, ownProps) {
     const _form = id && state.forms.length > 0 ? getFormById(state.forms, id) : newForm;
     return {
         form: _form,
-        forms: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
-            ? []
-            : state.forms.map(form => {
-                const _senior = state.seniors.find(s => s.id === form.seniorId);
-                return {
-                    ...form,
-                    senior: _senior.firstName + ' ' + _senior.lastName,
-                    address: _senior.address,
-                    phone: _senior.phone,
-                    handyman: state.handymans.find(h => h.id === form.handymanId).name,
-                    status: state.formStatuses.find(fs => fs.id === form.formStatusId).name
-                };
-            }),
+        forms: state.forms,
         seniors: state.seniors,
         handymans: state.handymans,
         formStatuses: state.formStatuses

@@ -1,5 +1,6 @@
 import * as types from "./actionTypes";
 import * as formApi from "../../api/formApi";
+import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 export function loadFormsSuccess(forms) {
     return { type: types.LOAD_FORMS_SUCCESS, forms };
@@ -15,12 +16,14 @@ export function updateFormSuccess(form) {
 
 export function loadForms() {
     return function (dispatch) {
+        dispatch(beginApiCall());
         return formApi
             .getForms()
             .then(forms => {
                 dispatch(loadFormsSuccess(forms));
             })
             .catch(error => {
+                dispatch(apiCallError(error));
                 throw error;
             });
     }
@@ -28,6 +31,7 @@ export function loadForms() {
 
 export function saveForm(form) {
     return function (dispatch) {
+        dispatch(beginApiCall());
         return formApi
             .saveForm(form)
             .then(savedForm => {
@@ -36,6 +40,7 @@ export function saveForm(form) {
                     : dispatch(createFormSuccess(savedForm))
             })
             .catch(error => {
+                dispatch(apiCallError(error));
                 throw error;
             });
     }
