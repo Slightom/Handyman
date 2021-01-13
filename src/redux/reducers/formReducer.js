@@ -7,6 +7,10 @@ export default function formReducer(state = initialState.forms, action) {
             return [...state, action.form];
         case types.LOAD_FORMS_SUCCESS:
             return action.forms;
+        case types.CREATE_FORM_SUCCESS:
+            return [...state, action.form];
+        case types.UPDATE_FORM_SUCCESS:
+            return state.map(form => form.id === action.form.id ? action.form : form);
         default:
             return state;
     }

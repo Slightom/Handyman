@@ -1,0 +1,120 @@
+{
+  "seniors": [
+    {
+      "id": 1,
+      "firstName": "Jan",
+      "lastName": "Dzban",
+      "address": "Konopnickiej 14/5",
+      "phone": "555 444 333",
+      "shortcut": "Dzban Jan, Konopnickiej 14/5"
+    },
+    {
+      "id": 2,
+      "firstName": "Maria",
+      "lastName": "Wanna",
+      "address": "Wiejska 10/15",
+      "phone": "123 123 123",
+      "shortcut": "Wanna Maria, Wiejska 10/15"
+    },
+    {
+      "id": 3,
+      "firstName": "Irena",
+      "lastName": "Grzyb",
+      "address": "Polna 12",
+      "phone": "111 111 222",
+      "shortcut": "Grzyb Irena, Polna 12"
+    },
+    {
+      "id": 4,
+      "firstName": "Janina",
+      "lastName": "Tłuszcz",
+      "address": "Tłusta 90/17",
+      "phone": "999 888 777",
+      "shortcut": "Tłuszcz Janina, Tłusta 90/17"
+    },
+    {
+      "id": 5,
+      "firstName": "Halina",
+      "lastName": "Malina",
+      "address": "Porzeczkowa 3",
+      "phone": "121 121 122",
+      "shortcut": "Malina Halina, Porzeczkowa 3"
+    }
+  ],
+  "formStatuses": [
+    {
+      "id": 1,
+      "name": "Oczekujące"
+    },
+    {
+      "id": 2,
+      "name": "Wykonane"
+    },
+    {
+      "id": 3,
+      "name": "Rezygnacja"
+    }
+  ],
+  "handymans": [
+    {
+      "id": 1,
+      "name": "Tomek"
+    },
+    {
+      "id": 2,
+      "name": "Paweł"
+    }
+  ],
+  "forms": [
+    {
+      "id": 1,
+      "lp": 1,
+      "seniorId": 1,
+      "handymanId": 1,
+      "formStatusId": 2,
+      "registrationDate": "2021-02-01T00:00:00.000Z",
+      "repairDate": "2021-02-08T00:00:00.000Z",
+      "info": "wymiana baterii w kuchnicsdcsdc"
+    },
+    {
+      "id": 2,
+      "lp": 2,
+      "seniorId": 2,
+      "handymanId": 1,
+      "formStatusId": 1,
+      "registrationDate": "2021-02-01T00:00:00.000Z",
+      "repairDate": "2021-02-01T00:00:00.000Z",
+      "info": "wymiana klamki, okno"
+    },
+    {
+      "id": 3,
+      "lp": 3,
+      "seniorId": 3,
+      "handymanId": 2,
+      "formStatusId": 2,
+      "registrationDate": "2021-02-02T00:00:00.000Z",
+      "repairDate": "2021-02-27T00:00:00.000Z",
+      "info": "regulacja okien"
+    },
+    {
+      "id": 4,
+      "lp": 4,
+      "seniorId": 4,
+      "handymanId": 2,
+      "formStatusId": 2,
+      "registrationDate": "2021-02-02T00:00:00.000Z",
+      "repairDate": "2021-02-03T00:00:00.000Z",
+      "info": "wymiana zamka"
+    },
+    {
+      "id": 5,
+      "lp": 5,
+      "seniorId": 4,
+      "handymanId": 1,
+      "formStatusId": 2,
+      "registrationDate": "2021-02-02T00:00:00.000Z",
+      "repairDate": "2021-03-04T00:00:00.000Z",
+      "info": "montaż rolety"
+    }
+  ]
+}

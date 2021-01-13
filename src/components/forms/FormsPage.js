@@ -7,10 +7,12 @@ import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import FormList from "./FormList";
+import { Redirect } from "react-router-dom";
 
 function FormsPage({ seniors, handymans, formStatuses, actions, ...props }) {
     const [form, setForm] = useState({ info: "" });
     const [forms, setForms] = useState([]);
+    const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
 
     useEffect(() => {
         if (props.forms.length === 0) {
@@ -39,7 +41,17 @@ function FormsPage({ seniors, handymans, formStatuses, actions, ...props }) {
 
     return (
         <>
+            {redirectToAddFormPage && <Redirect to="/form" />}
             <h2>Forms</h2>
+
+            <button
+                style={{ marginBottom: 20 }}
+                className="btn btn-primary add-form"
+                onClick={() => setRedirectToAddFormPage(true)}
+            >
+                Add Form
+            </button>
+
             <FormList forms={props.forms} />
         </>
     )

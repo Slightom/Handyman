@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const FormList = ({ forms }) => {
 
     function generateDate(s) {
         const date = new Date(s);
-        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay();
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     }
 
     return (
@@ -28,7 +28,9 @@ const FormList = ({ forms }) => {
                 {forms.map(form => {
                     return (
                         <tr key={form.id}>
-                            <td>{form.lp}</td>
+                            <Link to={"/form/" + form.id}>
+                                <td>{form.lp}</td>
+                            </Link>
                             <td>{form.senior}</td>
                             <td>{form.address}</td>
                             <td>{form.phone}</td>
