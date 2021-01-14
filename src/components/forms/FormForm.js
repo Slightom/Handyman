@@ -12,6 +12,7 @@ const FormForm = ({
     formStatuses,
     onSave,
     onChange,
+    goBack,
     saving = false,
     errors = {}
 }) => {
@@ -98,11 +99,9 @@ const FormForm = ({
                 {saving ? "Saving..." : "Save"}
             </button>
             {" "}
-            <Link to="/forms">
-                <button disabled={saving} className="btn btn-secondary">
-                    Cancel
+            <button disabled={saving} className="btn btn-secondary" onClick={goBack}>
+                Cancel
             </button>
-            </Link>
         </form>
     );
 };

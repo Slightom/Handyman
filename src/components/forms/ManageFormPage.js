@@ -95,8 +95,10 @@ function ManageFormPage({
             // eslint-disable-next-line no-restricted-globals
             toast.success("Form Saved.");
             history.push("/forms");
+            console.log(history);
         });
     }
+
 
     return (props.forms.length === 0 || seniors.length === 0 || handymans.length === 0 || formStatuses.length === 0)
         ? <Spinner />
@@ -110,6 +112,7 @@ function ManageFormPage({
                 onChange={handleChange}
                 onSave={handleSave}
                 saving={saving}
+                goBack={(event) => { event.preventDefault(); history.goBack(); }}
             />
         )
 }

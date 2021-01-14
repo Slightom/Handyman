@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { generateDate } from "../common/Helper";
 
 const FormList = ({ forms, onDeleteClick }) => {
-
-    function generateDate(s) {
-        const date = new Date(s);
-        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    }
 
     return (
         <table className="table">

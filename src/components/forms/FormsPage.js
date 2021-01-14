@@ -12,6 +12,7 @@ import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { getFormsAdvanced } from "../common/Helper";
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
@@ -107,17 +108,7 @@ function mapStateToProps(state) {
     return {
         forms: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? []
-            : state.forms.map(form => {
-                const _senior = state.seniors.find(s => s.id === form.seniorId);
-                return {
-                    ...form,
-                    senior: _senior.firstName + ' ' + _senior.lastName,
-                    address: _senior.address,
-                    phone: _senior.phone,
-                    handyman: state.handymans.find(h => h.id === form.handymanId).name,
-                    status: state.formStatuses.find(fs => fs.id === form.formStatusId).name
-                };
-            }),
+            : getFormsAdvanced(state.forms, state.seniors, state.handymans, state.formStatuses),
         seniors: state.seniors,
         handymans: state.handymans,
         formStatuses: state.formStatuses,

@@ -10,16 +10,21 @@ import SeniorForm from "./SeniorForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { saveSenior } from "../../api/seniorApi";
+import { getFormsAdvanced, getRelatedFormsAdvanced } from "../common/Helper";
 
 function ManageSeniorPage({
     loadForms,
     loadSeniors,
+    loadHandymans,
+    loadFormStatuses,
     saveForm,
     history,
     seniors,
+    handymans,
+    formStatuses,
     ...props
 }) {
-    const [senior, setSenior] = useState({ ...props.senior });
+    const [senior, setSenior] = useState({ ...props.senior, seniorForms: props.senior.id ? props.senior.seniorForms : [] });
     const [errors, setErrors] = useState({});
     const [saving, setSaving] = useState(false);
 
@@ -29,12 +34,22 @@ function ManageSeniorPage({
                 alert("Loading forms failed" + error);
             });
         }
+        if (handymans.length === 0) {
+            loadHandymans().catch(error => {
+                alert("Loading handymans failed" + error);
+            });
+        }
+        if (formStatuses.length === 0) {
+            loadFormStatuses().catch(error => {
+                alert("Loading formStatuses failed" + error);
+            });
+        }
         if (seniors.length === 0) {
             loadSeniors().catch(error => {
                 alert("Loading seniors failed" + error);
             });
         } else {
-            setSenior({ ...props.senior });
+            setSenior({ ...props.senior, seniorForms: props.senior.seniorForms });
         }
 
     }, [props.senior]);
@@ -78,10 +93,10 @@ function ManageSeniorPage({
         : (
             <SeniorForm
                 senior={senior}
-                //forms={props.forms}
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
+                goBack={(event) => { event.preventDefault(); history.goBack(); }}
                 saving={saving}
             />
         )
@@ -92,6 +107,8 @@ ManageSeniorPage.propTypes = {
     seniors: PropTypes.array.isRequired,
     loadForms: PropTypes.func.isRequired,
     loadSeniors: PropTypes.func.isRequired,
+    loadHandymans: PropTypes.func.isRequired,
+    loadFormStatuses: PropTypes.func.isRequired,
     saveSenior: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired
 };
@@ -105,16 +122,25 @@ function mapStateToProps(state, ownProps) {
     const id = ownProps.match.params.id;
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
     return {
-        senior: _senior,
+        senior: (state.seniors.length === 0 || state.forms.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
+            ? _senior
+            : {
+                ..._senior,
+                seniorForms: getRelatedFormsAdvanced(_senior, state.forms, state.handymans, state.formStatuses)
+            },
         forms: state.forms,
-        seniors: state.seniors
+        seniors: state.seniors,
+        handymans: state.handymans,
+        formStatuses: state.formStatuses
     };
 }
 
 const mapDispatchToProps = {
     loadForms: formActions.loadForms,
     loadSeniors: seniorActions.loadSeniors,
-    saveSenior: seniorActions.saveSenior
+    saveSenior: seniorActions.saveSenior,
+    loadHandymans: handymanActions.loadHandymans,
+    loadFormStatuses: formStatusActions.loadFormStatuses
 };
 
 
