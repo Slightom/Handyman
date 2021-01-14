@@ -5,6 +5,7 @@ import TextInput from "../common/TextInput";
 import { generateDate } from "../common/Helper";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import "../common/myStyle.css";
 
 const SeniorForm = ({
     senior,
@@ -81,7 +82,7 @@ const SeniorForm = ({
                     :
                     <>
                         <h3>Senior Forms History</h3>
-                        <table className="table">
+                        <table className="table-hover table table-bordered myTable2">
                             <thead>
                                 <tr>
                                     <th>Lp</th>

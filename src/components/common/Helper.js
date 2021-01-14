@@ -35,5 +35,35 @@ export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) 
 
 export function generateDate(s) {
     const date = new Date(s);
-    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    // return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+}
+
+export function sortArray(arr, col, descending) {
+    let newArray;
+    switch (col) {
+        case 'lp':
+        case 'forms':
+        case 'formsFinished':
+        case 'formsWaiting':
+        case 'formsRejected':
+            newArray = descending ? arr.sort((a, b) => b[col] - a[col]) : arr.sort((a, b) => a[col] - b[col]);
+            return newArray;
+        case 'registrationDate':
+        case 'repairDate':
+            newArray = descending ? arr.sort((a, b) => new Date(b[col]) - new Date(a[col])) : arr.sort((a, b) => new Date(a[col]) - new Date(b[col]));
+            return newArray;
+        case 'senior':
+        case 'address':
+        case 'phone':
+        case 'status':
+        case 'handyman':
+        case 'firstName':
+        case 'lastName':
+        case 'info':
+            newArray = arr.sort((a, b) => a[col].localeCompare(b[col]));
+            return descending ? newArray.reverse() : newArray;
+        default:
+            return arr;
+    }
 }

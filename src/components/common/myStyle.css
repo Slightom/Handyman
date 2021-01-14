@@ -1,0 +1,11 @@
+.myTable th {
+  background-color: #ddd;
+}
+
+.myTable th:hover {
+  background-color: #aaa;
+}
+
+.myTable2 th {
+  background-color: #ddd;
+}

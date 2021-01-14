@@ -13,10 +13,13 @@ import * as myGlobal from "../common/myGlobal";
 import SeniorList from "./SeniorList";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { sortArray } from "../common/Helper";
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     const [redirectToAddSeniorPage, setRedirectToAddSeniorPage] = useState(false);
+    const [sort, setSort] = useState({ col: 'id', descending: true });
+    const [_seniors, _setSeniors] = useState([]);
     useEffect(() => {
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
@@ -27,13 +30,15 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
             actions.loadSeniors().catch(error => {
                 alert("Loading seniors failed" + error);
             });
+        } else {
+            _setSeniors(props.seniors);
         }
         if (formStatuses.length === 0) {
             actions.loadFormStatuses().catch(error => {
                 alert("Loading formStatuses failed" + error);
             });
         }
-    }, [])
+    }, [props.seniors.length])
 
     async function confirmedDelete(_senior) {
         toast.success("Senior deleted.");
@@ -66,6 +71,12 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
         });
     }
 
+    function handleSort(event, col) {
+        event.preventDefault();
+        const descending = ((sort.col === col) ? !sort.descending : false);
+        _setSeniors(sortArray(_seniors, col, descending));
+        setSort({ col, descending });
+    }
 
     return (
         <>
@@ -85,7 +96,8 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
 
                     <SeniorList
                         onDeleteClick={handleDeleteSenior}
-                        seniors={props.seniors}
+                        onHeaderClick={handleSort}
+                        seniors={_seniors}
                     />
                 </>
             }

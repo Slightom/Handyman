@@ -12,16 +12,20 @@ import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { getFormsAdvanced } from "../common/Helper";
+import { getFormsAdvanced, sortArray } from "../common/Helper";
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
+    const [sort, setSort] = useState({ col: 'lp', descending: true });
+    const [_forms, _setForms] = useState([]);
 
     useEffect(() => {
         if (props.forms.length === 0) {
             actions.loadForms().catch(error => {
                 alert("Loading forms failed" + error);
             });
+        } else {
+            _setForms(props.forms);
         }
         if (seniors.length === 0) {
             actions.loadSeniors().catch(error => {
@@ -38,7 +42,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                 alert("Loading formStatuses failed" + error);
             });
         }
-    }, []);
+    }, [props.forms.length]);
 
     async function confirmedDelete(_form) {
         toast.success("Form deleted.");
@@ -67,6 +71,13 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
         });
     }
 
+    function handleSort(event, col) {
+        event.preventDefault();
+        const descending = ((sort.col === col) ? !sort.descending : false);
+        _setForms(sortArray(_forms, col, descending));
+        setSort({ col, descending });
+    }
+
 
     return (
         <>
@@ -86,7 +97,8 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
 
                     <FormList
                         onDeleteClick={handleDeleteForm}
-                        forms={props.forms}
+                        onHeaderClick={handleSort}
+                        forms={_forms}
                     />
                 </>
 
@@ -106,9 +118,9 @@ FormsPage.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        forms: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
+        forms: (state.forms.length === 0 || state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? []
-            : getFormsAdvanced(state.forms, state.seniors, state.handymans, state.formStatuses),
+            : getFormsAdvanced(state.forms, state.seniors, state.handymans, state.formStatuses).sort((a, b) => b.lp - a.lp),
         seniors: state.seniors,
         handymans: state.handymans,
         formStatuses: state.formStatuses,

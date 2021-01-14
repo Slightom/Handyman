@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import "../common/myStyle.css";
 
-const SeniorList = ({ seniors, onDeleteClick }) => {
+const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
 
     return (
-        <table className="table">
+        <table className="table table-hover table-bordered myTable">
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Forms</th>
-                    <th>Finished</th>
-                    <th>Waiting</th>
-                    <th>Rejected</th>
+                    <th onClick={(e) => onHeaderClick(e, 'firstName')}>First Name</th>
+                    <th onClick={(e) => onHeaderClick(e, 'lastName')}>Last Name</th>
+                    <th onClick={(e) => onHeaderClick(e, 'address')}>Address</th>
+                    <th onClick={(e) => onHeaderClick(e, 'phone')}>Phone</th>
+                    <th onClick={(e) => onHeaderClick(e, 'forms')}>Forms</th>
+                    <th onClick={(e) => onHeaderClick(e, 'formsFinished')}>Finished</th>
+                    <th onClick={(e) => onHeaderClick(e, 'formsWaiting')}>Waiting</th>
+                    <th onClick={(e) => onHeaderClick(e, 'formsRejected')}>Rejected</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -36,14 +37,14 @@ const SeniorList = ({ seniors, onDeleteClick }) => {
                             <td>
                                 <Link to={"/senior/" + senior.id}>
                                     <button
-                                        class="btn btn-outline-warning"
+                                        className="btn btn-outline-warning"
                                     >
                                         <FontAwesomeIcon icon={faPencilAlt} />
                                     </button>
                                 </Link>
                                 {" "}
                                 <button
-                                    class="btn btn-outline-danger"
+                                    className="btn btn-outline-danger"
                                     onClick={() => onDeleteClick(senior)}
                                 >
                                     <FontAwesomeIcon icon={faTrashAlt} />

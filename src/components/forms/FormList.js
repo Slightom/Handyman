@@ -4,61 +4,66 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { generateDate } from "../common/Helper";
+import "../common/myStyle.css";
 
-const FormList = ({ forms, onDeleteClick }) => {
+const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
 
+    function check() {
+        return forms.length > 0;
+    }
     return (
-        <table className="table">
-            <thead>
-                <tr>
-                    <th>Lp</th>
-                    <th>Senior</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>Handyman</th>
-                    <th>Registration</th>
-                    <th>Repair</th>
-                    <th>Info</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forms.map(form => {
-                    return (
-                        <tr key={form.id}>
-                            <td>{form.lp}</td>
-                            <Link to={"/senior/" + form.seniorId}>
-                                <td>{form.senior}</td>
-                            </Link>
-                            <td>{form.address}</td>
-                            <td>{form.phone}</td>
-                            <td>{form.status}</td>
-                            <td>{form.handyman}</td>
-                            <td>{generateDate(form.registrationDate)}</td>
-                            <td>{generateDate(form.repairDate)}</td>
-                            <td>{form.info}</td>
-                            <td>
-                                <Link to={"/form/" + form.id}>
+        (check() &&
+            <table className="table-hover table table-bordered myTable">
+                <thead>
+                    <tr>
+                        <th onClick={(e) => onHeaderClick(e, 'lp')}>Lp</th>
+                        <th onClick={(e) => onHeaderClick(e, 'senior')}>Senior</th>
+                        <th onClick={(e) => onHeaderClick(e, 'address')}>Address</th>
+                        <th onClick={(e) => onHeaderClick(e, 'phone')}>Phone</th>
+                        <th onClick={(e) => onHeaderClick(e, 'status')}>Status</th>
+                        <th onClick={(e) => onHeaderClick(e, 'handyman')}>Handyman</th>
+                        <th onClick={(e) => onHeaderClick(e, 'registrationDate')}>Registration</th>
+                        <th onClick={(e) => onHeaderClick(e, 'repairDate')}>Repair</th>
+                        <th onClick={(e) => onHeaderClick(e, 'info')}>Info</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {forms.map(form => {
+                        return (
+                            <tr key={form.id}>
+                                <td>{form.lp}</td>
+
+                                <td><Link to={"/senior/" + form.seniorId}>{form.senior}</Link></td>
+
+                                <td>{form.address}</td>
+                                <td>{form.phone}</td>
+                                <td>{form.status}</td>
+                                <td>{form.handyman}</td>
+                                <td>{generateDate(form.registrationDate)}</td>
+                                <td>{generateDate(form.repairDate)}</td>
+                                <td>{form.info}</td>
+                                <td>
+                                    <Link to={"/form/" + form.id}>
+                                        <button
+                                            className="btn btn-outline-warning"
+                                        >
+                                            <FontAwesomeIcon icon={faPencilAlt} />
+                                        </button>
+                                    </Link>
+                                    {" "}
                                     <button
-                                        class="btn btn-outline-warning"
+                                        className="btn btn-outline-danger"
+                                        onClick={() => onDeleteClick(form)}
                                     >
-                                        <FontAwesomeIcon icon={faPencilAlt} />
+                                        <FontAwesomeIcon icon={faTrashAlt} />
                                     </button>
-                                </Link>
-                                {" "}
-                                <button
-                                    class="btn btn-outline-danger"
-                                    onClick={() => onDeleteClick(form)}
-                                >
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                </button>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>)
     )
 }
 
