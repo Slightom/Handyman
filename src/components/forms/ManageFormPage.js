@@ -95,7 +95,6 @@ function ManageFormPage({
             // eslint-disable-next-line no-restricted-globals
             toast.success("Form Saved.");
             history.push("/forms");
-            console.log(history);
         });
     }
 

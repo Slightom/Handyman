@@ -15,9 +15,13 @@ const SeniorForm = ({
     errors = {}
 }) => {
 
+    function check() {
+        console.log('senior: ', senior);
+        return senior.id !== null;
+    }
     return (
         <>
-            <form onSubmit={onSave}>
+            <form onSubmit={onSave} style={{ marginBottom: 20 }}>
                 <h2>{senior.id ? "Edit" : "Add"} Senior</h2>
                 {errors.onSave && (
                     <div className="alert alert-danger" role="alert">
@@ -71,52 +75,52 @@ const SeniorForm = ({
                 </button>
 
             </form>
-            {senior.id &&
-                senior.seniorForms.length === 0
-                ? <h3>Senior does not have any related forms</h3>
-                :
-                <>
-                    <h3>Senior Forms History</h3>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Lp</th>
-                                <th>Senior</th>
-                                <th>Status</th>
-                                <th>Handyman</th>
-                                <th>Registration</th>
-                                <th>Repair</th>
-                                <th>Info</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {senior.seniorForms.map(form => {
-                                return (
-                                    <tr key={form.id}>
-                                        <td>{form.lp}</td>
-                                        <td>{form.senior}</td>
-                                        <td>{form.formStatus}</td>
-                                        <td>{form.handyman}</td>
-                                        <td>{generateDate(form.registrationDate)}</td>
-                                        <td>{generateDate(form.repairDate)}</td>
-                                        <td>{form.info}</td>
-                                        <td>
-                                            <Link to={"/form/" + form.id}>
-                                                <button
-                                                    class="btn btn-outline-warning"
-                                                >
-                                                    <FontAwesomeIcon icon={faPencilAlt} />
-                                                </button>
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-
-                </>}
+            {check() &&
+                (senior.seniorForms.length === 0
+                    ? <h3>Senior does not have any related forms</h3>
+                    :
+                    <>
+                        <h3>Senior Forms History</h3>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Lp</th>
+                                    <th>Senior</th>
+                                    <th>Status</th>
+                                    <th>Handyman</th>
+                                    <th>Registration</th>
+                                    <th>Repair</th>
+                                    <th>Info</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {senior.seniorForms.map(form => {
+                                    return (
+                                        <tr key={form.id}>
+                                            <td>{form.lp}</td>
+                                            <td>{form.senior}</td>
+                                            <td>{form.formStatus}</td>
+                                            <td>{form.handyman}</td>
+                                            <td>{generateDate(form.registrationDate)}</td>
+                                            <td>{generateDate(form.repairDate)}</td>
+                                            <td>{form.info}</td>
+                                            <td>
+                                                <Link to={"/form/" + form.id}>
+                                                    <button
+                                                        class="btn btn-outline-warning"
+                                                    >
+                                                        <FontAwesomeIcon icon={faPencilAlt} />
+                                                    </button>
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </>)
+            }
         </>
     );
 };

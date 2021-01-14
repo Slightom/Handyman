@@ -88,7 +88,11 @@ function ManageSeniorPage({
         });
     }
 
-    return (props.forms.length === 0 || seniors.length === 0)
+    function check() {
+        return (props.forms.length === 0 || seniors.length === 0)
+    }
+
+    return check()
         ? <Spinner />
         : (
             <SeniorForm
