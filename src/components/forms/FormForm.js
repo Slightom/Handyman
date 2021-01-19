@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
 import DatePickerInput from "../common/DatePickerInput";
+import { sortArray } from "../common/Helper";
 
 const FormForm = ({
     form,
@@ -37,9 +38,9 @@ const FormForm = ({
                 label="Senior"
                 value={form.seniorId || ""}
                 defaultOption="Select Senior"
-                options={seniors.map(senior => ({
+                options={sortArray(seniors, 'firstName').map(senior => ({
                     value: senior.id,
-                    text: senior.shortcut
+                    text: senior.firstName + ' ' + senior.lastName + ', ' + senior.address
                 }))}
                 onChange={onChange}
                 error={errors.senior}

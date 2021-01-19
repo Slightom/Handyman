@@ -7,7 +7,7 @@ import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import FormList from "./FormList";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert'; // Import
@@ -15,7 +15,6 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { getFormsAdvanced, sortArray } from "../common/Helper";
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
-    const [redirectToAddFormPage, setRedirectToAddFormPage] = useState(false);
     const [sort, setSort] = useState({ col: 'lp', descending: true });
     const [_forms, _setForms] = useState([]);
 
@@ -81,20 +80,19 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
 
     return (
         <>
-            {redirectToAddFormPage && <Redirect to="/form" />}
             <h2>Forms</h2>
             {loading
                 ? <Spinner />
                 :
                 <>
-                    <button
-                        style={{ marginBottom: 20 }}
-                        className="btn btn-primary add-form"
-                        onClick={() => setRedirectToAddFormPage(true)}
-                    >
-                        Add Form
+                    <Link to={"/form"}>
+                        <button
+                            style={{ marginBottom: 20 }}
+                            className="btn btn-primary add-form"
+                        >
+                            Add Form
                     </button>
-
+                    </Link>
                     <FormList
                         onDeleteClick={handleDeleteForm}
                         onHeaderClick={handleSort}

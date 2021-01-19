@@ -9,9 +9,9 @@ import { newForm } from "../../tools/mockData";
 import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
+import { isNumber, naviGateBack, stringIsPropertyInt } from "../common/Helper";
 
 function ManageFormPage({
-    seniors,
     handymans,
     formStatuses,
     loadForms,
@@ -25,6 +25,7 @@ function ManageFormPage({
     const [form, setForm] = useState({ ...props.form });
     const [errors, setErrors] = useState({});
     const [saving, setSaving] = useState(false);
+    const [_seniors, _setSeniors] = useState([...props.seniors]);
 
     useEffect(() => {
         if (props.forms.length === 0) {
@@ -34,10 +35,12 @@ function ManageFormPage({
         } else {
             setForm({ ...props.form });
         }
-        if (seniors.length === 0) {
+        if (props.seniors.length === 0) {
             loadSeniors().catch(error => {
                 alert("Loading seniors failed" + error);
             });
+        } else {
+            _setSeniors([...props.seniors]);
         }
         if (handymans.length === 0) {
             loadHandymans().catch(error => {
@@ -50,7 +53,7 @@ function ManageFormPage({
             });
         }
 
-    }, [props.form]);
+    }, [props.form, props.seniors.length]);
 
 
     function handleChange(event, dateName) {
@@ -62,9 +65,10 @@ function ManageFormPage({
             name = event.target.name;
             value = event.target.value;
         }
+
         setForm(prevForm => ({
             ...prevForm,
-            [name]: (name === "lp" || name === "seniorId" || name === "handymanId" || name === "formStatusId")
+            [name]: (name === "seniorId" || name === "handymanId" || name === "formStatusId")
                 ? parseInt(value, 10)
                 : value
         }));
@@ -75,6 +79,7 @@ function ManageFormPage({
         const errors = {};
 
         if (!lp) errors.lp = "Lp is required.";
+        else if (!stringIsPropertyInt(lp)) errors.lp = "Lp must be a number."
         if (!seniorId) errors.senior = "Senior is required.";
         if (!handymanId) errors.handyman = "Handyman is required.";
         if (!formStatusId) errors.formStatus = "Form Status is required.";
@@ -91,7 +96,12 @@ function ManageFormPage({
         event.preventDefault();
         if (!formIsValid()) return;
         setSaving(true);
-        saveForm(form).then(() => {
+
+        const parsedLp = isNumber(form.lp)
+            ? form.lp
+            : parseInt(form.lp, 10);
+
+        saveForm({ ...form, lp: parsedLp }).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success("Form Saved.");
             history.push("/forms");
@@ -99,19 +109,19 @@ function ManageFormPage({
     }
 
 
-    return (props.forms.length === 0 || seniors.length === 0 || handymans.length === 0 || formStatuses.length === 0)
+    return (props.forms.length === 0 || props.seniors.length === 0 || handymans.length === 0 || formStatuses.length === 0)
         ? <Spinner />
         : (
             <FormForm
                 form={form}
-                seniors={seniors}
+                seniors={_seniors}
                 handymans={handymans}
                 formStatuses={formStatuses}
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
                 saving={saving}
-                goBack={(event) => { event.preventDefault(); history.goBack(); }}
+                goBack={event => naviGateBack(history, event)}
             />
         )
 }

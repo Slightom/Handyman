@@ -7,6 +7,9 @@ import ManageFormPage from "./components/forms/ManageFormPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ManageSeniorPage from './components/seniors/ManageSeniorPage';
+import BillsPage from './components/bills/BillsPage';
+import ManageBillPage from './components/bills/ManageBillPage';
+import SummaryContainer from './components/summary/SummaryContainer';
 
 function App() {
   return (
@@ -19,6 +22,10 @@ function App() {
         <Route path="/seniors" component={SeniorsPage} />
         <Route path="/senior/:id" component={ManageSeniorPage} />
         <Route path="/senior" component={ManageSeniorPage} />
+        <Route path="/bills" component={BillsPage} />
+        <Route path="/bill/:id" component={ManageBillPage} />
+        <Route path="/bill" component={ManageBillPage} />
+        <Route path="/summary" component={SummaryContainer} />
         <Route component={PageNotFound} />
       </Switch>
       <ToastContainer autoClose={3000} hideProgressBar />

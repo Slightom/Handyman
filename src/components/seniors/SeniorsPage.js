@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as formActions from "../../redux/actions/formActions";
 import * as seniorActions from "../../redux/actions/seniorActions";
-import * as handymanActions from "../../redux/actions/handymanActions";
 import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import * as myGlobal from "../common/myGlobal";
 import SeniorList from "./SeniorList";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
@@ -17,9 +15,8 @@ import { sortArray } from "../common/Helper";
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
-    const [redirectToAddSeniorPage, setRedirectToAddSeniorPage] = useState(false);
     const [sort, setSort] = useState({ col: 'id', descending: true });
-    const [_seniors, _setSeniors] = useState([]);
+    const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
@@ -31,7 +28,7 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
                 alert("Loading seniors failed" + error);
             });
         } else {
-            _setSeniors(props.seniors);
+            _setSeniors([...props.seniors]);
         }
         if (formStatuses.length === 0) {
             actions.loadFormStatuses().catch(error => {
@@ -80,19 +77,19 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
 
     return (
         <>
-            {redirectToAddSeniorPage && <Redirect to="/senior" />}
             <h2>Seniors</h2>
             {loading
                 ? <Spinner />
                 :
                 <>
-                    <button
-                        style={{ marginBottom: 20 }}
-                        className="btn btn-primary add-form"
-                        onClick={() => setRedirectToAddSeniorPage(true)}
-                    >
-                        Add Senior
+                    <Link to={"/form"}>
+                        <button
+                            style={{ marginBottom: 20 }}
+                            className="btn btn-primary add-form"
+                        >
+                            Add Senior
                     </button>
+                    </Link>
 
                     <SeniorList
                         onDeleteClick={handleDeleteSenior}

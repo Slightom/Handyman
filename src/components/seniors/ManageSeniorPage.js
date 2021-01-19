@@ -10,7 +10,7 @@ import SeniorForm from "./SeniorForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { saveSenior } from "../../api/seniorApi";
-import { getFormsAdvanced, getRelatedFormsAdvanced } from "../common/Helper";
+import { getFormsAdvanced, getRelatedFormsAdvanced, naviGateBack } from "../common/Helper";
 
 function ManageSeniorPage({
     loadForms,
@@ -100,7 +100,7 @@ function ManageSeniorPage({
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
-                goBack={(event) => { event.preventDefault(); history.goBack(); }}
+                goBack={event => naviGateBack(history, event)}
                 saving={saving}
             />
         )

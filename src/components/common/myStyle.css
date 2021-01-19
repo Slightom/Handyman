@@ -1,9 +1,17 @@
+.myTable {
+  background-color: #ffffff;
+}
+
 .myTable th {
   background-color: #ddd;
 }
 
 .myTable th:hover {
   background-color: #aaa;
+}
+
+.myTable2 {
+  background-color: #ffffff;
 }
 
 .myTable2 th {

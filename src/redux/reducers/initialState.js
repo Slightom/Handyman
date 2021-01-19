@@ -4,5 +4,8 @@ export default {
     seniors: [],
     handymans: [],
     formStatuses: [],
+    bills: [],
+
+    summaryRows: [],
     apiCallsInProgress: 0
 };
