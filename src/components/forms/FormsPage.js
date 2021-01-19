@@ -7,7 +7,7 @@ import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import FormList from "./FormList";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert'; // Import
@@ -41,7 +41,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                 alert("Loading formStatuses failed" + error);
             });
         }
-    }, [props.forms.length]);
+    }, [props.forms.length, props.seniors]);
 
     async function confirmedDelete(_form) {
         toast.success("Form deleted.");
@@ -115,6 +115,7 @@ FormsPage.propTypes = {
 };
 
 function mapStateToProps(state) {
+    debugger;
     return {
         forms: (state.forms.length === 0 || state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? []

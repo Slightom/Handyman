@@ -1,5 +1,4 @@
 export function getFormsAdvanced(forms, seniors, handymans, formStatuses) {
-    debugger;
     return forms.map(form => {
         const _senior = seniors.find(s => s.id === form.seniorId);
         const _handyman = handymans.find(h => h.id === form.handymanId);
@@ -35,13 +34,11 @@ export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) 
 
 export function generateDate(s) {
     const date = new Date(s);
-    // return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
 }
 
 export function sortArray(arr, col, descending) {
-
-    if (col.includes('handymans')) {
+    if (col.includes('handymans')) { // for summary table 
         const id = parseInt(col.charAt(col.length - 1));
 
         return descending
@@ -58,6 +55,8 @@ export function sortArray(arr, col, descending) {
         case 'formsWaiting':
         case 'formsRejected':
         case 'amount':
+        case 'billsAmount':
+        case 'billsAmountAvg':
             newArray = descending
                 ? arr.sort((a, b) => b[col] - a[col])
                 : arr.sort((a, b) => a[col] - b[col]);
@@ -93,29 +92,8 @@ export function naviGateBack(history, event) {
 }
 
 export function stringIsPropertyFloat(str) {
-
-    let separatorAlready = false;
-    let last = str.length - 1;
-    debugger;
-
     if (Number(str) === str) return true;
-
-    for (let i = 0; i <= last; i++) {
-        const c = str.charCodeAt(i);
-        if (c > 47 && c < 58)
-            continue;
-        else if (c === 44 || c === 46) {
-            if (i === 0 || i === last) return false;
-            if (separatorAlready)
-                return false;
-            else {
-                separatorAlready = true; continue;
-            }
-        }
-        return false;
-    }
-
-    return true;
+    return /^\d+([.,]?\d+)?$/g.test(str);
 }
 
 export function stringIsPropertyInt(str) {

@@ -9,15 +9,14 @@ import { newSenior } from "../../tools/mockData";
 import SeniorForm from "./SeniorForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { saveSenior } from "../../api/seniorApi";
-import { getFormsAdvanced, getRelatedFormsAdvanced, naviGateBack } from "../common/Helper";
+import { getRelatedFormsAdvanced, naviGateBack } from "../common/Helper";
 
 function ManageSeniorPage({
     loadForms,
     loadSeniors,
     loadHandymans,
     loadFormStatuses,
-    saveForm,
+    saveSenior,
     history,
     seniors,
     handymans,
@@ -82,6 +81,7 @@ function ManageSeniorPage({
         if (!formIsValid()) return;
         setSaving(true);
         saveSenior(senior).then(() => {
+            debugger;
             // eslint-disable-next-line no-restricted-globals
             toast.success("Senior Saved.");
             history.push("/seniors");

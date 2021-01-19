@@ -16,10 +16,6 @@ const SeniorForm = ({
     errors = {}
 }) => {
 
-    function check() {
-        console.log('senior: ', senior);
-        return senior.id !== null;
-    }
     return (
         <>
             <form onSubmit={onSave} style={{ marginBottom: 20 }}>
@@ -65,8 +61,6 @@ const SeniorForm = ({
                     error={errors.phone}
                 />
 
-
-
                 <button type="submit" disabled={saving} className="btn btn-primary">
                     {saving ? "Saving..." : "Save"}
                 </button>
@@ -76,7 +70,7 @@ const SeniorForm = ({
                 </button>
 
             </form>
-            {check() &&
+            {senior.id !== null &&
                 (senior.seniorForms.length === 0
                     ? <h3>Senior does not have any related forms</h3>
                     :

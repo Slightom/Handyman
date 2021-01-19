@@ -38,8 +38,7 @@ DatePickerInput.propTypes = {
     label: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    error: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.object)
+    error: PropTypes.string
 };
 
 export default DatePickerInput;

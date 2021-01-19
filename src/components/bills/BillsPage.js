@@ -37,7 +37,6 @@ function BillsPage({ actions, loading, ...props }) {
     }
 
     function handleDeleteBill(_bill) {
-
         confirmAlert({
             title: 'Confirm to delete',
             message: 'Are you sure to do this?',
@@ -96,7 +95,7 @@ BillsPage.propTypes = {
 }
 
 function mapStateToProps(state) {
-
+    debugger;
     return {
         bills: state.bills,
         loading: state.apiCallsInProgress > 0

@@ -6,12 +6,11 @@ import { newBill } from "../../tools/mockData";
 import BillForm from "./BillForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { saveBill } from "../../api/billApi";
 import { stringIsPropertyFloat, naviGateBack, isNumber } from "../common/Helper";
 
 function ManageBillPage({
     loadBills,
-    saveForm,
+    saveBill,
     history,
     bills,
     ...props
@@ -21,6 +20,7 @@ function ManageBillPage({
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
+        debugger;
         if (bills.length === 0) {
             loadBills().catch(error => {
                 alert("Loading bills failed" + error);
@@ -29,7 +29,7 @@ function ManageBillPage({
             setBill(props.bill);
         }
 
-    }, [props.bill, bills.length]);
+    }, [props.bill]);
 
 
     function handleChange(event, dateName) {
@@ -71,6 +71,8 @@ function ManageBillPage({
             ? bill.amount
             : parseFloat(bill.amount.replace(/,/, "."));
 
+
+
         saveBill({ ...bill, amount: parsedAmount }).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success("Bill Saved.");
@@ -100,6 +102,7 @@ ManageBillPage.propTypes = {
     bills: PropTypes.array.isRequired,
     loadBills: PropTypes.func.isRequired,
     saveBill: PropTypes.func.isRequired,
+    bill: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired
 };
 

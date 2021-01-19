@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import "../common/myStyle.css";
 import DatePickerInput from "../common/DatePickerInput";
 
@@ -25,6 +22,7 @@ const BillForm = ({
                     {errors.onSave}
                 </div>
             )}
+
             <TextInput
                 name="name"
                 label="Name"
@@ -58,7 +56,6 @@ const BillForm = ({
             <button disabled={saving} className="btn btn-secondary" onClick={goBack}>
                 Cancel
                 </button>
-
         </form>
     );
 };
@@ -68,6 +65,7 @@ BillForm.propTypes = {
     errors: PropTypes.object,
     onSave: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
     saving: PropTypes.bool
 };
 

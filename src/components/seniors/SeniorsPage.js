@@ -15,9 +15,10 @@ import { sortArray } from "../common/Helper";
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'id', descending: true });
+    const [sort, setSort] = useState({ col: 'id', descending: false });
     const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
+        debugger;
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
                 alert("Loading forms failed" + error);
@@ -126,7 +127,7 @@ function mapStateToProps(state) {
                     formsFinished: seniorForms.filter(form => form.formStatusId == state.formStatuses[1].id).length,
                     formsRejected: seniorForms.filter(form => form.formStatusId == state.formStatuses[2].id).length
                 }
-            }),
+            }).sort((a, b) => a['lastName'].localeCompare(b['lastName'])),
         forms: state.forms,
         formStatuses: state.formStatuses,
         loading: state.apiCallsInProgress > 0

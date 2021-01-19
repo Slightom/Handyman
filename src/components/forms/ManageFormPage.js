@@ -28,6 +28,7 @@ function ManageFormPage({
     const [_seniors, _setSeniors] = useState([...props.seniors]);
 
     useEffect(() => {
+        debugger;
         if (props.forms.length === 0) {
             loadForms().catch(error => {
                 alert("Loading forms failed" + error);

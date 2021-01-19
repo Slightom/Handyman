@@ -3,37 +3,9 @@
     {
       "id": 1,
       "firstName": "Jan",
-      "lastName": "Dzbanek",
+      "lastName": "Dzban",
       "address": "Konopnickiej 14/5",
-      "phone": "555 444 333",
-      "seniorForms": [
-        {
-          "id": 1,
-          "lp": 1,
-          "seniorId": 1,
-          "handymanId": 1,
-          "formStatusId": 2,
-          "registrationDate": "2021-01-01T00:00:00.000Z",
-          "repairDate": "2021-01-02T00:00:00.000Z",
-          "info": "wymiana baterii w kuchni",
-          "senior": "Jan Dzban, Konopnickiej 14/5",
-          "handyman": "Tomek Suchwałko",
-          "formStatus": "Wykonane"
-        },
-        {
-          "id": 18,
-          "lp": 18,
-          "seniorId": 1,
-          "handymanId": 2,
-          "formStatusId": 1,
-          "registrationDate": "2021-01-17T00:00:00.000Z",
-          "repairDate": "2021-02-03T00:00:00.000Z",
-          "info": "naprawa krzesła",
-          "senior": "Jan Dzban, Konopnickiej 14/5",
-          "handyman": "Paweł Kuć",
-          "formStatus": "Oczekujące"
-        }
-      ]
+      "phone": "555 444 333"
     },
     {
       "id": 2,
@@ -560,7 +532,7 @@
       "lp": 35,
       "seniorId": 10,
       "handymanId": 1,
-      "formStatusId": 3,
+      "formStatusId": 1,
       "registrationDate": "2021-02-05T00:00:00.000Z",
       "repairDate": "2021-02-27T00:00:00.000Z",
       "info": "wymiana syfonu"
@@ -570,7 +542,7 @@
     {
       "id": 1,
       "name": "LM hetmańska",
-      "amount": 89.97,
+      "amount": 89.32,
       "date": "2021-01-16T00:00:00.000Z"
     },
     {
@@ -584,6 +556,13 @@
       "name": "benmar 42 pułku",
       "amount": 549.19,
       "date": "2021-01-31T00:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "ghngfnh",
+      "amount": 44.87,
+      "date": "2021-02-01T23:00:00.000Z",
+      "createdAt": 1611066511563
     }
   ]
 }

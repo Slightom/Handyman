@@ -74,8 +74,8 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             formsRejected: forms.filter(f => f.formStatusId === rejectedId).length,
         }
 
-        rowAll['fakturyKoszt'] = sum;
-        rowAll['fakturyKosztAvg'] = Math.round((sum / (rowAll.formsFinished + rowAll.formsWaiting)) * 100) / 100;
+        rowAll['billsAmount'] = Math.round(sum * 100) / 100;
+        rowAll['billsAmountAvg'] = Math.round((sum / (rowAll.formsFinished + rowAll.formsWaiting)) * 100) / 100;
         rowAll['handymans'] = handyRows;
 
         summaryRows.push(rowAll);
@@ -129,8 +129,8 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             if (billsByMonth.hasOwnProperty(key)) {
                 sum = billsByMonth[key].reduce((acc, cur) => acc + cur.amount, 0);
             }
-            row['fakturyKoszt'] = sum;
-            row['fakturyKosztAvg'] = Math.round((sum / (row.formsWaiting + row.formsFinished)) * 100) / 100;
+            row['billsAmount'] = Math.round(sum * 100) / 100;
+            row['billsAmountAvg'] = Math.round((sum / (row.formsWaiting + row.formsFinished)) * 100) / 100;
             row['handymans'] = handyRows;
 
             summaryRows.push(row);

@@ -51,7 +51,8 @@ const BillList = ({ bills, onDeleteClick, onHeaderClick }) => {
 
 BillList.prototypes = {
     bills: PropTypes.array.isRequired,
-    onDeleteClick: PropTypes.func.isRequired
+    onDeleteClick: PropTypes.func.isRequired,
+    onHeaderClick: PropTypes.func.isRequired
 }
 
 export default BillList;

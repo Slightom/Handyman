@@ -23,8 +23,8 @@ const SummaryPresentation = ({ summaryRows, onHeaderClick }) => {
                                     <th onClick={(e) => onHeaderClick(e, 'handymans' + i)}>{h.name}</th>
                                 )
                             })}
-                            <th onClick={(e) => onHeaderClick(e, 'amount')}>Amount</th>
-                            <th onClick={(e) => onHeaderClick(e, 'amount')}>Avg amount/form</th>
+                            <th onClick={(e) => onHeaderClick(e, 'billsAmount')}>Amount</th>
+                            <th onClick={(e) => onHeaderClick(e, 'billsAmountAvg')}>Avg amount/form</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,8 +41,8 @@ const SummaryPresentation = ({ summaryRows, onHeaderClick }) => {
                                             <td>{h.forms}</td>
                                         )
                                     })}
-                                    <td>{sr.fakturyKoszt} zł</td>
-                                    <td>{sr.fakturyKosztAvg} zł</td>
+                                    <td>{sr.billsAmount} zł</td>
+                                    <td>{sr.billsAmountAvg} zł</td>
                                 </tr>
                             );
                         })}
