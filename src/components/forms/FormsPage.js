@@ -80,19 +80,10 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
 
     return (
         <>
-            <h2>Forms</h2>
             {loading
                 ? <Spinner />
                 :
                 <>
-                    <Link to={"/form"}>
-                        <button
-                            style={{ marginBottom: 20 }}
-                            className="btn btn-primary add-form"
-                        >
-                            Add Form
-                    </button>
-                    </Link>
                     <FormList
                         onDeleteClick={handleDeleteForm}
                         onHeaderClick={handleSort}

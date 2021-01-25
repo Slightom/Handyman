@@ -15,7 +15,7 @@ function ManageBillPage({
     bills,
     ...props
 }) {
-    const [bill, setBill] = useState(props.bill);
+    const [bill, setBill] = useState({ ...props.bill });
     const [errors, setErrors] = useState({});
     const [saving, setSaving] = useState(false);
 
@@ -26,7 +26,7 @@ function ManageBillPage({
                 alert("Loading bills failed" + error);
             });
         } else {
-            setBill(props.bill);
+            setBill({ ...props.bill });
         }
 
     }, [props.bill]);
@@ -71,8 +71,6 @@ function ManageBillPage({
             ? bill.amount
             : parseFloat(bill.amount.replace(/,/, "."));
 
-
-
         saveBill({ ...bill, amount: parsedAmount }).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success("Bill Saved.");
@@ -108,7 +106,7 @@ ManageBillPage.propTypes = {
 
 export function getBillById(bills, id) {
     const findedBill = bills.find(s => s.id == id) || null;
-    return findedBill;
+    return { ...findedBill, amount: findedBill.amount.toFixed(2) };
 }
 
 function mapStateToProps(state, ownProps) {

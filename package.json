@@ -9,7 +9,9 @@
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
+    "auth0-js": "^9.14.2",
     "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
     "react": "^17.0.1",
     "react-confirm-alert": "^2.6.2",
     "react-datepicker": "^3.4.1",
@@ -25,8 +27,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "run-p start:dev start:api",
-    "start:dev": "cross-env REACT_APP_API_URL=http://localhost:3001 react-scripts start",
+    "start": "run-p start:dev",
+    "start:dev": "cross-env REACT_APP_API_URL=https://localhost:44355/api react-scripts start",
     "prestart:api": "node src/tools/createMockDb.js",
     "start:api": "node src/tools/apiServer.js",
     "build": "react-scripts build",

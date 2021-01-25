@@ -1,8 +1,10 @@
+import { authHeader } from "../components/common/Helper";
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.REACT_APP_API_URL + "/forms/";
 
 export function getForms() {
-    return fetch(baseUrl)
+    debugger;
+    return fetch(baseUrl, { method: 'GET', headers: authHeader() })
         .then(handleResponse)
         .catch(handleError);
 }
@@ -10,7 +12,7 @@ export function getForms() {
 export function saveForm(form) {
     return fetch(baseUrl + (form.id || ""), {
         method: form.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-        headers: { "content-type": "application/json" },
+        headers: authHeader(),
         body: JSON.stringify(form)
     })
         .then(handleResponse)
@@ -18,7 +20,7 @@ export function saveForm(form) {
 }
 
 export function deleteForm(formId) {
-    return fetch(baseUrl + formId, { method: "DELETE" })
+    return fetch(baseUrl + formId, { method: "DELETE", headers: authHeader() })
         .then(handleResponse)
         .catch(handleError);
 }

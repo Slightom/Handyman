@@ -1,8 +1,10 @@
+import { authHeader } from "../components/common/Helper";
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.REACT_APP_API_URL + "/bills/";
 
 export function getBills() {
-    return fetch(baseUrl)
+    debugger;
+    return fetch(baseUrl, { method: 'GET', headers: authHeader() })
         .then(handleResponse)
         .catch(handleError);
 }
@@ -10,7 +12,7 @@ export function getBills() {
 export function saveBill(bill) {
     return fetch(baseUrl + (bill.id || ""), {
         method: bill.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-        headers: { "content-type": "application/json" },
+        headers: authHeader(),
         body: JSON.stringify(bill)
     })
         .then(handleResponse)
@@ -18,7 +20,7 @@ export function saveBill(bill) {
 }
 
 export function deleteBill(billId) {
-    return fetch(baseUrl + billId, { method: "DELETE" })
+    return fetch(baseUrl + billId, { method: "DELETE", headers: authHeader() })
         .then(handleResponse)
         .catch(handleError);
 }

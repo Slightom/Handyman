@@ -9,43 +9,55 @@ import { generateDate } from "../common/Helper";
 const BillList = ({ bills, onDeleteClick, onHeaderClick }) => {
 
     return (
-        <table className="table table-hover table-bordered myTable">
-            <thead>
-                <tr>
-                    <th onClick={(e) => onHeaderClick(e, 'name')}>Name</th>
-                    <th onClick={(e) => onHeaderClick(e, 'amount')}>Amount</th>
-                    <th onClick={(e) => onHeaderClick(e, 'date')}>Date</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                {bills.map(bill => {
-                    return (
-                        <tr key={bill.id}>
-                            <td>{bill.name}</td>
-                            <td>{bill.amount}</td>
-                            <td>{generateDate(bill.date)}</td>
-                            <td>
-                                <Link to={"/bill/" + bill.id}>
-                                    <button
-                                        className="btn btn-outline-warning"
-                                    >
-                                        <FontAwesomeIcon icon={faPencilAlt} />
-                                    </button>
-                                </Link>
-                                {" "}
+        <div className="tableContainer">
+            <h3 className="formHeader">Bills</h3>
+            <table className="table table-hover table-bordered myTable">
+                <thead>
+                    <tr>
+                        <th onClick={(e) => onHeaderClick(e, 'name')}>Name</th>
+                        <th onClick={(e) => onHeaderClick(e, 'amount')}>Amount</th>
+                        <th onClick={(e) => onHeaderClick(e, 'date')}>Date</th>
+                        <th>
+                            <Link to={"/bill"}>
                                 <button
-                                    className="btn btn-outline-danger"
-                                    onClick={() => onDeleteClick(bill)}
+                                    style={{ marginBottom: 0 }}
+                                    className="btn btn-primary add-form"
                                 >
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                </button>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+                                    Add Bill
+                            </button>
+                            </Link>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {bills.map(bill => {
+                        return (
+                            <tr key={bill.id}>
+                                <td>{bill.name}</td>
+                                <td>{bill.amount} zł</td>
+                                <td>{generateDate(bill.date)}</td>
+                                <td>
+                                    <Link to={"/bill/" + bill.id}>
+                                        <button
+                                            className="btn btn-outline-warning"
+                                        >
+                                            <FontAwesomeIcon icon={faPencilAlt} />
+                                        </button>
+                                    </Link>
+                                    {" "}
+                                    <button
+                                        className="btn btn-outline-danger"
+                                        onClick={() => onDeleteClick(bill)}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                    </button>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div>
     )
 }
 

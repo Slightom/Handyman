@@ -1,13 +1,79 @@
 #root {
-  max-width: 1450px;
-  margin: 0 auto;
-}
+  /* max-width: 1450px; */
+  margin: 0;
+  background-image: url("/src/img/bialystok.jpg");
 
-nav {
-  padding: 20px 0 20px 0;
+  height: 1000px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 body {
   /* background-color: lightgoldenrodyellow; */
-  background-color: #a8ffc6;
+  /* background-color: #a8ffc6; */
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+ul.unstyled {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  width: 82%;
+  margin: auto;
+  padding: 20px 0 20px 0;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom right, #f0582a, #eb0685);
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li div {
+  margin: 0px;
+  padding: 7px 16px;
+  text-align: center;
+}
+
+nav li p {
+  color: white;
+  text-align: center;
+  padding: 6px 16px;
+  margin: 0px;
+}
+
+nav li a:hover {
+  background-color: #d9390d;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.active {
+  background-color: #c8280c;
+  /* color: Black; */
+  font-weight: bold;
 }

@@ -62,20 +62,10 @@ function BillsPage({ actions, loading, ...props }) {
 
     return (
         <>
-            <h2>Bills</h2>
             {loading
                 ? <Spinner />
                 :
                 <>
-                    <Link to={"/bill"}>
-                        <button
-                            style={{ marginBottom: 20 }}
-                            className="btn btn-primary add-form"
-                        >
-                            Add Bill
-                    </button>
-                    </Link>
-
                     <BillList
                         onDeleteClick={handleDeleteBill}
                         onHeaderClick={handleSort}
@@ -97,7 +87,7 @@ BillsPage.propTypes = {
 function mapStateToProps(state) {
     debugger;
     return {
-        bills: state.bills,
+        bills: state.bills.map(b => { return { ...b, amount: b.amount.toFixed(2) } }),
         loading: state.apiCallsInProgress > 0
     }
 }

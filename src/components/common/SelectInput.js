@@ -12,8 +12,8 @@ const SelectInput = ({
 }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
-      <div className="field">
+      <label htmlFor={name} className="labelTextInput">{label}</label>
+      <div className="field" style={{ textAlign: 'center !important' }}>
         {/* Note, value is set here rather than on the option - docs: https://facebook.github.io/react/docs/forms.html */}
         <select
           name={name}

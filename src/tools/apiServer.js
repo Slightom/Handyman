@@ -35,6 +35,7 @@ server.use((req, res, next) => {
 // Use default router
 server.use(router);
 
+
 // Start server
 const port = 3001;
 server.listen(port, () => {

@@ -1,5 +1,8 @@
 .myTable {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  margin: auto;
+  width: 100% !important;
 }
 
 .myTable th {
@@ -10,10 +13,124 @@
   background-color: #aaa;
 }
 
-.myTable2 {
-  background-color: #ffffff;
+.myTable th:last-child:hover {
+  background-color: #ddd;
 }
 
-.myTable2 th {
-  background-color: #ddd;
+.myTable2 {
+  margin: auto;
+  width: 100% !important;
+}
+
+.myTable2 th:hover {
+  background-color: #ddd !important;
+}
+
+#logContainer {
+  /* border: 1px solid black; */
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 100px;
+  width: 400px;
+  padding: 10px;
+  text-align: center;
+}
+
+#logForm {
+  /* border: 1px solid red; */
+  margin: auto;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+.labelTextInput {
+  font-weight: 600;
+}
+
+.formContainer {
+  margin: auto;
+  width: 600px;
+  text-align: center;
+}
+
+.formHeader {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 15px 15px 0px 0px;
+  width: "100%";
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+.formBody {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 0px 0px 15px 15px;
+  padding: 10px;
+}
+
+.formFooter {
+  width: 100%;
+  border-radius: 0px 0px 15px 15px;
+  margin: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.formButtonWrapper {
+  display: inline-block;
+  width: 49%;
+  /* margin: -10px; */
+}
+
+.formBody button {
+  width: 100%;
+  margin: 0px;
+  text-align: center;
+}
+
+.formFooter .formButtonWrapper:first-child {
+  margin-right: 2%;
+}
+
+.formBody .formFooter .formButtonWrapper:first-child .btn {
+  border-radius: 0px 0px 0px 15px;
+}
+
+.formBody .formFooter .formButtonWrapper:last-child .btn {
+  border-radius: 0px 0px 15px 0px;
+}
+
+.formPickersContainer {
+  width: 100%;
+  margin: 0px;
+  text-align: center;
+}
+
+.datePickerWrapper {
+  display: inline-block;
+  width: 50%;
+}
+
+.tableContainer {
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0);
+  width: 80%;
+}
+
+.tableContainerTighter {
+  width: 70% !important;
+}
+
+.tableContainer .formHeader {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+input {
+  text-align: center;
+}
+
+select {
+  text-align-last: center;
 }

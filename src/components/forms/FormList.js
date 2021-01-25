@@ -8,11 +8,10 @@ import "../common/myStyle.css";
 
 const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
 
-    function check() {
-        return forms.length > 0;
-    }
+
     return (
-        (check() &&
+        <div className="tableContainer">
+            <h3 className="formHeader">Forms</h3>
             <table className="table-hover table table-bordered myTable">
                 <thead>
                     <tr>
@@ -25,7 +24,16 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                         <th onClick={(e) => onHeaderClick(e, 'registrationDate')}>Registration</th>
                         <th onClick={(e) => onHeaderClick(e, 'repairDate')}>Repair</th>
                         <th onClick={(e) => onHeaderClick(e, 'info')}>Info</th>
-                        <th>&nbsp;</th>
+                        <th>
+                            <Link to={"/form"}>
+                                <button
+                                    style={{ marginBottom: 0 }}
+                                    className="btn btn-primary add-form"
+                                >
+                                    Add Form
+                                </button>
+                            </Link>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,7 +71,8 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                         );
                     })}
                 </tbody>
-            </table>)
+            </table>
+        </div>
     )
 }
 

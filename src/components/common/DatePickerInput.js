@@ -17,14 +17,15 @@ const DatePickerInput = ({
     return (
         <>
             <div className={wrapperClass}>
-                <label htmlFor={name}>{label}</label>
+                <label htmlFor={name} className="labelTextInput">{label}</label>
                 <div className="field">
                     <DatePicker
                         name={name}
                         className="form-control"
                         selected={value}
                         onChange={(selected) => onChange(selected, name)}
-                        dateFormat="yyyy-MM-dd"
+                        dateFormat="yyyy MMM dd"
+                        autoComplete="off"
                     />
                     {error && <div className="alert alert-danger">{error}</div>}
                 </div>

@@ -78,20 +78,10 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
 
     return (
         <>
-            <h2>Seniors</h2>
             {loading
                 ? <Spinner />
                 :
                 <>
-                    <Link to={"/form"}>
-                        <button
-                            style={{ marginBottom: 20 }}
-                            className="btn btn-primary add-form"
-                        >
-                            Add Senior
-                    </button>
-                    </Link>
-
                     <SeniorList
                         onDeleteClick={handleDeleteSenior}
                         onHeaderClick={handleSort}
@@ -118,14 +108,18 @@ function mapStateToProps(state) {
         seniors: (state.seniors.length === 0 || state.forms.length === 0 || state.formStatuses.length === 0)
             ? []
             : state.seniors.map(senior => {
+                debugger;
                 const seniorForms = state.forms.filter(form => form.seniorId === senior.id);
-                console.log(seniorForms);
+                const finishedId = state.formStatuses.find(fs => fs.name === 'Wykonane').id;
+                const waitingId = state.formStatuses.find(fs => fs.name === 'Oczekujące').id;
+                const rejectedId = state.formStatuses.find(fs => fs.name === 'Rezygnacja').id;
+                debugger;
                 return {
                     ...senior,
                     forms: seniorForms.length,
-                    formsWaiting: seniorForms.filter(form => form.formStatusId == state.formStatuses[0].id).length,
-                    formsFinished: seniorForms.filter(form => form.formStatusId == state.formStatuses[1].id).length,
-                    formsRejected: seniorForms.filter(form => form.formStatusId == state.formStatuses[2].id).length
+                    formsWaiting: seniorForms.filter(form => form.formStatusId == waitingId).length,
+                    formsFinished: seniorForms.filter(form => form.formStatusId == finishedId).length,
+                    formsRejected: seniorForms.filter(form => form.formStatusId == rejectedId).length
                 }
             }).sort((a, b) => a['lastName'].localeCompare(b['lastName'])),
         forms: state.forms,

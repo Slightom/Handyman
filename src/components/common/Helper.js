@@ -1,3 +1,5 @@
+import * as logApi from '../../api/logApi';
+
 export function getFormsAdvanced(forms, seniors, handymans, formStatuses) {
     return forms.map(form => {
         const _senior = seniors.find(s => s.id === form.seniorId);
@@ -108,4 +110,21 @@ export function stringIsPropertyInt(str) {
 
 export function isNumber(value) {
     return typeof value === "number";
+}
+
+export function authHeader() {
+    // return authorization header with jwt token
+    debugger;
+    const currentUser = logApi.getCurrentUser();
+    if (currentUser && currentUser.token) {
+        return { Authorization: `Bearer ${currentUser.token}` };
+    } else {
+        return {};
+    }
+}
+
+export default function currentUser() {
+    const s = logApi.getCurrentUser();
+    debugger;
+    return logApi.getCurrentUser();
 }
