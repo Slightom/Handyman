@@ -1,4 +1,4 @@
-import { authHeader } from "../components/common/Helper";
+import { authHeader, generateHeaders } from "../components/common/Helper";
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.REACT_APP_API_URL + "/forms/";
 
@@ -12,7 +12,7 @@ export function getForms() {
 export function saveForm(form) {
     return fetch(baseUrl + (form.id || ""), {
         method: form.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-        headers: authHeader(),
+        headers: generateHeaders(),
         body: JSON.stringify(form)
     })
         .then(handleResponse)

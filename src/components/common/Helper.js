@@ -123,8 +123,18 @@ export function authHeader() {
     }
 }
 
-export default function currentUser() {
+export function currentUser() {
     const s = logApi.getCurrentUser();
     debugger;
     return logApi.getCurrentUser();
+}
+
+export function generateHeaders() {
+    const auth = authHeader();
+
+    return { "Authorization": auth.Authorization, "content-type": "application/json" };
+}
+
+export function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
 }

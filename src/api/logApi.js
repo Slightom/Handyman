@@ -15,9 +15,9 @@ export function login({ username, password }) {
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
-            debugger;
-            return user;
-        });
+            return null;
+        })
+        .catch(error => { return error.message; });
 }
 
 export function logout() {

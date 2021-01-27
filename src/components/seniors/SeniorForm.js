@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
-import { generateDate } from "../common/Helper";
+import { generateDate, isEmpty } from "../common/Helper";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import "../common/myStyle.css";
@@ -16,10 +16,17 @@ const SeniorForm = ({
     errors = {}
 }) => {
 
+    let headerClass = "formHeader";
+    let formContainerError = "formContainer";
+    if (!isEmpty(errors)) {
+        headerClass += " " + "headerError";
+        formContainerError += " " + "formContainerError";
+    }
+
     return (
         <>
-            <div className="formContainer">
-                <h2 className="formHeader">{senior.id ? "Edit" : "Add"} Senior</h2>
+            <div className={formContainerError}>
+                <h2 className={headerClass}>{senior.id ? "Edit" : "Add"} Senior</h2>
                 <div className="formBody">
                     <form onSubmit={onSave}>
                         {errors.onSave && (
@@ -38,7 +45,6 @@ const SeniorForm = ({
                         <TextInput
                             name="lastName"
                             label="Last Name"
-                            placeholder="Kowalska"
                             value={senior.lastName}
                             onChange={onChange}
                             error={errors.lastName}
@@ -47,7 +53,6 @@ const SeniorForm = ({
                         <TextInput
                             name="address"
                             label="Address"
-                            placeholder="Porzeczkowa 12/5"
                             value={senior.address}
                             onChange={onChange}
                             error={errors.address}
@@ -56,7 +61,6 @@ const SeniorForm = ({
                         <TextInput
                             name="phone"
                             label="Phone"
-                            placeholder="555 666 555"
                             value={senior.phone}
                             onChange={onChange}
                             error={errors.phone}

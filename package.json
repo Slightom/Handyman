@@ -11,7 +11,10 @@
     "@testing-library/user-event": "^12.6.0",
     "auth0-js": "^9.14.2",
     "bootstrap": "^4.5.3",
+    "datatables.net": "^1.10.23",
+    "datatables.net-dt": "^1.10.23",
     "jquery": "^3.5.1",
+    "mdbreact": "^5.0.1",
     "react": "^17.0.1",
     "react-confirm-alert": "^2.6.2",
     "react-datepicker": "^3.4.1",
@@ -20,10 +23,12 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-table-scrollbar": "^0.1.9",
     "react-toastify": "^6.2.0",
     "redux": "^4.0.5",
     "redux-immutable-state-invariant": "^2.1.0",
     "redux-thunk": "^2.3.0",
+    "serialize-error": "^8.0.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

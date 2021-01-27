@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
 import "../common/myStyle.css";
+import { isEmpty } from "../common/Helper";
 import DatePickerInput from "../common/DatePickerInput";
 
 const BillForm = ({
@@ -13,10 +14,17 @@ const BillForm = ({
     errors = {}
 }) => {
 
+    let headerClass = "formHeader";
+    let formContainerError = "formContainer";
+    if (!isEmpty(errors)) {
+        headerClass += " " + "headerError";
+        formContainerError += " " + "formContainerError";
+    }
+
     return (
 
-        <div className="formContainer">
-            <h2 className="formHeader">{bill.id ? "Edit" : "Add"} Bill</h2>
+        <div className={formContainerError}>
+            <h2 className={headerClass}>{bill.id ? "Edit" : "Add"} Bill</h2>
             <div className="formBody">
                 <form onSubmit={onSave}>
                     {errors.onSave && (
@@ -28,7 +36,6 @@ const BillForm = ({
                     <TextInput
                         name="name"
                         label="Name"
-                        placeholder="Benmar..."
                         value={bill.name}
                         onChange={onChange}
                         error={errors.name}
@@ -37,7 +44,6 @@ const BillForm = ({
                     <TextInput
                         name="amount"
                         label="Amount"
-                        placeholder="50..."
                         value={bill.amount}
                         onChange={onChange}
                         error={errors.amount}

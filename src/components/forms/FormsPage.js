@@ -43,6 +43,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
         }
     }, [props.forms.length, props.seniors]);
 
+
     async function confirmedDelete(_form) {
         toast.success("Form deleted.");
         try {
@@ -71,6 +72,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
     }
 
     function handleSort(event, col) {
+        debugger;
         event.preventDefault();
         const descending = ((sort.col === col) ? !sort.descending : false);
         _setForms(sortArray(_forms, col, descending));

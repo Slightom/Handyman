@@ -8,14 +8,20 @@ const LoggingForm = ({
     onChange,
     onLog,
     logging,
-    error
+    errors
 }) => {
+
+    let wrapperClass = "logContainer";
+    if (errors) {
+        wrapperClass += " " + "has-error";
+    }
 
     return (
 
         <div>
             <div>s</div>
-            <div id="logContainer">
+            <div class={wrapperClass}>
+                {errors.message && !errors.password && !errors.username && <div className="headerLogError">{errors.message}</div>}
                 <img src='/handymanLogo.png' alt="Logo" style={{ width: 300 }} />
                 <div id="logForm">
                     <form onSubmit={onLog} style={{ marginBottom: 20 }}>
@@ -24,6 +30,7 @@ const LoggingForm = ({
                             label="Username"
                             value={user.username}
                             onChange={onChange}
+                            error={errors.username}
                         />
 
                         <TextInput
@@ -32,6 +39,7 @@ const LoggingForm = ({
                             value={user.password}
                             onChange={onChange}
                             password={true}
+                            error={errors.password}
                         />
 
                         <button type="submit" disabled={logging} className="btn btn-primary">

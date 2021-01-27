@@ -1,4 +1,4 @@
-import { authHeader } from "../components/common/Helper";
+import { authHeader, generateHeaders } from "../components/common/Helper";
 import { handleResponse, handleError } from "./apiUtils";
 const baseUrl = process.env.REACT_APP_API_URL + "/seniors/";
 
@@ -9,9 +9,12 @@ export function getSeniors() {
 }
 
 export function saveSenior(senior) {
+    debugger;
+    const s = JSON.stringify(senior);
+
     return fetch(baseUrl + (senior.id || ""), {
         method: senior.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
-        headers: authHeader(),
+        headers: generateHeaders(),
         body: JSON.stringify(senior)
     })
         .then(handleResponse)

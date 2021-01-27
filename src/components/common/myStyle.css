@@ -26,9 +26,9 @@
   background-color: #ddd !important;
 }
 
-#logContainer {
+.logContainer {
   /* border: 1px solid black; */
-  background-color: rgba(255, 255, 255, 0.65);
+  background-color: rgba(255, 255, 255, 0.75);
   border-radius: 15px;
   margin: auto;
   margin-top: 100px;
@@ -73,6 +73,7 @@
   border-radius: 0px 0px 15px 15px;
   margin: 0px;
   margin-bottom: 0px;
+  margin-top: 50px;
   text-align: center;
 }
 
@@ -104,6 +105,9 @@
   width: 100%;
   margin: 0px;
   text-align: center;
+  display: flex;
+  /* justify-content: center; */
+  align-items: baseline;
 }
 
 .datePickerWrapper {
@@ -131,6 +135,52 @@ input {
   text-align: center;
 }
 
+.is-invalid {
+  padding-left: 36px !important;
+  border-width: 1px !important;
+}
+
 select {
   text-align-last: center;
+  direction: unset;
+  background: none;
+}
+
+.selectError {
+  appearance: none;
+}
+
+.errorMessage {
+  font-weight: 600;
+  color: #ff0033;
+  /* border: 1px solid red; */
+  border-radius: 0px 0px 15px 15px;
+  /* background-color: rgba(255, 0, 0, 0.15); */
+  width: 100%;
+  margin: auto;
+  margin-top: 3px;
+  margin-bottom: 20px;
+}
+
+/* .headerError {
+  background-color: rgba(255, 0, 33, 1) !important;
+  -webkit-transition: background-color 700ms linear;
+  -ms-transition: background-color 700ms linear;
+  transition: background-color 700ms linear;
+} */
+
+.headerLogError {
+  background-color: rgba(255, 0, 33, 0.9) !important;
+  font-weight: 700;
+  border-radius: 15px 15px;
+  width: "100%";
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+.formContainerError {
+  border: 1px solid #ff0033;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: 0px 0 50px #ff0033;
 }

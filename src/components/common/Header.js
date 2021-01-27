@@ -1,7 +1,7 @@
 import { Button } from "bootstrap";
 import React from "react";
 import { Link, NavLink, Redirect } from 'react-router-dom';
-import currentUser from './Helper';
+import { currentUser } from './Helper';
 import * as logApi from '../../api/logApi';
 import { useHistory } from "react-router-dom";
 

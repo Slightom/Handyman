@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
 import DatePickerInput from "../common/DatePickerInput";
-import { sortArray } from "../common/Helper";
+import { sortArray, isEmpty } from "../common/Helper";
 import "../common/myStyle.css";
 
 const FormForm = ({
@@ -18,9 +18,17 @@ const FormForm = ({
     saving = false,
     errors = {}
 }) => {
+
+    let headerClass = "formHeader";
+    let formContainerError = "formContainer";
+    if (!isEmpty(errors)) {
+        headerClass += " " + "headerError";
+        formContainerError += " " + "formContainerError";
+    }
+
     return (
-        <div className="formContainer">
-            <h2 className="formHeader">{form.id ? "Edit" : "Add"} Form</h2>
+        <div className={formContainerError}>
+            <h2 className={headerClass}>{form.id ? "Edit" : "Add"} Form</h2>
             <div className="formBody">
                 <form onSubmit={onSave}>
                     {errors.onSave && (

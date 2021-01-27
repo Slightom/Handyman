@@ -10,6 +10,12 @@ const SelectInput = ({
   error,
   options
 }) => {
+
+  let wrapperClass = "form-control";
+  if (error && error.length > 0) {
+    wrapperClass += " " + "is-invalid selectError";
+  }
+
   return (
     <div className="form-group">
       <label htmlFor={name} className="labelTextInput">{label}</label>
@@ -19,7 +25,7 @@ const SelectInput = ({
           name={name}
           value={value}
           onChange={onChange}
-          className="form-control"
+          className={wrapperClass}
         >
           <option value="">{defaultOption}</option>
           {options.map(option => {
@@ -30,7 +36,7 @@ const SelectInput = ({
             );
           })}
         </select>
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="errorMessage">{error}</div>}
       </div>
     </div>
   );

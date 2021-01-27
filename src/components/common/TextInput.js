@@ -4,24 +4,25 @@ import "../common/myStyle.css";
 
 
 const TextInput = ({ name, label, onChange, placeholder, value, error, password }) => {
-  let wrapperClass = "form-group";
+  let wrapperClass = "form-control";
   if (error && error.length > 0) {
-    wrapperClass += " " + "has-error";
+    wrapperClass += " " + "is-invalid";
   }
 
   return (
-    <div className={wrapperClass}>
+    <div className="form-group">
       <label htmlFor={name} className="labelTextInput">{label}</label>
-      <div className="field">
+      <div className="field has-warning">
         <input
           type={password ? "password" : "text"}
           name={name}
-          className="form-control"
+          className={wrapperClass}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          autoComplete={name === "username" ? "on" : "off"}
         />
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="errorMessage">{error}</div>}
       </div>
     </div>
   );

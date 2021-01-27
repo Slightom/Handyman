@@ -123,6 +123,7 @@ export function getSeniorById(seniors, id) {
 }
 
 function mapStateToProps(state, ownProps) {
+    debugger;
     const id = ownProps.match.params.id;
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
     return {
