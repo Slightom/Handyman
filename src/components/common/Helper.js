@@ -36,7 +36,9 @@ export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) 
 
 export function generateDate(s) {
     const date = new Date(s);
-    return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+    // return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+    return date.getDate() + '-' + date.toLocaleString('default', { month: 'short' }) + '-' + date.getFullYear();
+    // return date.getDate() + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
 }
 
 export function sortArray(arr, col, descending) {

@@ -1,5 +1,5 @@
 .myTable {
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 1);
   text-align: center;
   margin: auto;
   width: 100% !important;
@@ -25,9 +25,110 @@
 .myTable2 th:hover {
   background-color: #ddd !important;
 }
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
+.tableContainer {
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0);
+  width: 80%;
+}
+
+.tableHeader {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 15px 15px 0px 0px;
+  width: "100%";
+  padding: 10px;
+  margin-bottom: 0px;
+}
+
+.tableContainer .formHeader {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.tableBody {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.tableSelectShow {
+  width: 20% !important;
+  display: flex;
+  /* justify-content: center !important; */
+  align-items: center;
+  /* border: 1px solid red; */
+  min-height: 70px;
+}
+
+.tableTitle {
+  /* border: 1px solid red; */
+  display: flex;
+  float: left;
+  width: 60% !important;
+  justify-content: center !important;
+  align-items: center;
+  min-height: 70px;
+}
+
+.tableSearchBar {
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  min-height: 70px;
+  width: 20% !important;
+  /* border: 1px solid red; */
+  text-align: center !important;
+}
+.tableSearchBar input {
+  width: 100%;
+}
+
+/*
+/
+/
+/
+*/
+
+.tableContainerTighter {
+  width: 70% !important;
+}
+
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
 
 .logContainer {
-  /* border: 1px solid black; */
   background-color: rgba(255, 255, 255, 0.75);
   border-radius: 15px;
   margin: auto;
@@ -38,15 +139,48 @@
 }
 
 #logForm {
-  /* border: 1px solid red; */
   margin: auto;
   margin-left: 10px;
   padding: 10px;
 }
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
 
 .labelTextInput {
   font-weight: 600;
 }
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
 
 .formContainer {
   margin: auto;
@@ -109,26 +243,45 @@
   /* justify-content: center; */
   align-items: baseline;
 }
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
+
+/*
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+/
+*/
 
 .datePickerWrapper {
   display: inline-block;
   width: 50%;
-}
-
-.tableContainer {
-  margin: auto;
-  margin-top: 20px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0);
-  width: 80%;
-}
-
-.tableContainerTighter {
-  width: 70% !important;
-}
-
-.tableContainer .formHeader {
-  background-color: rgba(255, 255, 255, 0.85);
 }
 
 input {
@@ -183,4 +336,17 @@ select {
   border-radius: 20px;
   outline: none;
   box-shadow: 0px 0 50px #ff0033;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+  bottom: 0.5em !important;
 }
