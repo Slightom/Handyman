@@ -19,40 +19,96 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
         const newDiv = `<h1 class='tableTitle'>${Labels.Seniors}</h1>`;
         debugger;
         $(function () {
-            $('#dtDynamicVerticalScrollExample2').DataTable({
+            const t = $('#dtDynamicVerticalScrollExample2').DataTable({
                 "scrollY": "60vh",
+                "order": [],
                 "scrollCollapse": true,
-                "order": [[1, "asc"]],
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
                 "language": {
                     "lengthMenu": "Pokaż _MENU_ rekordów",
-                    "search": "Szukaj:",
+                    "search": "",
                     "zeroRecords": "Nie znaleziono rekordów",
                     "info": "Wyświetla _START_-_END_ z _TOTAL_",
                     "infoEmpty": "Nie ma rekordów",
-                    //"infoFiltered": "(filtered from _MAX_ total records)",
                     "paginate": {
                         "previous": "<<",
                         "next": ">>"
                     }
                 },
                 "columnDefs": [
-                    { "orderSequence": ["desc", "asc"], "targets": [4] },
-                    { "orderSequence": ["desc", "asc"], "targets": [5] },
-                    { "orderSequence": ["desc", "asc"], "targets": [6] },
-                    { "orderSequence": ["desc", "asc"], "targets": [7] },
-                ]
+                    { orderable: false, targets: 0 },
+                    { orderable: false, targets: 1 },
+                    { orderable: false, targets: 2 },
+                    { orderable: false, targets: 3 },
+                    { orderable: false, targets: 4 },
+                    { orderable: false, targets: 5 },
+                    { orderable: false, targets: 6 },
+                    { orderable: false, targets: 7 },
+                    { orderable: false, targets: 8 },
+                    { orderable: false, targets: 9 },
+                ],
             });
+
+            t.on('search.dt', function () {
+                t.column(0, { search: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            })
             $('#dtDynamicVerticalScrollExample2_length').addClass('tableSelectShow');
             $('#dtDynamicVerticalScrollExample2_filter').addClass('tableSearchBar');
             $('.dataTables_length').addClass('bs-select');
             $("#dtDynamicVerticalScrollExample2_length").after(newDiv);
+            $('.dataTables_filter input').attr("placeholder", "Szukaj...");
 
+            $('#thlastName').attr('class', 'sorting sorting_asc');
+            $('#thfirstName').attr('class', 'sorting');
+            $('#thaddress').attr('class', 'sorting');
+            $('#thphone').attr('class', 'sorting');
+            $('#thforms').attr('class', 'sorting');
+            $('#thformsFinished').attr('class', 'sorting');
+            $('#thformsWaiting').attr('class', 'sorting');
+            $('#thformsRejected').attr('class', 'sorting');
 
         });
         setLoading(false);
     }, [])
 
+    const [thClasses] = useState({
+        lastName: 'sorting sorting_asc',
+        firstName: 'sorting',
+        address: 'sorting',
+        phone: 'sorting',
+        forms: 'sorting',
+        formsFinished: 'sorting',
+        formsWaiting: 'sorting',
+        formsRejected: 'sorting',
+    });
+
+    const [lastSortedColumn, setLastSortedColumn] = useState("lastName");
+
+    function thClicked(e, col) {
+        onHeaderClick(e, col);
+        const actualClass = thClasses[col];
+        // eslint-disable-next-line default-case
+        switch (actualClass) {
+            case 'sorting sorting_desc':
+                thClasses[col] = 'sorting sorting_asc';
+                $('#th' + col).attr('class', 'sorting sorting_asc');
+                break;
+            default:
+                thClasses[col] = 'sorting sorting_desc';
+                $('#th' + col).attr('class', 'sorting sorting_desc');
+                break;
+        }
+
+        debugger;
+        if (lastSortedColumn !== "" && lastSortedColumn !== col) {
+            thClasses[lastSortedColumn] = 'sorting';
+            $('#th' + lastSortedColumn).attr('class', 'sorting');
+        }
+
+        setLastSortedColumn(col);
+    }
 
     return (
         <>
@@ -64,14 +120,15 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
                             width="100%">
                             <thead>
                                 <tr>
-                                    <th>{Labels.FirstName}</th>
-                                    <th>{Labels.LastName}</th>
-                                    <th>{Labels.Address}</th>
-                                    <th>{Labels.Phone}</th>
-                                    <th>{Labels.Forms}</th>
-                                    <th>{Labels.Finished}</th>
-                                    <th>{Labels.Waiting}</th>
-                                    <th>{Labels.Rejected}</th>
+                                    <th>Nr</th>
+                                    <th id="thlastName" onClick={(e) => thClicked(e, 'lastName')}>{Labels.LastName}</th>
+                                    <th id="thfirstName" onClick={(e) => thClicked(e, 'firstName')}>{Labels.FirstName}</th>
+                                    <th id="thaddress" onClick={(e) => thClicked(e, 'address')}>{Labels.Address}</th>
+                                    <th id="thphone" onClick={(e) => thClicked(e, 'phone')}>{Labels.Phone}</th>
+                                    <th id="thforms" onClick={(e) => thClicked(e, 'forms')}>{Labels.Forms}</th>
+                                    <th id="thformsFinished" onClick={(e) => thClicked(e, 'formsFinished')}>{Labels.Finished}</th>
+                                    <th id="thformsWaiting" onClick={(e) => thClicked(e, 'formsWaiting')}>{Labels.Waiting}</th>
+                                    <th id="thformsRejected" onClick={(e) => thClicked(e, 'formsRejected')}>{Labels.Rejected}</th>
                                     <th>
                                         <Link to={"/senior"}>
                                             <button
@@ -85,11 +142,12 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
                                 </tr>
                             </thead>
                             <tbody id="tb" >
-                                {!loading && seniors.map(senior => {
+                                {!loading && seniors.map((senior, i) => {
                                     return (
                                         <tr key={senior.id}>
-                                            <td>{senior.firstName}</td>
+                                            <td>{i + 1}</td>
                                             <td>{senior.lastName}</td>
+                                            <td>{senior.firstName}</td>
                                             <td>{senior.address}</td>
                                             <td>{senior.phone}</td>
                                             <td>{senior.forms}</td>

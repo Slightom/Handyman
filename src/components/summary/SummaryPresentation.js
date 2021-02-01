@@ -13,16 +13,14 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
         const newDiv = `<h1 class='tableTitle'>${Labels.Summary}</h1>`;
         debugger;
         $(function () {
-            $('#dtDynamicVerticalScrollExample4').DataTable({
+            const t = $('#dtDynamicVerticalScrollExample4').DataTable({
                 "order": [],
-                "aaSorting": [],
                 "scrollY": "60vh",
                 "scrollCollapse": true,
-                // "order": [[6, "desc"]],
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
                 "language": {
                     "lengthMenu": "Pokaż _MENU_ rekordów",
-                    "search": "Szukaj:",
+                    "search": "",
                     "zeroRecords": "Nie znaleziono rekordów",
                     "info": "Wyświetla _START_-_END_ z _TOTAL_",
                     "infoEmpty": "Nie ma rekordów",
@@ -42,14 +40,22 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
                     { orderable: false, targets: 6 },
                     { orderable: false, targets: 7 },
                     { orderable: false, targets: 8 },
+                    { orderable: false, targets: 9 },
                 ],
             });
+            t.on('search.dt', function () {
+                t.column(0, { search: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            })
             $('#dtDynamicVerticalScrollExample4_length').addClass('tableSelectShow');
             $('#dtDynamicVerticalScrollExample4_filter').addClass('tableSearchBar');
             $('select[name ="dtDynamicVerticalScrollExample4_length"]').val(100);
             $('.dataTables_length').addClass('bs-select');
             $("#dtDynamicVerticalScrollExample4_length").after(newDiv);
-            $('#thperiodDate').attr('class', 'sorting');
+            $('.dataTables_filter input').attr("placeholder", "Szukaj...");
+
+            $('#thperiodDate').attr('class', 'sorting sorting_asc');
             $('#thforms').attr('class', 'sorting');
             $('#thformsFinished').attr('class', 'sorting');
             $('#thformsWaiting').attr('class', 'sorting');
@@ -62,7 +68,7 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
     }, [])
 
     const [thClasses] = useState({
-        periodDate: 'sorting',
+        periodDate: 'sorting sorting_asc',
         forms: 'sorting',
         formsFinished: 'sorting',
         formsWaiting: 'sorting',
@@ -73,8 +79,7 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
         amountAvg: 'sorting'
     });
 
-    let aaa = 'sorting';
-    const [lastSortedColumn, setLastSortedColumn] = useState("");
+    const [lastSortedColumn, setLastSortedColumn] = useState("periodDate");
 
     function thClicked(e, col) {
         onHeaderClick(e, col);
@@ -109,21 +114,23 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
                             width="100%">
                             <thead>
                                 <tr>
+                                    <th>Nr</th>
                                     <th id="thperiodDate" onClick={(e) => thClicked(e, 'periodDate')}>{Labels.Period}</th>
-                                    <th id="thforms" className={aaa} onClick={(e) => thClicked(e, 'forms')}>{Labels.Forms}</th>
+                                    <th id="thforms" onClick={(e) => thClicked(e, 'forms')} title="Formularze z datą naprawy z danego miesiąca">{Labels.Forms}</th>
                                     <th id="thformsFinished" onClick={(e) => thClicked(e, 'formsFinished')}>{Labels.Finished}</th>
                                     <th id="thformsWaiting" onClick={(e) => thClicked(e, 'formsWaiting')}>{Labels.Waiting}</th>
                                     <th id="thformsRejected" onClick={(e) => thClicked(e, 'formsRejected')}>{Labels.Rejected}</th>
-                                    <th id="thhandymans0" key={0} onClick={(e) => thClicked(e, 'handymans0')}>Tomasz Suchwalko</th>
-                                    <th id="thhandymans1" key={1} onClick={(e) => thClicked(e, 'handymans1')}>Paweł Kuć</th>
+                                    <th id="thhandymans0" key={0} onClick={(e) => thClicked(e, 'handymans0')} title="Formularze wykonane przez TS w danym miesiącu">Tomasz Suchwalko</th>
+                                    <th id="thhandymans1" key={1} onClick={(e) => thClicked(e, 'handymans1')} title="Formularze wykonane przez PK w danym miesiącu">Paweł Kuć</th>
                                     <th id="thamount" onClick={(e) => thClicked(e, 'amount')}>{Labels.Amount}</th>
                                     <th id="thamountAvg" onClick={(e) => thClicked(e, 'amountAvg')}>{Labels.AvgAmount}</th>
                                 </tr>
                             </thead>
                             <tbody id="tb" >
-                                {summaryRows.map(sr => {
+                                {summaryRows.map((sr, i) => {
                                     return (
                                         <tr key={sr.key}>
+                                            <td>{i + 1}</td>
                                             <td>{sr.period}</td>
                                             <td>{sr.forms}</td>
                                             <td>{sr.formsFinished}</td>

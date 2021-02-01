@@ -14,8 +14,8 @@ import { Labels } from '../common/myGlobal';
 
 
 function BillsPage({ actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'id', descending: true });
-    const [_bills, _setBills] = useState(props.bills);
+    const [sort, setSort] = useState({ col: 'date', descending: true });
+    const [_bills, _setBills] = useState([...props.bills]);
 
     useEffect(() => {
         if (props.bills.length === 0) {
@@ -23,9 +23,10 @@ function BillsPage({ actions, loading, ...props }) {
                 toastError(toast, Labels.LoadingBillsFailed + error, props.history);
             });
         } else {
-            _setBills(props.bills);
+            _setBills(sortArray(props.bills, 'date', true));
+            //setSort({ col: 'date', decendig: true });
         }
-    }, [props.bills.length])
+    }, [props.bills.length, props.bills])
 
     async function confirmedDelete(_bill) {
         toast.success(Labels.BillDeleted);
@@ -56,7 +57,7 @@ function BillsPage({ actions, loading, ...props }) {
 
     function handleSort(event, col) {
         event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : false);
+        const descending = ((sort.col === col) ? !sort.descending : true);
         _setBills(sortArray(_bills, col, descending));
         setSort({ col, descending });
     }

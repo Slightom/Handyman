@@ -79,13 +79,13 @@ function ManageSeniorPage({
     }
 
     function handleSave(event) {
+        debugger;
         event.preventDefault();
         if (!formIsValid()) return;
         setSaving(true);
         saveSenior(senior).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success(Labels.SeniorSaved);
-            debugger;
             props.backToAddingForm
                 ? handleBackToAddForm()
                 : history.goBack()

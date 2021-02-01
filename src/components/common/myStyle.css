@@ -28,6 +28,10 @@
   background-color: #ddd;
 }
 
+.myTable th:first-child:hover {
+  background-color: #ddd;
+}
+
 .myTable2 {
   margin: auto;
   width: 100% !important;
@@ -85,10 +89,11 @@
   /* justify-content: center !important; */
   align-items: center;
   /* border: 1px solid red; */
-  min-height: 70px;
+  min-height: 50px;
 }
 .tableSelectShow select {
   background-color: white !important;
+  padding-left: 3px !important;
 }
 
 .tableTitle {
@@ -98,18 +103,25 @@
   width: 60% !important;
   justify-content: center !important;
   align-items: center;
-  min-height: 70px;
+  min-height: 50px;
 }
 
 .tableSearchBar {
   display: flex;
-  justify-content: center !important;
+  justify-content: flex-end !important;
+  padding-right: 20px;
   align-items: center;
-  min-height: 70px;
+  vertical-align: baseline;
+  min-height: 50px;
   width: 20% !important;
   /* border: 1px solid red; */
   text-align: center !important;
 }
+
+.tableSearchBar label {
+  margin-bottom: 0px;
+}
+
 .tableSearchBar input {
   width: 100%;
   background-color: white !important;
@@ -402,9 +414,7 @@ table.dataTable thead .sorting_desc_disabled:before {
   width: auto;
 }
 
-.react-datepicker__day {
-  cursor: pointer;
-}
-.react-datepicker__day .weekend {
-  color: red !important;
+.dataTables_wrapper .dataTables_filter {
+  float: right !important;
+  text-align: right !important;
 }

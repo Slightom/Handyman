@@ -139,7 +139,6 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
     }
 
     function handleSort(event, col) {
-        debugger;
         event.preventDefault();
         const descending = ((sort.col === col) ? !sort.descending : true);
         _setSummaryRows(sortArray(_summaryRows, col, descending));

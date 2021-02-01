@@ -101,7 +101,7 @@ const bills = [
 const newBill = {
   id: null,
   name: "",
-  amount: 0,
+  amount: "",
   date: null
 };
 

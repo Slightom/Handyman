@@ -15,18 +15,16 @@ import { getFormsAdvanced, sortArray, toastError } from "../common/Helper";
 import { Labels } from '../common/myGlobal';
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'lp', descending: true });
-    const [_forms, _setForms] = useState([]);
+    const [sort, setSort] = useState({ col: 'registrationDate', descending: true });
+    const [_forms, _setForms] = useState([...props.forms]);
 
     useEffect(() => {
-        debugger;
         if (props.forms.length === 0) {
             actions.loadForms()
                 .catch(error => {
                     toastError(toast, Labels.LoadingFormsFailed + error, props.history);
                 });
         } else {
-            debugger;
             _setForms(props.forms);
         }
         if (seniors.length === 0) {
@@ -44,7 +42,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                 toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
-    }, [props.forms.length, props.seniors]);
+    }, [props.forms.length, props.forms, props.seniors]);
 
 
     async function confirmedDelete(_form) {
@@ -77,7 +75,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
 
     function handleSort(event, col) {
         event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : false);
+        const descending = ((sort.col === col) ? !sort.descending : true);
         _setForms(sortArray(_forms, col, descending));
         setSort({ col, descending });
     }

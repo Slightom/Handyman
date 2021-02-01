@@ -15,10 +15,9 @@ import { Labels } from '../common/myGlobal';
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'id', descending: true });
-    const [_seniors, _setSeniors] = useState(props.seniors);
+    const [sort, setSort] = useState({ col: 'lastName', descending: false });
+    const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
-        debugger;
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
                 toastError(toast, Labels.LoadingFormsFailed + error, props.history);
@@ -36,7 +35,7 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
                 toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
-    }, [props.seniors.length])
+    }, [props.seniors.length, props.seniors])
 
     async function confirmedDelete(_senior) {
         toast.success(Labels.SeniorDeleted);
@@ -71,7 +70,6 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     }
 
     function handleSort(event, col) {
-        debugger;
         event.preventDefault();
         const descending = ((sort.col === col) ? !sort.descending : true);
         _setSeniors(sortArray(_seniors, col, descending));

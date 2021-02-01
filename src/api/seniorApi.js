@@ -35,6 +35,8 @@ function _saveSeniorAfterRefresh(senior) {
 }
 
 function _saveSeniorNow(senior) {
+    debugger;
+    delete senior.forms;
     if (!senior.id) {
         delete senior.id;
         senior.createdAt = new Date();
