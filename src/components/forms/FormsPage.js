@@ -7,64 +7,68 @@ import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import FormList from "./FormList";
-import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { getFormsAdvanced, sortArray } from "../common/Helper";
+import { getFormsAdvanced, sortArray, toastError } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'lp', descending: true });
     const [_forms, _setForms] = useState([]);
 
     useEffect(() => {
+        debugger;
         if (props.forms.length === 0) {
-            actions.loadForms().catch(error => {
-                alert("Loading forms failed" + error);
-            });
+            actions.loadForms()
+                .catch(error => {
+                    toastError(toast, Labels.LoadingFormsFailed + error, props.history);
+                });
         } else {
+            debugger;
             _setForms(props.forms);
         }
         if (seniors.length === 0) {
             actions.loadSeniors().catch(error => {
-                alert("Loading seniors failed" + error);
+                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
             });
         }
         if (handymans.length === 0) {
             actions.loadHandymans().catch(error => {
-                alert("Loading handymans failed" + error);
+                toastError(toast, Labels.LoadingHandymansFailed + error, props.history);
             });
         }
         if (formStatuses.length === 0) {
             actions.loadFormStatuses().catch(error => {
-                alert("Loading formStatuses failed" + error);
+                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
     }, [props.forms.length, props.seniors]);
 
 
     async function confirmedDelete(_form) {
-        toast.success("Form deleted.");
+        toast.success(Labels.FormDeleted);
         try {
             await actions.deleteForm(_form);
+            props.history.push('/spinner/forms');
         } catch (error) {
-            toast.error("Delete failed. " + error.message, { autoClose: false })
+            toast.error(Labels.DeleteFailed + error.message, { autoClose: false })
         }
     }
 
     function handleDeleteForm(_form) {
 
         confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure to do this?',
+            title: Labels.ConfirmationTitle,
+            message: Labels.ConfirmationMsg,
             buttons: [
                 {
-                    label: 'Yes',
+                    label: Labels.Yes,
                     onClick: () => confirmedDelete(_form)
                 },
                 {
-                    label: 'No',
+                    label: Labels.No,
                     onClick: () => { return; }
                 }
             ]
@@ -72,7 +76,6 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
     }
 
     function handleSort(event, col) {
-        debugger;
         event.preventDefault();
         const descending = ((sort.col === col) ? !sort.descending : false);
         _setForms(sortArray(_forms, col, descending));

@@ -5,11 +5,13 @@ import * as seniorActions from "../../redux/actions/seniorActions";
 import * as handymanActions from "../../redux/actions/handymanActions";
 import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
-import { newForm } from "../../tools/mockData";
+import { newForm, seniors } from "../../tools/mockData";
 import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { isNumber, naviGateBack, stringIsPropertyInt } from "../common/Helper";
+import { isNumber, naviGateBack, stringIsPropertyInt, sortArray, toastError, getSeniorsWithRelatedForms } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
+import { useHistory } from "react-router-dom";
 
 function ManageFormPage({
     handymans,
@@ -20,6 +22,7 @@ function ManageFormPage({
     loadFormStatuses,
     saveForm,
     history,
+    loading,
     ...props
 }) {
     const [form, setForm] = useState({ ...props.form });
@@ -31,30 +34,30 @@ function ManageFormPage({
         debugger;
         if (props.forms.length === 0) {
             loadForms().catch(error => {
-                alert("Loading forms failed" + error);
+                toastError(toast, Labels.LoadingFormsFailed + error, props.history);
             });
         } else {
             setForm({ ...props.form });
         }
         if (props.seniors.length === 0) {
             loadSeniors().catch(error => {
-                alert("Loading seniors failed" + error);
+                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
             });
         } else {
-            _setSeniors([...props.seniors]);
+            _setSeniors(props.seniors);
         }
         if (handymans.length === 0) {
             loadHandymans().catch(error => {
-                alert("Loading handymans failed" + error);
+                toastError(toast, Labels.LoadingHandymansFailed + error, props.history);
             });
         }
         if (formStatuses.length === 0) {
             loadFormStatuses().catch(error => {
-                alert("Loading formStatuses failed" + error);
+                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
 
-    }, [props.form, props.seniors.length]);
+    }, [props.form, props.seniors.length, props.forms.length]);
 
 
     function handleChange(event, dateName) {
@@ -67,33 +70,107 @@ function ManageFormPage({
             value = event.target.value;
         }
 
+        checkHowManyForms(name, value);
+
         setForm(prevForm => ({
             ...prevForm,
             [name]: (name === "seniorId" || name === "handymanId" || name === "formStatusId")
                 ? parseInt(value, 10)
                 : value
         }));
+
     }
 
+    function made5forms(seniorId) {
+        const s = _seniors.find(x => x.id === parseInt(seniorId, 10));
+        return s.forms.length >= 5;
+    }
+
+    function checkHowManyForms(name, value) {
+        if (name === "seniorId") {
+            const errors = {}
+            if (value !== "" && made5forms(value)) {
+                errors.senior = Labels.ErrorSenior5FormsAlready;
+            }
+            setErrors(errors);
+        }
+    }
     function formIsValid() {
         const { lp, seniorId, handymanId, formStatusId, registrationDate, repairDate, info } = form;
         const errors = {};
 
-        if (!lp) errors.lp = "Lp is required.";
-        else if (!stringIsPropertyInt(lp)) errors.lp = "Lp must be a number."
-        if (!seniorId) errors.senior = "Senior is required.";
-        if (!handymanId) errors.handyman = "Handyman is required.";
-        if (!formStatusId) errors.formStatus = "Form Status is required.";
-        if (!registrationDate) errors.registrationDate = "Registration date is required.";
-        if (!repairDate) errors.repairDate = "Repair date is required.";
-        if (!info) errors.info = "Info is required.";
+        debugger;
+        if (!lp) errors.lp = Labels.ErrorLpRequired;
+        else if (!stringIsPropertyInt(lp)) errors.lp = Labels.ErrorLpMustBeNumber;
+        else if (seniorId && alreadyExistFormWithThisLp(lp)) errors.lp = Labels.ErrorLpDuplicate;
+        if (!seniorId) errors.senior = Labels.ErrorSeniorRequired;
+        else if (made5forms(seniorId)) errors.senior = Labels.ErrorSenior5FormsAlready;
+        if (!handymanId) errors.handyman = Labels.ErrorHandymanRequired;
+        if (!formStatusId) errors.formStatus = Labels.ErrorFormStatusRequired;
+        if (!registrationDate) errors.registrationDate = Labels.ErrorRegistDateRequired;
+        if (!repairDate) errors.repairDate = Labels.ErrorRepairDateRequired;
+        lessThan30days(repairDate, errors);
+        if (registrationDate && repairDate) {
+            if (registrationDate > repairDate) errors.repairDate = Labels.ErrorRepairBeforeRegistration;
+        }
+        if (!info) errors.info = Labels.ErrorInfoRequired;
 
         setErrors(errors);
 
         return Object.keys(errors).length === 0;
     }
 
+    function lessThan30days(repair, errors) {
+        if (!errors.seniorId) { //jesli wiemy czyje formularze mamy sprawdzic
+            debugger;
+            const millisecondsPerDay = 24 * 60 * 60 * 1000;
+            let daysBetween;
+            let formsRelated = props.forms.filter(x => x.seniorId === form.seniorId);
+
+            if (formsRelated.length > 0) {
+                formsRelated = sortArray(formsRelated, 'repairDate', false);
+                const editingFormIndex = editMode() ? formsRelated.findIndex(x => x.id === form.id) : formsRelated.length;
+                const previousForm = editingFormIndex > 0 ? formsRelated[editingFormIndex - 1] : null;
+                const nextForm = formsRelated.length + 1 > editingFormIndex ? formsRelated[editingFormIndex + 1] : null;
+                debugger;
+                if (previousForm) {
+                    daysBetween = (new Date(repair) - new Date(previousForm.repairDate)) / millisecondsPerDay;
+                    if (daysBetween <= 30) {
+                        errors.repairDate = Labels.ErrorRepairLess30days;
+                        return true;
+                    }
+                }
+
+                if (nextForm) {
+                    daysBetween = (new Date(nextForm.repairDate) - new Date(repair)) / millisecondsPerDay;
+                    if (daysBetween <= 30) {
+                        errors.repairDate = Labels.ErrorRepairLess30daysNext;
+                        return true;
+                    }
+                }
+            }
+            return false;
+
+
+        }
+    }
+
+    function alreadyExistFormWithThisLp(lp) {
+        lp = parseInt(lp, 10)
+        debugger;
+        let forms = editMode()
+            ? props.forms.find(x => x.lp === lp && x.id !== form.id)
+            : props.forms.find(x => x.lp === lp);
+        debugger;
+        return forms;
+    }
+
+    function editMode() {
+        return form.id ? true : false;
+    }
+
     function handleSave(event) {
+        debugger;
         event.preventDefault();
         if (!formIsValid()) return;
         setSaving(true);
@@ -104,13 +181,13 @@ function ManageFormPage({
 
         saveForm({ ...form, lp: parsedLp }).then(() => {
             // eslint-disable-next-line no-restricted-globals
-            toast.success("Form Saved.");
-            history.push("/forms");
+            toast.success(Labels.FormSaved);
+            history.goBack();
         });
     }
 
 
-    return (props.forms.length === 0 || props.seniors.length === 0 || handymans.length === 0 || formStatuses.length === 0)
+    return loading
         ? <Spinner />
         : (
             <FormForm
@@ -122,7 +199,7 @@ function ManageFormPage({
                 onChange={handleChange}
                 onSave={handleSave}
                 saving={saving}
-                goBack={event => naviGateBack(history, event)}
+                goBack={event => naviGateBack(history, event, '/form')}
             />
         )
 }
@@ -147,13 +224,22 @@ export function getFormById(forms, id) {
 
 function mapStateToProps(state, ownProps) {
     const id = ownProps.match.params.id;
-    const _form = id && state.forms.length > 0 ? getFormById(state.forms, id) : newForm;
+    let _form = id && state.forms.length > 0 ? getFormById(state.forms, id) : { ...newForm };
+    debugger;
+    const justAddedSenior = localStorage.getItem('justAddedSenior');
+    if (justAddedSenior) {
+        debugger;
+        _form.seniorId = sortArray(state.seniors.filter(x => x.createdAt), 'createdAt', true)[0].id;
+        localStorage.removeItem('justAddedSenior');
+    }
+
     return {
         form: _form,
         forms: state.forms,
-        seniors: state.seniors,
+        seniors: (state.seniors.length === 0 || state.forms.length === 0) ? [] : getSeniorsWithRelatedForms(state.seniors, state.forms),
         handymans: state.handymans,
-        formStatuses: state.formStatuses
+        formStatuses: state.formStatuses,
+        loading: state.apiCallsInProgress > 0
     };
 }
 

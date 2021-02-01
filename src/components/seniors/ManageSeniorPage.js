@@ -9,7 +9,8 @@ import { newSenior } from "../../tools/mockData";
 import SeniorForm from "./SeniorForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { getRelatedFormsAdvanced, naviGateBack } from "../common/Helper";
+import { getRelatedFormsAdvanced, isNumber, naviGateBack, stringIsPropertyInt, stringIsPropertyUInt, toastError } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
 
 function ManageSeniorPage({
     loadForms,
@@ -21,6 +22,7 @@ function ManageSeniorPage({
     seniors,
     handymans,
     formStatuses,
+    loading,
     ...props
 }) {
     const [senior, setSenior] = useState({ ...props.senior, seniorForms: props.senior.id ? props.senior.seniorForms : [] });
@@ -30,22 +32,22 @@ function ManageSeniorPage({
     useEffect(() => {
         if (props.forms.length === 0) {
             loadForms().catch(error => {
-                alert("Loading forms failed" + error);
+                toastError(toast, Labels.LoadingFormsFailed + error, props.history);
             });
         }
         if (handymans.length === 0) {
             loadHandymans().catch(error => {
-                alert("Loading handymans failed" + error);
+                toastError(toast, Labels.LoadingHandymansFailed + error, props.history);
             });
         }
         if (formStatuses.length === 0) {
             loadFormStatuses().catch(error => {
-                alert("Loading formStatuses failed" + error);
+                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
         if (seniors.length === 0) {
             loadSeniors().catch(error => {
-                alert("Loading seniors failed" + error);
+                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
             });
         } else {
             setSenior({ ...props.senior, seniorForms: props.senior.seniorForms });
@@ -66,10 +68,10 @@ function ManageSeniorPage({
         const { firstName, lastName, address, phone } = senior;
         const errors = {};
 
-        if (!firstName) errors.firstName = "First name is required.";
-        if (!lastName) errors.lastName = "Last name is required.";
-        if (!address) errors.address = "Address is required.";
-        if (!phone) errors.phone = "Phone is required.";
+        if (!firstName) errors.firstName = Labels.ErrorFirstNameRequired;
+        if (!lastName) errors.lastName = Labels.ErrorLastNameRequired;
+        if (!address) errors.address = Labels.ErrorAddressRequired;
+        if (!phone) errors.phone = Labels.ErrorPhoneRequired;
 
         setErrors(errors);
 
@@ -81,15 +83,25 @@ function ManageSeniorPage({
         if (!formIsValid()) return;
         setSaving(true);
         saveSenior(senior).then(() => {
-            debugger;
             // eslint-disable-next-line no-restricted-globals
-            toast.success("Senior Saved.");
-            history.push("/seniors");
+            toast.success(Labels.SeniorSaved);
+            debugger;
+            props.backToAddingForm
+                ? handleBackToAddForm()
+                : history.goBack()
+                ;
+
         });
     }
 
+    function handleBackToAddForm() {
+        localStorage.setItem('justAddedSenior', "true");
+        debugger;
+        history.push("/form", { from: '/senior' });
+    }
+
     function check() {
-        return (props.forms.length === 0 || seniors.length === 0)
+        return loading;
     }
 
     return check()
@@ -124,19 +136,26 @@ export function getSeniorById(seniors, id) {
 
 function mapStateToProps(state, ownProps) {
     debugger;
-    const id = ownProps.match.params.id;
+    let param = ownProps.match.params.id;
+    let id = undefined;
+    if (param && stringIsPropertyUInt(param)) {
+        id = param;
+        param = undefined;
+    }
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
     return {
         senior: (state.seniors.length === 0 || state.forms.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? _senior
             : {
                 ..._senior,
-                seniorForms: getRelatedFormsAdvanced(_senior, state.forms, state.handymans, state.formStatuses)
+                forms: getRelatedFormsAdvanced(_senior, state.forms, state.handymans, state.formStatuses)
             },
         forms: state.forms,
         seniors: state.seniors,
         handymans: state.handymans,
-        formStatuses: state.formStatuses
+        formStatuses: state.formStatuses,
+        loading: state.apiCallsInProgress > 0,
+        backToAddingForm: param
     };
 }
 

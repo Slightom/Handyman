@@ -4,6 +4,7 @@ import TextInput from "../common/TextInput";
 import "../common/myStyle.css";
 import { isEmpty } from "../common/Helper";
 import DatePickerInput from "../common/DatePickerInput";
+import { Labels } from '../common/myGlobal';
 
 const BillForm = ({
     bill,
@@ -24,7 +25,7 @@ const BillForm = ({
     return (
 
         <div className={formContainerError}>
-            <h2 className={headerClass}>{bill.id ? "Edit" : "Add"} Bill</h2>
+            <h2 className={headerClass}>{bill.id ? Labels.EditBillH : Labels.AddBillH}</h2>
             <div className="formBody">
                 <form onSubmit={onSave}>
                     {errors.onSave && (
@@ -35,7 +36,7 @@ const BillForm = ({
 
                     <TextInput
                         name="name"
-                        label="Name"
+                        label={Labels.Name}
                         value={bill.name}
                         onChange={onChange}
                         error={errors.name}
@@ -43,7 +44,7 @@ const BillForm = ({
 
                     <TextInput
                         name="amount"
-                        label="Amount"
+                        label={Labels.Amount}
                         value={bill.amount}
                         onChange={onChange}
                         error={errors.amount}
@@ -51,7 +52,7 @@ const BillForm = ({
 
                     <DatePickerInput
                         name="date"
-                        label="Date"
+                        label={Labels.Date}
                         value={bill.date === null ? null : new Date(bill.date)}
                         onChange={onChange}
                         error={errors.date}
@@ -59,10 +60,10 @@ const BillForm = ({
 
                     <div className="formFooter">
                         <div className="formButtonWrapper">
-                            <button type="submit" disabled={saving} className="btn btn-primary">{saving ? "Saving..." : "Save"}</button>
+                            <button type="submit" disabled={saving} className="btn btn-primary">{saving ? Labels.Saving : Labels.Save}</button>
                         </div>
                         <div className="formButtonWrapper">
-                            <button disabled={saving} className="btn btn-secondary" onClick={goBack}>Cancel</button>
+                            <button disabled={saving} className="btn btn-secondary" onClick={goBack}>{Labels.Cancel}</button>
                         </div>
                     </div>
                 </form>

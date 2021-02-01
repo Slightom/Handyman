@@ -13,6 +13,7 @@ import SummaryContainer from './components/summary/SummaryContainer';
 import Home from './Home';
 import LoggingContainer from './components/logging/LoggingContainer';
 import { currentUser } from './components/common/Helper';
+import Spinner from './components/common/Spinner';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/bill/:id" component={ManageBillPage} />
             <Route path="/bill" component={ManageBillPage} />
             <Route path="/summary" component={SummaryContainer} />
+            <Route path="/spinner/:backto" component={Spinner} />
             <Route path="/logging"><Redirect to='/' /></Route>
             <Route component={PageNotFound} />
           </Switch>

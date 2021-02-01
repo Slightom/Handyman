@@ -19,14 +19,17 @@ export function deleteFormOptimistic(form) {
 }
 
 export function loadForms() {
+    debugger;
     return function (dispatch) {
         dispatch(beginApiCall());
         return formApi
             .getForms()
             .then(forms => {
+                debugger;
                 dispatch(loadFormsSuccess(forms));
             })
             .catch(error => {
+                debugger;
                 dispatch(apiCallError(error));
                 throw error;
             });

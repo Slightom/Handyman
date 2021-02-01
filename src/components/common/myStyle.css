@@ -3,10 +3,21 @@
   text-align: center;
   margin: auto;
   width: 100% !important;
+  font-size: 15px;
+}
+
+.myTable thead th {
+  vertical-align: middle !important;
 }
 
 .myTable th {
   background-color: #ddd;
+  user-select: none;
+}
+
+.myTable td {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
 }
 
 .myTable th:hover {
@@ -76,6 +87,9 @@
   /* border: 1px solid red; */
   min-height: 70px;
 }
+.tableSelectShow select {
+  background-color: white !important;
+}
 
 .tableTitle {
   /* border: 1px solid red; */
@@ -98,6 +112,7 @@
 }
 .tableSearchBar input {
   width: 100%;
+  background-color: white !important;
 }
 
 /*
@@ -163,6 +178,8 @@
 
 .labelTextInput {
   font-weight: 600;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 /*
 /
@@ -183,9 +200,17 @@
 */
 
 .formContainer {
-  margin: auto;
+  margin: auto !important;
   width: 600px;
   text-align: center;
+}
+
+.formAddFormContainer {
+  margin: auto;
+  width: 1400px;
+  text-align: center;
+  align-items: center;
+  display: flex;
 }
 
 .formHeader {
@@ -200,6 +225,7 @@
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 0px 0px 15px 15px;
   padding: 10px;
+  padding-top: 30px;
 }
 
 .formFooter {
@@ -294,9 +320,10 @@ input {
 }
 
 select {
-  text-align-last: center;
+  text-align-last: center !important;
   direction: unset;
   background: none;
+  padding-left: 32px !important;
 }
 
 .selectError {
@@ -349,4 +376,35 @@ table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
   bottom: 0.5em !important;
+}
+
+.seniorFormsHistoryCompact {
+  width: 52% !important;
+  margin-left: -55px;
+  margin-right: 10px;
+  margin-top: 0px !important;
+}
+
+.seniorFormsHistoryCompactTable td,
+.seniorFormsHistoryCompactTable th {
+  font-size: 15px;
+  padding: 5px !important;
+  vertical-align: middle !important;
+}
+
+.labelSelectSeniorContainer {
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+}
+
+.react-datepicker button {
+  width: auto;
+}
+
+.react-datepicker__day {
+  cursor: pointer;
+}
+.react-datepicker__day .weekend {
+  color: red !important;
 }

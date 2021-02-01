@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
+import pl from "date-fns/locale/pl"
 import 'react-datepicker/dist/react-datepicker.css'
+registerLocale("pl", pl);
 
 const DatePickerInput = ({
     name,
@@ -26,6 +28,8 @@ const DatePickerInput = ({
                         onChange={(selected) => onChange(selected, name)}
                         dateFormat="yyyy MMM dd"
                         autoComplete="off"
+                        monthsShown={2}
+                        locale="pl"
                     />
                     {error && <div className="errorMessage">{error}</div>}
                 </div>

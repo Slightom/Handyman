@@ -8,12 +8,11 @@ import * as billActions from "../../redux/actions/billActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import SummaryPresentation from "./SummaryPresentation";
-import { Link, Redirect } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { getSummaryAdvanced, sortArray } from "../common/Helper";
+import { sortArray, toastError } from "../common/Helper";
+import { Labels, FORM_FINISHED, FORM_WAITING, FORM_REJECTED } from '../common/myGlobal';
 
 function SummaryContainer({ handymans, bills, formStatuses, actions, loading, forms, ...props }) {
     const [sort, setSort] = useState({ col: 'periodDate', descending: true });
@@ -22,28 +21,27 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
     useEffect(() => {
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
-                alert("Loading forms failed" + error);
+                toastError(toast, Labels.LoadingFormsFailed + error, props.history);
             });
         }
         if (handymans.length === 0) {
             actions.loadHandymans().catch(error => {
-                alert("Loading handymans failed" + error);
+                toastError(toast, Labels.LoadingHandymansFailed + error, props.history);
             });
         }
         if (bills.length === 0) {
             actions.loadBills().catch(error => {
-                alert("Loading bills failed" + error);
+                toastError(toast, Labels.LoadingBillsFailed + error, props.history);
             });
         }
         if (formStatuses.length === 0) {
             actions.loadFormStatuses().catch(error => {
-                alert("Loading formStatuses failed" + error);
+                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
-        debugger;
         if (props.summaryRows.length === 0 && !(forms.length === 0 || handymans.length === 0 || bills.length === 0 || formStatuses.length === 0)) {
             const sRows = generateSummaryRows();
-            _setSummaryRows(sRows);
+            _setSummaryRows(sortArray(sRows, 'periodDate', true));
         }
 
     }, [bills.length, formStatuses.length, forms.length, handymans.length]);
@@ -52,9 +50,9 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
         let summaryRows = [];
         let handyRows = [];
 
-        const finishedId = formStatuses.find(fs => fs.name === 'Wykonane').id;
-        const waitingId = formStatuses.find(fs => fs.name === 'Oczekujące').id;
-        const rejectedId = formStatuses.find(fs => fs.name === 'Rezygnacja').id;
+        const finishedId = formStatuses.find(fs => fs.name === FORM_FINISHED).id;
+        const waitingId = formStatuses.find(fs => fs.name === FORM_WAITING).id;
+        const rejectedId = formStatuses.find(fs => fs.name === FORM_REJECTED).id;
 
         //#region generate row for total
         handymans.forEach((h) => {
@@ -66,16 +64,16 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
         const sum = bills.reduce((acc, cur) => acc + cur.amount, 0);
 
         const rowAll = {
-            periodDate: new Date(1970, 1, 1, 1, 1, 1),
-            period: 'Całość',
+            periodDate: "1971-05-11T22:00:00",
+            period: Labels.PeriodAll,
             forms: forms.length,
             formsFinished: forms.filter(f => f.formStatusId === finishedId).length,
             formsWaiting: forms.filter(f => f.formStatusId === waitingId).length,
             formsRejected: forms.filter(f => f.formStatusId === rejectedId).length,
         }
 
-        rowAll['billsAmount'] = (Math.round(sum * 100) / 100).toFixed(2);;
-        rowAll['billsAmountAvg'] = (Math.round((sum / (rowAll.formsFinished + rowAll.formsWaiting)) * 100) / 100).toFixed(2);;
+        rowAll['amount'] = (Math.round(sum * 100) / 100).toFixed(2);;
+        rowAll['amountAvg'] = (Math.round((sum / (rowAll.formsFinished + rowAll.formsWaiting)) * 100) / 100).toFixed(2);;
         rowAll['handymans'] = handyRows;
 
         summaryRows.push(rowAll);
@@ -85,7 +83,7 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
         let billsByMonth = [];
 
         forms.forEach(f => {
-            const date = new Date(f.registrationDate);
+            const date = new Date(f.repairDate);
             const key = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
 
             if (formsByMonth[key] === undefined) {
@@ -111,7 +109,7 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             let handyRows = [];
             debugger;
             const row = {
-                periodDate: value[0].registrationDate,
+                periodDate: value[0].repairDate,
                 period: key,
                 forms: value.length,
                 formsFinished: value.filter(f => f.formStatusId === finishedId).length,
@@ -121,7 +119,7 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             handymans.forEach((h) => {
                 handyRows.push({
                     name: h.name,
-                    forms: value.filter(f => f.handymanId === h.id && f.formStatusId !== rejectedId).length
+                    forms: value.filter(f => f.handymanId === h.id && f.formStatusId === finishedId).length
                 })
             });
 
@@ -129,20 +127,21 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             if (billsByMonth.hasOwnProperty(key)) {
                 sum = billsByMonth[key].reduce((acc, cur) => acc + cur.amount, 0);
             }
-            row['billsAmount'] = (Math.round(sum * 100) / 100).toFixed(2);;
-            row['billsAmountAvg'] = (Math.round((sum / (row.formsWaiting + row.formsFinished)) * 100) / 100).toFixed(2);;
+            row['amount'] = (Math.round(sum * 100) / 100).toFixed(2);;
+            row['amountAvg'] = (Math.round((sum / (row.formsWaiting + row.formsFinished)) * 100) / 100).toFixed(2);;
             row['handymans'] = handyRows;
 
             summaryRows.push(row);
         }
         //#endregion
-
+        debugger;
         return summaryRows;
     }
 
     function handleSort(event, col) {
+        debugger;
         event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : false);
+        const descending = ((sort.col === col) ? !sort.descending : true);
         _setSummaryRows(sortArray(_summaryRows, col, descending));
         setSort({ col, descending });
     }
@@ -150,13 +149,14 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
 
     return (
         <>
-            {loading || _summaryRows.length === 0
+            {loading
                 ? <Spinner />
                 :
                 <>
                     <SummaryPresentation
                         onHeaderClick={handleSort}
                         summaryRows={_summaryRows}
+                        handymans={handymans}
                     />
                 </>
 

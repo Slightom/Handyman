@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LoggingForm from './LoggingForm';
-import PropTypes from 'prop-types';
 import * as logApi from '../../api/logApi';
-import Spinner from '../common/Spinner';
-import { Redirect } from 'react-router';
+import { Labels } from '../common/myGlobal';
 
 LoggingContainer.propTypes = {
 
@@ -19,8 +17,8 @@ function LoggingContainer({ history }) {
     function formIsValid() {
         const _errors = {};
 
-        if (!user.username) _errors.username = "Name is required.";
-        if (!user.password) _errors.password = "Password is required.";
+        if (!user.username) _errors.username = Labels.ErrorUsernameRequired;
+        if (!user.password) _errors.password = Labels.ErrorPasswordRequired;
         if (!user.password === "dupa") _errors.password = "Nie pisz 'dupa' łapserdaku.";
 
         setErrors(_errors);
@@ -38,25 +36,17 @@ function LoggingContainer({ history }) {
 
 
     function handleErrorMessage(e) {
-        //const err = JSON.parse(serializeError(e).message);
         let error = {};
-        debugger;
-        // if (err && err.status) {
-        //     switch (err.status) {
-        //         case 400:
-        //             break;
-        //         default:
-        //     }
-        // } else {
-        //     error.message = "Sorry, couldn't connect to database server. Try login later.";
-        // }
+
         error.message = e.includes("Failed to fetch")
-            ? "Sorry, couldn't connect to database server. Try login later."
+            ? Labels.ErrorDbConnection
             : JSON.parse(e).message;
 
         setErrors(error);
         setLogging(false);
     }
+
+
 
     function handleLog(event) {
         event.preventDefault();
@@ -64,6 +54,7 @@ function LoggingContainer({ history }) {
 
         setLogging(true);
         logApi.login(user).then((err) => {
+            debugger;
             if (err) {
                 handleErrorMessage(err);
             }

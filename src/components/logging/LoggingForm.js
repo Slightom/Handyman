@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
 import "../common/myStyle.css";
+import { Labels, Lables } from '../common/myGlobal';
 
 const LoggingForm = ({
     user,
@@ -27,7 +28,7 @@ const LoggingForm = ({
                     <form onSubmit={onLog} style={{ marginBottom: 20 }}>
                         <TextInput
                             name="username"
-                            label="Username"
+                            label={Labels.Username}
                             value={user.username}
                             onChange={onChange}
                             error={errors.username}
@@ -35,7 +36,7 @@ const LoggingForm = ({
 
                         <TextInput
                             name="password"
-                            label="Password"
+                            label={Labels.Password}
                             value={user.password}
                             onChange={onChange}
                             password={true}
@@ -43,7 +44,7 @@ const LoggingForm = ({
                         />
 
                         <button type="submit" disabled={logging} className="btn btn-primary">
-                            {logging ? "Logging..." : "Log in"}
+                            {logging ? Labels.Logging : Labels.Log}
                         </button>
                     </form>
                 </div>

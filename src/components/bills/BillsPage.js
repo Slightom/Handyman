@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import BillList from "./BillList";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { sortArray } from "../common/Helper";
+import { sortArray, toastError } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
 
 
 function BillsPage({ actions, loading, ...props }) {
@@ -17,10 +18,9 @@ function BillsPage({ actions, loading, ...props }) {
     const [_bills, _setBills] = useState(props.bills);
 
     useEffect(() => {
-        debugger;
         if (props.bills.length === 0) {
             actions.loadBills().catch(error => {
-                alert("Loading bills failed" + error);
+                toastError(toast, Labels.LoadingBillsFailed + error, props.history);
             });
         } else {
             _setBills(props.bills);
@@ -28,25 +28,26 @@ function BillsPage({ actions, loading, ...props }) {
     }, [props.bills.length])
 
     async function confirmedDelete(_bill) {
-        toast.success("Bill deleted.");
+        toast.success(Labels.BillDeleted);
         try {
             await actions.deleteBill(_bill);
+            props.history.push('/spinner/bills');
         } catch (error) {
-            toast.error("Delete failed. " + error.message, { autoClose: false })
+            toast.error(Labels.DeleteFailed + error.message, { autoClose: false })
         }
     }
 
     function handleDeleteBill(_bill) {
         confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure to do this?',
+            title: Labels.ConfirmationTitle,
+            message: Labels.ConfirmationMsg,
             buttons: [
                 {
-                    label: 'Yes',
+                    label: Labels.Yes,
                     onClick: () => confirmedDelete(_bill)
                 },
                 {
-                    label: 'No',
+                    label: Labels.No,
                     onClick: () => { return; }
                 }
             ]

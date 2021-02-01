@@ -6,13 +6,15 @@ import { newBill } from "../../tools/mockData";
 import BillForm from "./BillForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
-import { stringIsPropertyFloat, naviGateBack, isNumber } from "../common/Helper";
+import { stringIsPropertyFloat, naviGateBack, isNumber, toastError } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
 
 function ManageBillPage({
     loadBills,
     saveBill,
     history,
     bills,
+    loading,
     ...props
 }) {
     const [bill, setBill] = useState({ ...props.bill });
@@ -23,7 +25,7 @@ function ManageBillPage({
         debugger;
         if (bills.length === 0) {
             loadBills().catch(error => {
-                alert("Loading bills failed" + error);
+                toastError(toast, Labels.LoadingBillsFailed + error, props.history);
             });
         } else {
             setBill({ ...props.bill });
@@ -52,10 +54,10 @@ function ManageBillPage({
         const { name, amount, date } = bill;
         const errors = {};
 
-        if (!name) errors.name = "Name is required.";
-        if (!amount) errors.amount = "Amount is required.";
-        else if (!stringIsPropertyFloat(amount)) errors.amount = "Amount must be a number."
-        if (!date) errors.date = "Date is required.";
+        if (!name) errors.name = Labels.ErorNameRequired;
+        if (!amount) errors.amount = Labels.ErrorAmountRequired;
+        else if (!stringIsPropertyFloat(amount)) errors.amount = Labels.ErrorAmountMustBeNumber;
+        if (!date) errors.date = Labels.ErrorDateRequired;
 
         setErrors(errors);
 
@@ -73,13 +75,14 @@ function ManageBillPage({
 
         saveBill({ ...bill, amount: parsedAmount }).then(() => {
             // eslint-disable-next-line no-restricted-globals
-            toast.success("Bill Saved.");
-            history.push("/bills");
+            toast.success(Labels.BillSaved);
+            history.goBack();
+
         });
     }
 
     function check() {
-        return (bills.length === 0)
+        return loading;
     }
 
     return check()
@@ -114,7 +117,8 @@ function mapStateToProps(state, ownProps) {
     const _bill = id && state.bills.length > 0 ? getBillById(state.bills, id) : newBill;
     return {
         bill: _bill,
-        bills: state.bills
+        bills: state.bills,
+        loading: state.apiCallsInProgress > 0
     };
 }
 

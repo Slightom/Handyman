@@ -5,64 +5,65 @@ import * as seniorActions from "../../redux/actions/seniorActions";
 import * as formStatusActions from "../../redux/actions/formStatusActions";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import SeniorList from "./SeniorList";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { sortArray } from "../common/Helper";
+import { sortArray, toastError } from "../common/Helper";
+import { Labels } from '../common/myGlobal';
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'id', descending: false });
-    const [_seniors, _setSeniors] = useState([...props.seniors]);
+    const [sort, setSort] = useState({ col: 'id', descending: true });
+    const [_seniors, _setSeniors] = useState(props.seniors);
     useEffect(() => {
         debugger;
         if (forms.length === 0) {
             actions.loadForms().catch(error => {
-                alert("Loading forms failed" + error);
+                toastError(toast, Labels.LoadingFormsFailed + error, props.history);
             });
         }
         if (props.seniors.length === 0) {
             actions.loadSeniors().catch(error => {
-                alert("Loading seniors failed" + error);
+                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
             });
         } else {
-            _setSeniors([...props.seniors]);
+            _setSeniors(props.seniors);
         }
         if (formStatuses.length === 0) {
             actions.loadFormStatuses().catch(error => {
-                alert("Loading formStatuses failed" + error);
+                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
     }, [props.seniors.length])
 
     async function confirmedDelete(_senior) {
-        toast.success("Senior deleted.");
+        toast.success(Labels.SeniorDeleted);
         try {
             const relatedForms = forms.filter(form => form.seniorId == _senior.id);
             relatedForms.forEach(async f =>
                 await actions.deleteForm(f)
             )
-            await actions.deleteSenior(_senior);
+            actions.deleteSenior(_senior);
+            props.history.push('/spinner/seniors');
         } catch (error) {
-            toast.error("Delete failed. " + error.message, { autoClose: false })
+            toast.error(Labels.DeleteFailed + error.message, { autoClose: false })
         }
     }
 
     function handleDeleteSenior(_senior) {
 
         confirmAlert({
-            title: 'Confirm to delete',
-            message: 'Are you sure to do this? If you remove senior, all forms related to him will be removed too.',
+            title: Labels.ConfirmationTitle,
+            message: Labels.ConfirmationMsgSenior,
             buttons: [
                 {
-                    label: 'Yes',
+                    label: Labels.Yes,
                     onClick: () => confirmedDelete(_senior)
                 },
                 {
-                    label: 'No',
+                    label: Labels.No,
                     onClick: () => { return; }
                 }
             ]
@@ -70,8 +71,9 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     }
 
     function handleSort(event, col) {
+        debugger;
         event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : false);
+        const descending = ((sort.col === col) ? !sort.descending : true);
         _setSeniors(sortArray(_seniors, col, descending));
         setSort({ col, descending });
     }
@@ -108,12 +110,10 @@ function mapStateToProps(state) {
         seniors: (state.seniors.length === 0 || state.forms.length === 0 || state.formStatuses.length === 0)
             ? []
             : state.seniors.map(senior => {
-                debugger;
                 const seniorForms = state.forms.filter(form => form.seniorId === senior.id);
                 const finishedId = state.formStatuses.find(fs => fs.name === 'Wykonane').id;
                 const waitingId = state.formStatuses.find(fs => fs.name === 'Oczekujące').id;
                 const rejectedId = state.formStatuses.find(fs => fs.name === 'Rezygnacja').id;
-                debugger;
                 return {
                     ...senior,
                     forms: seniorForms.length,

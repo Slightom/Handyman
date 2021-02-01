@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import TextInput from "../common/TextInput";
 import { generateDate, isEmpty } from "../common/Helper";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import "../common/myStyle.css";
+import { Labels } from '../common/myGlobal';
+import SeniorHistoryPresentation from "./SeniorHistoryPresentation";
 
 const SeniorForm = ({
     senior,
@@ -26,7 +28,7 @@ const SeniorForm = ({
     return (
         <>
             <div className={formContainerError}>
-                <h2 className={headerClass}>{senior.id ? "Edit" : "Add"} Senior</h2>
+                <h2 className={headerClass}>{senior.id ? Labels.EditSeniorH : Labels.AddSeniorH}</h2>
                 <div className="formBody">
                     <form onSubmit={onSave}>
                         {errors.onSave && (
@@ -36,7 +38,7 @@ const SeniorForm = ({
                         )}
                         <TextInput
                             name="firstName"
-                            label="First Name"
+                            label={Labels.FirstName}
                             value={senior.firstName}
                             onChange={onChange}
                             error={errors.firstName}
@@ -44,7 +46,7 @@ const SeniorForm = ({
 
                         <TextInput
                             name="lastName"
-                            label="Last Name"
+                            label={Labels.LastName}
                             value={senior.lastName}
                             onChange={onChange}
                             error={errors.lastName}
@@ -52,7 +54,7 @@ const SeniorForm = ({
 
                         <TextInput
                             name="address"
-                            label="Address"
+                            label={Labels.Address}
                             value={senior.address}
                             onChange={onChange}
                             error={errors.address}
@@ -60,7 +62,7 @@ const SeniorForm = ({
 
                         <TextInput
                             name="phone"
-                            label="Phone"
+                            label={Labels.Phone}
                             value={senior.phone}
                             onChange={onChange}
                             error={errors.phone}
@@ -68,64 +70,17 @@ const SeniorForm = ({
 
                         <div className="formFooter">
                             <div className="formButtonWrapper">
-                                <button type="submit" disabled={saving} className="btn btn-primary">{saving ? "Saving..." : "Save"}</button>
+                                <button type="submit" disabled={saving} className="btn btn-primary">{saving ? Labels.Saving : Labels.Save}</button>
                             </div>
                             <div className="formButtonWrapper">
-                                <button disabled={saving} className="btn btn-secondary" onClick={goBack}> Cancel</button>
+                                <button disabled={saving} className="btn btn-secondary" onClick={goBack}>{Labels.Cancel}</button>
                             </div>
                         </div>
 
                     </form>
                 </div>
             </div>
-            <div className="tableContainer tableContainerTighter">
-                {senior.id !== null &&
-                    (senior.seniorForms.length === 0
-                        ? <h3 className="formHeader">Senior does not have any related forms</h3>
-                        :
-                        <>
-                            <h3 className="formHeader">Senior Forms History</h3>
-                            <table className="table-hover table table-bordered myTable myTable2">
-                                <thead>
-                                    <tr>
-                                        <th>Lp</th>
-                                        <th>Senior</th>
-                                        <th>Status</th>
-                                        <th>Handyman</th>
-                                        <th>Registration</th>
-                                        <th>Repair</th>
-                                        <th>Info</th>
-                                        <th>&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {senior.seniorForms.map(form => {
-                                        return (
-                                            <tr key={form.id}>
-                                                <td>{form.lp}</td>
-                                                <td>{form.senior}</td>
-                                                <td>{form.formStatus}</td>
-                                                <td>{form.handyman}</td>
-                                                <td>{generateDate(form.registrationDate)}</td>
-                                                <td>{generateDate(form.repairDate)}</td>
-                                                <td>{form.info}</td>
-                                                <td>
-                                                    <Link to={"/form/" + form.id}>
-                                                        <button
-                                                            class="btn btn-outline-warning"
-                                                        >
-                                                            <FontAwesomeIcon icon={faPencilAlt} />
-                                                        </button>
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </>)
-                }
-            </div>
+            <SeniorHistoryPresentation senior={senior} />
         </>
     );
 };

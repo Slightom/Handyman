@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { generateDate } from "../common/Helper";
 import "../common/myStyle.css";
-//Bootstrap and jQuery libraries
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
-//Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
 import $ from "jquery";
 import Moment from 'react-moment';
 import 'moment/locale/pl';
+import { Labels } from '../common/myGlobal';
 
 const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
 
     useEffect(() => {
-        const newDiv = "<h1 class='tableTitle'>Forms</h1>";
+        const newDiv = `<h1 class='tableTitle'>${Labels.Forms}</h1>`;
         debugger;
         $(function () {
             $('#dtDynamicVerticalScrollExample').DataTable({
@@ -26,11 +23,25 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                 "scrollCollapse": true,
                 "order": [[6, "desc"]],
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
+                "language": {
+                    "lengthMenu": "Pokaż _MENU_ rekordów",
+                    "search": "Szukaj:",
+                    "zeroRecords": "Nie znaleziono rekordów",
+                    "info": "Wyświetla _START_-_END_ z _TOTAL_",
+                    "infoEmpty": "Nie ma rekordów",
+                    //"infoFiltered": "(filtered from _MAX_ total records)",
+                    "paginate": {
+                        "previous": "<<",
+                        "next": ">>"
+                    }
+                },
                 // "column": [[6, { 'type': 'date' }]
                 "columnDefs": [
                     { type: 'date-dd-mmm-yyyy', targets: 6 },
                     { type: 'date-dd-mmm-yyyy', targets: 7 },
-                    { targets: 9, orderable: 'false' }
+                    { targets: 9, orderable: 'false' },
+                    { "orderSequence": ["desc", "asc"], "targets": [6] },
+                    { "orderSequence": ["desc", "asc"], "targets": [7] }
                 ]
             });
             $('#dtDynamicVerticalScrollExample_length').addClass('tableSelectShow');
@@ -38,7 +49,7 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
             $('select[name ="dtDynamicVerticalScrollExample_length"]').val(100);
             $('.dataTables_length').addClass('bs-select');
             $("#dtDynamicVerticalScrollExample_length").after(newDiv);
-
+            // 
 
         });
     }, [])
@@ -46,39 +57,37 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
     return (
         <div className="tableContainer">
             <div className="tableBody">
-                <table id="dtDynamicVerticalScrollExample" className="table table-hover table-bordered myTable" cellspacing="0"
+                <table id="dtDynamicVerticalScrollExample" className="table table-hover table-bordered myTable" cellSpacing="0"
                     width="100%">
                     <thead>
                         <tr>
-                            <th>Lp</th>
-                            <th>Senior</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Status</th>
-                            <th>Handyman</th>
-                            <th>Registration</th>
-                            <th>Repair</th>
-                            <th style={{ minWidth: '200px' }}>Info</th>
+                            <th>{Labels.Lp}</th>
+                            <th>{Labels.Senior}</th>
+                            <th>{Labels.Address}</th>
+                            <th>{Labels.Phone}</th>
+                            <th>{Labels.Status}</th>
+                            <th>{Labels.Handyman}</th>
+                            <th>{Labels.Registration}</th>
+                            <th>{Labels.Repair}</th>
+                            <th style={{ minWidth: '200px' }}>{Labels.Info}</th>
                             <th style={{ minWidth: '100px' }}>
                                 <Link to={"/form"}>
                                     <button
                                         style={{ marginBottom: 0 }}
                                         className="btn btn-primary add-form"
                                     >
-                                        Add Form
-                                </button>
+                                        {Labels.AddForm}
+                                    </button>
                                 </Link>
                             </th>
                         </tr>
                     </thead>
-                    <tbody >
-                        {forms.map(form => {
+                    <tbody id="tb">
+                        {forms.map((form, i) => {
                             return (
                                 <tr key={form.id}>
                                     <td >{form.lp}</td>
-
                                     <td ><Link to={"/senior/" + form.seniorId}>{form.senior}</Link></td>
-
                                     <td >{form.address}</td>
                                     <td >{form.phone}</td>
                                     <td >{form.status}</td>

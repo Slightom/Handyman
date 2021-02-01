@@ -1,3 +1,8 @@
+import { logout } from "../components/common/Helper";
+
+const baseUrl = process.env.REACT_APP_API_URL;
+
+
 export async function handleResponse(response) {
     debugger;
     if (response.ok)
@@ -8,11 +13,19 @@ export async function handleResponse(response) {
         const error = await response.text();
         throw new Error(error);
     }
-    throw new Error("Network response was not ok.");
+    if (response.status === 401) {
+        logout();
+        debugger;
+        const error = await response.status;;
+        throw new Error(error);
+    }
+    else
+        throw new Error("Network response was not ok. Sorry");
 }
 
 // In a real app, would likely call an error logging service.
 export function handleError(error) {
+    debugger;
     // eslint-disable-next-line no-console
     console.error("API call failed. " + error);
     throw error;
