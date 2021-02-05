@@ -39,7 +39,7 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
                 toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
             });
         }
-        if (props.summaryRows.length === 0 && !(forms.length === 0 || handymans.length === 0 || bills.length === 0 || formStatuses.length === 0)) {
+        if (props.summaryRows.length === 0 && !(forms.length === 0 || handymans.length === 0 || formStatuses.length === 0)) {
             const sRows = generateSummaryRows();
             _setSummaryRows(sortArray(sRows, 'periodDate', true));
         }
@@ -58,7 +58,7 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
         handymans.forEach((h) => {
             handyRows.push({
                 name: h.name,
-                forms: forms.filter(f => f.handymanId === h.id && f.formStatusId !== rejectedId).length
+                forms: forms.filter(f => f.handymanId === h.id && f.formStatusId === finishedId).length
             })
         });
         const sum = bills.reduce((acc, cur) => acc + cur.amount, 0);
@@ -72,8 +72,9 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             formsRejected: forms.filter(f => f.formStatusId === rejectedId).length,
         }
 
-        rowAll['amount'] = (Math.round(sum * 100) / 100).toFixed(2);;
-        rowAll['amountAvg'] = (Math.round((sum / (rowAll.formsFinished + rowAll.formsWaiting)) * 100) / 100).toFixed(2);;
+        rowAll['amount'] = (Math.round(sum * 100) / 100).toFixed(2);
+        const total = rowAll.formsFinished ? (sum / rowAll.formsFinished) : 0;
+        rowAll['amountAvg'] = (Math.round(total * 100) / 100).toFixed(2);;
         rowAll['handymans'] = handyRows;
 
         summaryRows.push(rowAll);
@@ -127,8 +128,9 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             if (billsByMonth.hasOwnProperty(key)) {
                 sum = billsByMonth[key].reduce((acc, cur) => acc + cur.amount, 0);
             }
-            row['amount'] = (Math.round(sum * 100) / 100).toFixed(2);;
-            row['amountAvg'] = (Math.round((sum / (row.formsWaiting + row.formsFinished)) * 100) / 100).toFixed(2);;
+            row['amount'] = (Math.round(sum * 100) / 100).toFixed(2);
+            const total = row.formsFinished ? (sum / row.formsFinished) : 0;
+            row['amountAvg'] = (Math.round(total * 100) / 100).toFixed(2);
             row['handymans'] = handyRows;
 
             summaryRows.push(row);

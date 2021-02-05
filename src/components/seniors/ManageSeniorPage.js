@@ -25,7 +25,7 @@ function ManageSeniorPage({
     loading,
     ...props
 }) {
-    const [senior, setSenior] = useState({ ...props.senior, seniorForms: props.senior.id ? props.senior.seniorForms : [] });
+    const [senior, setSenior] = useState({ ...props.senior, forms: props.senior.id ? props.senior.forms : [] });
     const [errors, setErrors] = useState({});
     const [saving, setSaving] = useState(false);
 
@@ -50,10 +50,10 @@ function ManageSeniorPage({
                 toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
             });
         } else {
-            setSenior({ ...props.senior, seniorForms: props.senior.seniorForms });
+            setSenior({ ...props.senior, forms: props.senior.forms });
         }
 
-    }, [props.senior]);
+    }, [seniors.length]);
 
 
     function handleChange(event) {
@@ -86,6 +86,7 @@ function ManageSeniorPage({
         saveSenior(senior).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success(Labels.SeniorSaved);
+            debugger;
             props.backToAddingForm
                 ? handleBackToAddForm()
                 : history.goBack()
@@ -144,7 +145,7 @@ function mapStateToProps(state, ownProps) {
     }
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
     return {
-        senior: (state.seniors.length === 0 || state.forms.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
+        senior: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? _senior
             : {
                 ..._senior,

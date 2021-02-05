@@ -18,24 +18,18 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'lastName', descending: false });
     const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
-        if (forms.length === 0) {
-            actions.loadForms().catch(error => {
-                toastError(toast, Labels.LoadingFormsFailed + error, props.history);
-            });
-        }
-        if (props.seniors.length === 0) {
-            actions.loadSeniors().catch(error => {
-                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
-            });
-        } else {
-            _setSeniors(props.seniors);
-        }
-        if (formStatuses.length === 0) {
-            actions.loadFormStatuses().catch(error => {
-                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
-            });
-        }
-    }, [props.seniors.length, props.seniors])
+        actions.loadForms()
+            .catch(error => toastError(toast, Labels.LoadingFormsFailed + error, props.history))
+        actions.loadSeniors()
+            .then(() => _setSeniors(props.seniors))
+            .catch(error => toastError(toast, Labels.LoadingSeniorsFailed + error, props.history))
+        actions.loadFormStatuses()
+            .catch(error => toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history))
+    }, [])
+
+    useEffect(() => {
+        _setSeniors(props.seniors);
+    }, [props.seniors.length])
 
     async function confirmedDelete(_senior) {
         toast.success(Labels.SeniorDeleted);
@@ -105,10 +99,11 @@ SeniorsPage.propTypes = {
 function mapStateToProps(state) {
 
     return {
-        seniors: (state.seniors.length === 0 || state.forms.length === 0 || state.formStatuses.length === 0)
+        seniors: (state.seniors.length === 0 || state.formStatuses.length === 0)
             ? []
             : state.seniors.map(senior => {
                 const seniorForms = state.forms.filter(form => form.seniorId === senior.id);
+
                 const finishedId = state.formStatuses.find(fs => fs.name === 'Wykonane').id;
                 const waitingId = state.formStatuses.find(fs => fs.name === 'Oczekujące').id;
                 const rejectedId = state.formStatuses.find(fs => fs.name === 'Rezygnacja').id;

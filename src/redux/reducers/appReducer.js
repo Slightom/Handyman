@@ -7,7 +7,7 @@ import apiCallsInProgress from './apiStatusReducer';
 import bills from './billReducer';
 import summaryRows from './summaryReducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     forms,
     seniors,
     handymans,
@@ -17,4 +17,4 @@ const rootReducer = combineReducers({
     apiCallsInProgress
 });
 
-export default rootReducer;
+export default appReducer;

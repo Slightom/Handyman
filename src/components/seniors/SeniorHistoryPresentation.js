@@ -19,6 +19,7 @@ function SeniorHistoryPresentation({ senior, ...props }) {
         tableClasses += ' seniorFormsHistoryCompactTable'
     }
 
+
     return (
         <div className={classesNames}>
             {senior.id !== null &&
@@ -50,7 +51,6 @@ function SeniorHistoryPresentation({ senior, ...props }) {
                                             <td>{generateDate(form.registrationDate)}</td>
                                             <td>{generateDate(form.repairDate)}</td>
                                             <td>{form.info}</td>
-
                                         </tr>
                                     );
                                 })}

@@ -37,6 +37,7 @@ export function saveBill(bill) {
 }
 
 export function loadBills() {
+    debugger;
     return function (dispatch) {
         dispatch(beginApiCall());
         return billApi
@@ -52,6 +53,7 @@ export function loadBills() {
 }
 
 export function deleteBill(bill) {
+    debugger;
     return function (dispatch) {
         // Doing optimistic delete, so not dispatching begin/end api call
         // actions, or apiCallError action since we're not showing the loading status for this.

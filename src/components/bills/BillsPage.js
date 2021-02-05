@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import * as billActions from "../../redux/actions/billActions";
-import { Link } from "react-router-dom";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import BillList from "./BillList";
@@ -15,24 +14,23 @@ import { Labels } from '../common/myGlobal';
 
 function BillsPage({ actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'date', descending: true });
-    const [_bills, _setBills] = useState([...props.bills]);
+    const [_bills, _setBills] = useState(props.bills);
 
     useEffect(() => {
-        if (props.bills.length === 0) {
-            actions.loadBills().catch(error => {
-                toastError(toast, Labels.LoadingBillsFailed + error, props.history);
-            });
-        } else {
-            _setBills(sortArray(props.bills, 'date', true));
-            //setSort({ col: 'date', decendig: true });
-        }
-    }, [props.bills.length, props.bills])
+        actions.loadBills()
+            .then(() => _setBills(sortArray(props.bills, 'date', true)))
+            .catch(error => toastError(toast, Labels.LoadingBillsFailed + error, props.history));
+    }, [])
+
+    useEffect(() => {
+        _setBills(sortArray(props.bills, 'date', true));
+    }, [props.bills.length])
 
     async function confirmedDelete(_bill) {
         toast.success(Labels.BillDeleted);
         try {
-            await actions.deleteBill(_bill);
-            props.history.push('/spinner/bills');
+            await actions.deleteBill(_bill).then(() => props.history.push('/spinner/bills'));//without it table footer don't update
+
         } catch (error) {
             toast.error(Labels.DeleteFailed + error.message, { autoClose: false })
         }
@@ -90,7 +88,7 @@ function mapStateToProps(state) {
     debugger;
     return {
         bills: state.bills.map(b => { return { ...b, amount: b.amount.toFixed(2) } }),
-        loading: state.apiCallsInProgress > 0
+        loading: state.apiCallsInProgress > 0,
     }
 }
 

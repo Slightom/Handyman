@@ -30,6 +30,7 @@ const newSenior = {
   lastName: "",
   address: "",
   phone: "",
+  forms: []
 };
 
 const formStatuses = [

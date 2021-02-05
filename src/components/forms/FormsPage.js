@@ -16,40 +16,29 @@ import { Labels } from '../common/myGlobal';
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'registrationDate', descending: true });
-    const [_forms, _setForms] = useState([...props.forms]);
+    const [_forms, _setForms] = useState(props.forms);
 
     useEffect(() => {
-        if (props.forms.length === 0) {
-            actions.loadForms()
-                .catch(error => {
-                    toastError(toast, Labels.LoadingFormsFailed + error, props.history);
-                });
-        } else {
-            _setForms(props.forms);
-        }
-        if (seniors.length === 0) {
-            actions.loadSeniors().catch(error => {
-                toastError(toast, Labels.LoadingSeniorsFailed + error, props.history);
-            });
-        }
-        if (handymans.length === 0) {
-            actions.loadHandymans().catch(error => {
-                toastError(toast, Labels.LoadingHandymansFailed + error, props.history);
-            });
-        }
-        if (formStatuses.length === 0) {
-            actions.loadFormStatuses().catch(error => {
-                toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history);
-            });
-        }
-    }, [props.forms.length, props.forms, props.seniors]);
+        actions.loadForms()
+            .then(() => _setForms(sortArray(props.forms, 'repairDate', true)))
+            .catch(error => toastError(toast, Labels.LoadingFormsFailed + error, props.history));
+        actions.loadSeniors()
+            .catch(error => toastError(toast, Labels.LoadingSeniorsFailed + error, props.history));
+        actions.loadHandymans()
+            .catch(error => toastError(toast, Labels.LoadingHandymansFailed + error, props.history));
+        actions.loadFormStatuses()
+            .catch(error => toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history));
+    }, []);
 
+    useEffect(() => {
+        _setForms(sortArray(props.forms, 'repairDate', true));
+    }, [props.forms.length])
 
     async function confirmedDelete(_form) {
         toast.success(Labels.FormDeleted);
         try {
-            await actions.deleteForm(_form);
-            props.history.push('/spinner/forms');
+            await actions.deleteForm(_form).then(() => props.history.push('/spinner/forms'));
+
         } catch (error) {
             toast.error(Labels.DeleteFailed + error.message, { autoClose: false })
         }

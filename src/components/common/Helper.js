@@ -22,7 +22,11 @@ export function getFormsAdvanced(forms, seniors, handymans, formStatuses) {
 
 export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) {
 
+    debugger;
     let relatedForms = forms.filter(f => f.seniorId === senior.id);
+    if (relatedForms.length === 0) {
+        return [];
+    }
     let rf = sortArray(relatedForms, 'repairDate', true);
     rf = relatedForms.map(form => {
         const _handyman = handymans.find(h => h.id === form.handymanId);
@@ -41,13 +45,14 @@ export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) 
 
 export function getSeniorsWithRelatedForms(seniors, forms) {
     debugger;
-    return seniors.map(senior => {
+    const seniorsWithForms = seniors.map(senior => {
         return {
             ...senior,
             forms: forms.filter(x => x.seniorId === senior.id)
         }
 
     });
+    return seniorsWithForms;
 }
 
 export function generateDate(s) {
@@ -58,6 +63,8 @@ export function generateDate(s) {
 }
 
 export function sortArray(arr, col, descending) {
+    if (arr.length === 0)
+        return arr;
     if (col.includes('handymans')) { // for summary table 
         const id = parseInt(col.charAt(col.length - 1));
 

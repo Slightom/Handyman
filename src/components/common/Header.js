@@ -3,11 +3,15 @@ import { NavLink } from 'react-router-dom';
 import { currentUser, logout } from './Helper';
 import { useHistory } from "react-router-dom";
 import { Labels } from './myGlobal';
+import { connect } from "react-redux";
+import * as rootActions from '../../redux/actions/rootActions';
+import { bindActionCreators } from "redux";
 
 const Header = (props) => {
     const history = useHistory();
 
     function handleLogOut() {
+        props.actions.logout();
         logout();
         history.push('/logging');
     }
@@ -38,4 +42,13 @@ const Header = (props) => {
     )
 }
 
-export default Header;
+function mapDispatchToProps(dispatch) {
+    return {
+        //actions: bindActionCreators(formActions, dispatch)
+        actions: {
+            logout: bindActionCreators(rootActions.logout, dispatch)
+        }
+    };
+}
+
+export default connect(null, mapDispatchToProps)(Header);

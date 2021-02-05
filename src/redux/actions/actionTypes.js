@@ -22,3 +22,5 @@ export const SET_SUMMARY_ROWS = "SET_SUMMARY_ROWS";
 
 export const BEGIN_API_CALL = "BEGIN_API_CALL";
 export const API_CALL_ERROR = "API_CALL_ERROR";
+
+export const USER_LOGOUT = "UDER_LOGOUT";

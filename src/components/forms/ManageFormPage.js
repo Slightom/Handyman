@@ -57,7 +57,7 @@ function ManageFormPage({
             });
         }
 
-    }, [props.form, props.seniors.length, props.forms.length]);
+    }, [props.seniors.length, props.forms.length]);
 
 
     function handleChange(event, dateName) {
@@ -182,7 +182,7 @@ function ManageFormPage({
         saveForm({ ...form, lp: parsedLp }).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success(Labels.FormSaved);
-            history.goBack();
+            history.push('/forms');
         });
     }
 
@@ -236,7 +236,7 @@ function mapStateToProps(state, ownProps) {
     return {
         form: _form,
         forms: state.forms,
-        seniors: (state.seniors.length === 0 || state.forms.length === 0) ? [] : getSeniorsWithRelatedForms(state.seniors, state.forms),
+        seniors: (state.seniors.length === 0) ? [] : getSeniorsWithRelatedForms(state.seniors, state.forms),
         handymans: state.handymans,
         formStatuses: state.formStatuses,
         loading: state.apiCallsInProgress > 0

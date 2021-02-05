@@ -23,7 +23,7 @@ function App() {
         ? <>
           <Header />
           <Switch>
-            <Route path="/" exact component={FormsPage} />
+            <Route path="/" exact><Redirect to='/forms' /></Route>
             <Route path="/forms" component={FormsPage} />
             <Route path="/form/:id" component={ManageFormPage} />
             <Route path="/form" component={ManageFormPage} />
