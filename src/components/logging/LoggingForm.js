@@ -23,7 +23,7 @@ const LoggingForm = ({
             <div>s</div>
             <div class={wrapperClass}>
                 {errors.message && !errors.password && !errors.username && <div className="headerLogError">{errors.message}</div>}
-                <img src='/handymanLogo.png' alt="Logo" style={{ width: 300 }} />
+                <img src='/handymanLogo.PNG' alt="Logo" style={{ width: 300 }} />
                 <div id="logForm">
                     <form onSubmit={onLog} style={{ marginBottom: 20 }}>
                         <TextInput
