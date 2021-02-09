@@ -17,19 +17,20 @@ function BillsPage({ actions, loading, ...props }) {
     const [_bills, _setBills] = useState(props.bills);
 
     useEffect(() => {
-        actions.loadBills()
-            .then(() => _setBills(sortArray(props.bills, 'date', true)))
-            .catch(error => toastError(toast, Labels.LoadingBillsFailed + error, props.history));
-    }, [])
-
-    useEffect(() => {
-        _setBills(sortArray(props.bills, 'date', true));
+        if (props.bills.length === 0) {
+            actions.loadBills()
+                //.then(() => _setBills(sortArray(props.bills, 'date', true)))
+                .catch(error => toastError(toast, Labels.LoadingBillsFailed + error, props.history));
+        } else {
+            _setBills(sortArray(props.bills, 'date', true));
+        }
     }, [props.bills.length])
+
 
     async function confirmedDelete(_bill) {
         toast.success(Labels.BillDeleted);
         try {
-            await actions.deleteBill(_bill).then(() => props.history.push('/spinner/bills'));//without it table footer don't update
+            await actions.deleteBill(_bill).then(() => props.history.push('/spinner/bills'));//without it table footer doesn't update
 
         } catch (error) {
             toast.error(Labels.DeleteFailed + error.message, { autoClose: false })

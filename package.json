@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "run-p start:dev",
-    "start:dev": "cross-env REACT_APP_API_URL=https://localhost:44355/api react-scripts start",
+    "start:dev": "cross-env REACT_APP_API_URL=http://80.211.30.237:81/api react-scripts start",
     "prestart:api": "node src/tools/createMockDb.js",
     "start:api": "node src/tools/apiServer.js",
     "build": "react-scripts build",

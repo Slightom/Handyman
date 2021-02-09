@@ -144,6 +144,7 @@ function mapStateToProps(state, ownProps) {
         param = undefined;
     }
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
+    debugger;
     return {
         senior: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? _senior

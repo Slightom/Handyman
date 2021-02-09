@@ -18,18 +18,25 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'lastName', descending: false });
     const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
-        actions.loadForms()
-            .catch(error => toastError(toast, Labels.LoadingFormsFailed + error, props.history))
-        actions.loadSeniors()
-            .then(() => _setSeniors(props.seniors))
-            .catch(error => toastError(toast, Labels.LoadingSeniorsFailed + error, props.history))
-        actions.loadFormStatuses()
-            .catch(error => toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history))
-    }, [])
+        if (props.seniors.length === 0) {
+            actions.loadSeniors()
+                //.then(() => _setSeniors(props.seniors))
+                .catch(error => toastError(toast, Labels.LoadingSeniorsFailed + error, props.history))
+        } else {
+            _setSeniors(props.seniors);
+        }
+        if (forms.length === 0) {
+            actions.loadForms()
+                .catch(error => toastError(toast, Labels.LoadingFormsFailed + error, props.history))
+        }
 
-    useEffect(() => {
-        _setSeniors(props.seniors);
+        if (formStatuses.length === 0) {
+            actions.loadFormStatuses()
+                .catch(error => toastError(toast, Labels.LoadingFormStatusesFailed + error, props.history))
+        }
     }, [props.seniors.length])
+
+
 
     async function confirmedDelete(_senior) {
         toast.success(Labels.SeniorDeleted);

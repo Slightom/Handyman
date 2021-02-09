@@ -19,11 +19,15 @@ function SeniorHistoryPresentation({ senior, ...props }) {
         tableClasses += ' seniorFormsHistoryCompactTable'
     }
 
+    function helperCheck(s) {
+        debugger;
+        return s.forms == null || s.forms.length === 0;
+    }
 
     return (
         <div className={classesNames}>
-            {senior.id !== null &&
-                (senior.forms.length === 0
+            {senior.id != null &&
+                (helperCheck(senior)
                     ? <h3 className="formHeader">{Labels.SeniorDoesntHaveForms}</h3>
                     :
                     <>
