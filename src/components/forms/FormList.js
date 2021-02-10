@@ -62,13 +62,13 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
             $("#dtDynamicVerticalScrollExample_length").after(newDiv);
             $('.dataTables_filter input').attr("placeholder", "Szukaj...");
 
-            $('#thlp').attr('class', 'sorting');
+            $('#thlp').attr('class', 'sorting sorting_desc');
             $('#thsenior').attr('class', 'sorting');
             $('#thaddress').attr('class', 'sorting');
             $('#thphone').attr('class', 'sorting');
             $('#thstatus').attr('class', 'sorting');
             $('#thhandyman').attr('class', 'sorting');
-            $('#thregistrationDate').attr('class', 'sorting sorting_desc');
+            $('#thregistrationDate').attr('class', 'sorting');
             $('#threpairDate').attr('class', 'sorting');
             $('#thinfo').attr('class', 'sorting');
 
@@ -76,13 +76,13 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
     }, [])
 
     const [thClasses] = useState({
-        lp: 'sorting',
+        lp: 'sorting sorting_desc',
         senior: 'sorting',
         address: 'sorting',
         phone: 'sorting',
         status: 'sorting',
         handyman: 'sorting',
-        registrationDate: 'sorting sorting_desc',
+        registrationDate: 'sorting',
         repairDate: 'sorting',
         info: 'sorting',
     });
