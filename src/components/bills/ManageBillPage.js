@@ -39,6 +39,7 @@ function ManageBillPage({
         if (dateName !== undefined) {
             name = dateName;
             value = new Date(event);
+            value.setHours(12);
         } else {
             name = event.target.name;
             value = event.target.value;

@@ -61,9 +61,11 @@ function ManageFormPage({
 
     function handleChange(event, dateName) {
         let name, value;
+        debugger;
         if (dateName !== undefined) {
             name = dateName;
             value = new Date(event);
+            value.setHours(12);
         } else {
             name = event.target.name;
             value = event.target.value;
@@ -178,6 +180,8 @@ function ManageFormPage({
             ? form.lp
             : parseInt(form.lp, 10);
 
+        const x = { ...form, lp: parsedLp };
+        debugger;
         saveForm({ ...form, lp: parsedLp }).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success(Labels.FormSaved);
