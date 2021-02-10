@@ -16,7 +16,7 @@ import { Labels } from '../common/myGlobal';
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'registrationDate', descending: true });
-    const [_forms, _setForms] = useState(props.forms);
+    const [_forms, _setForms] = useState(sortArray(props.forms, 'registrationDate', true));
 
     useEffect(() => {
         if (props.forms.length === 0) {
@@ -24,7 +24,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                 //.then(() => _setForms(sortArray(props.forms, 'repairDate', true)))
                 .catch(error => toastError(toast, Labels.LoadingFormsFailed + error, props.history));
         } else {
-            _setForms(sortArray(props.forms, 'repairDate', true));
+            _setForms(sortArray(props.forms, 'registrationDate', true));
         }
         if (seniors.length === 0) {
             actions.loadSeniors()
