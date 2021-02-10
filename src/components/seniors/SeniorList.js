@@ -21,6 +21,7 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
         $(function () {
             const t = $('#dtDynamicVerticalScrollExample2').DataTable({
                 "scrollY": "60vh",
+                "sScrollX": "100%",
                 "order": [],
                 "scrollCollapse": true,
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],

@@ -16,8 +16,8 @@
 }
 
 .myTable td {
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+  padding-left: 4px !important;
+  padding-right: 4px !important;
 }
 
 .myTable th:hover {
@@ -62,7 +62,7 @@
   margin-top: 20px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0);
-  width: 80%;
+  width: 90%;
 }
 
 .tableHeader {
@@ -80,7 +80,7 @@
 .tableBody {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 15px;
-  padding: 10px;
+  padding: 6px;
 }
 
 .tableSelectShow {

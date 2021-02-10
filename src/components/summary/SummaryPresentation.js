@@ -16,6 +16,7 @@ const SummaryPresentation = ({ summaryRows, handymans, onHeaderClick }) => {
             const t = $('#dtDynamicVerticalScrollExample4').DataTable({
                 "order": [],
                 "scrollY": "60vh",
+                "sScrollX": "100%",
                 "scrollCollapse": true,
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
                 "language": {

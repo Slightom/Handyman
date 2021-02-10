@@ -21,6 +21,7 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
             const t = $('#dtDynamicVerticalScrollExample').DataTable({
                 "scrollY": "60vh",
                 "scrollCollapse": true,
+                "scrollX": "100%",
                 "order": [],
                 "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
                 "language": {
