@@ -61,7 +61,8 @@ const FormForm = ({
                             defaultOption={Labels.SelectSenior}
                             options={sortArray(seniors, 'lastName').map(senior => ({
                                 value: senior.id,
-                                text: senior.lastName + ' ' + senior.firstName + ', ' + senior.address + ', ' + `Naprawy (${senior.forms.length}/5)`
+                                text: senior.lastName + ' ' + senior.firstName + ', ' + senior.address + ', ' + `Naprawy (${senior.forms.length}/5)`,
+                                formsl: senior.forms.length
                             }))}
                             onChange={onChange}
                             error={errors.senior}

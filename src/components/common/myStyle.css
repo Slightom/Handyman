@@ -16,8 +16,8 @@
 }
 
 .myTable td {
-  padding-left: 4px !important;
-  padding-right: 4px !important;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
 }
 
 .myTable th:hover {
@@ -39,6 +39,11 @@
 
 .myTable2 th:hover {
   background-color: #ddd !important;
+}
+
+.myTable tr:hover td {
+  border-bottom: 1px solid;
+  border-top: 1px solid rgb(51, 41, 41);
 }
 /*
 /
@@ -418,3 +423,41 @@ table.dataTable thead .sorting_desc_disabled:before {
   float: right !important;
   text-align: right !important;
 }
+
+.rowWaiting {
+  background-color: rgb(255 255 208) !important;
+}
+
+.rowFinished {
+  background-color: #d5f6d5 !important;
+}
+
+.rowRejected {
+  background-color: #ffc4c4 !important;
+}
+
+/* .senior1form {
+  /* background-color: #4ce6ff1a !important; 
+  background-color: rgba(63, 255, 5, 0.794) !important;
+}
+
+.senior2form {
+  /* background-color: #4ce6ff2e !important; 
+  background-color: #f2ffc74f !important;
+}
+
+.senior3form {
+  /* background-color: #4ce6ff59 !important; 
+  background-color: rgba(255, 208, 0, 0.438) !important;
+}
+
+.senior4form {
+  /* background-color: #4ce6ff91 !important; 
+  background-color: rgba(255, 136, 0, 0.438) !important;
+}
+
+.senior5form {
+  /* background-color: #4ce6ff !important; 
+  background-color: rgba(255, 0, 0, 0.438) !important;
+} 
+*/

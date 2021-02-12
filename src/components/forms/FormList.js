@@ -88,7 +88,7 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
         info: 'sorting',
     });
 
-    const [lastSortedColumn, setLastSortedColumn] = useState("registrationDate");
+    const [lastSortedColumn, setLastSortedColumn] = useState("lp");
 
     function thClicked(e, col) {
         onHeaderClick(e, col);
@@ -112,6 +112,19 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
         }
 
         setLastSortedColumn(col);
+    }
+
+    function setColor(status) {
+        switch (status) {
+            case 'Wykonane':
+                return "rowFinished";
+            case 'Oczekujące':
+                //return "rowWaiting";
+                break;
+            case 'Rezygnacja':
+                return "rowRejected";
+            default:
+        }
     }
 
     return (
@@ -146,7 +159,7 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                     <tbody id="tb">
                         {forms.map((form, i) => {
                             return (
-                                <tr key={form.id}>
+                                <tr key={form.id} className={setColor(form.status)}>
                                     <td>{i + 1}</td>
                                     <td >{form.lp}</td>
                                     <td ><Link to={"/senior/" + form.seniorId}>{form.senior}</Link></td>
@@ -160,14 +173,14 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                                     <td>
                                         <Link to={"/form/" + form.id}>
                                             <button
-                                                className="btn btn-outline-warning"
+                                                className="btn btn-warning"
                                             >
                                                 <FontAwesomeIcon icon={faPencilAlt} />
                                             </button>
                                         </Link>
                                         {" "}
                                         <button
-                                            className="btn btn-outline-danger"
+                                            className="btn btn-danger"
                                             onClick={() => onDeleteClick(form)}
                                         >
                                             <FontAwesomeIcon icon={faTrashAlt} />

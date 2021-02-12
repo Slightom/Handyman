@@ -16,7 +16,7 @@ import { Labels } from '../common/myGlobal';
 
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'lp', descending: true });
-    const [_forms, _setForms] = useState(sortArray(props.forms, 'registrationDate', true));
+    const [_forms, _setForms] = useState(props.forms);
 
     useEffect(() => {
         if (props.forms.length === 0) {

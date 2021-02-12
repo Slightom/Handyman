@@ -14,6 +14,32 @@ const SelectInput = ({
   options
 }) => {
 
+  function setClass(formsl) {
+    let c = "selectOption";
+    if (formsl) {
+      switch (formsl.toString()) {
+        case '1':
+          c += " senior1form";
+          break;
+        case '2':
+          c += " senior2form";
+          break;
+        case '3':
+          c += " senior3form";
+          break;
+        case '4':
+          c += " senior4form";
+          break;
+        case '5':
+          c += " senior5form";
+          break;
+        default:
+      }
+    }
+
+    return c;
+  }
+
   let wrapperClass = "form-control";
   if (error && error.length > 0) {
     wrapperClass += " " + "is-invalid selectError";
@@ -47,7 +73,7 @@ const SelectInput = ({
           <option value="">{defaultOption}</option>
           {options.map(option => {
             return (
-              <option className="selectOption" key={option.value} value={option.value}>
+              <option className={setClass(option.formsl)} key={option.value} value={option.value}>
                 {option.text}
               </option>
             );

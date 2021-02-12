@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import "../common/myStyle.css";
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
@@ -111,6 +111,23 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
         setLastSortedColumn(col);
     }
 
+    function setColor(formsl) {
+        debugger;
+        switch (formsl.toString()) {
+            case '1':
+                return "senior1form";
+            case '2':
+                return "senior2form";
+            case '3':
+                return "senior3form";
+            case '4':
+                return "senior4form";
+            case '5':
+                return "senior5form";
+            default:
+        }
+    }
+
     return (
         <>
             {loading
@@ -145,7 +162,7 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
                             <tbody id="tb" >
                                 {!loading && seniors.map((senior, i) => {
                                     return (
-                                        <tr key={senior.id}>
+                                        <tr key={senior.id} className={setColor(senior.forms)}>
                                             <td>{i + 1}</td>
                                             <td>{senior.lastName}</td>
                                             <td>{senior.firstName}</td>
@@ -158,17 +175,17 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
                                             <td>
                                                 <Link to={"/senior/" + senior.id}>
                                                     <button
-                                                        className="btn btn-outline-warning"
+                                                        className="btn btn-warning"
                                                     >
                                                         <FontAwesomeIcon icon={faPencilAlt} />
                                                     </button>
                                                 </Link>
                                                 {" "}
                                                 <button
-                                                    className="btn btn-outline-danger"
+                                                    className="btn btn-danger"
                                                     onClick={() => onDeleteClick(senior)}
                                                 >
-                                                    <FontAwesomeIcon icon={faTrashAlt} />
+                                                    <FontAwesomeIcon icon={faTrash} />
                                                 </button>
                                             </td>
                                         </tr>

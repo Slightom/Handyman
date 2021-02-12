@@ -131,14 +131,14 @@ const BillList = ({ bills, onDeleteClick, onHeaderClick }) => {
                                     <td>
                                         <Link to={"/bill/" + bill.id}>
                                             <button
-                                                className="btn btn-outline-warning"
+                                                className="btn btn-warning"
                                             >
                                                 <FontAwesomeIcon icon={faPencilAlt} />
                                             </button>
                                         </Link>
                                         {" "}
                                         <button
-                                            className="btn btn-outline-danger"
+                                            className="btn btn-danger"
                                             onClick={() => onDeleteClick(bill)}
                                         >
                                             <FontAwesomeIcon icon={faTrashAlt} />
