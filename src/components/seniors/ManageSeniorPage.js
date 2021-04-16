@@ -57,6 +57,7 @@ function ManageSeniorPage({
 
 
     function handleChange(event) {
+        debugger;
         const { name, value } = event.target;
         setSenior(prevForm => ({
             ...prevForm,

@@ -57,6 +57,7 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
             })
             $('#dtDynamicVerticalScrollExample2_length').addClass('tableSelectShow');
             $('#dtDynamicVerticalScrollExample2_filter').addClass('tableSearchBar');
+            $('select[name ="dtDynamicVerticalScrollExample2_length"]').val(-1);
             $('.dataTables_length').addClass('bs-select');
             $("#dtDynamicVerticalScrollExample2_length").after(newDiv);
             $('.dataTables_filter input').attr("placeholder", "Szukaj...");

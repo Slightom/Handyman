@@ -17,6 +17,7 @@ import { Labels } from '../common/myGlobal';
 function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...props }) {
     const [sort, setSort] = useState({ col: 'lp', descending: true });
     const [_forms, _setForms] = useState(props.forms);
+    const [queryString, setQueryString] = useState("");
 
     useEffect(() => {
         if (props.forms.length === 0) {
@@ -70,6 +71,9 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
     }
 
     function handleSort(event, col) {
+        const s = queryString;
+        debugger;
+
         event.preventDefault();
         const descending = ((sort.col === col) ? !sort.descending : true);
         _setForms(sortArray(_forms, col, descending));
@@ -87,6 +91,7 @@ function FormsPage({ seniors, handymans, formStatuses, actions, loading, ...prop
                         onDeleteClick={handleDeleteForm}
                         onHeaderClick={handleSort}
                         forms={_forms}
+                        queryString={queryString}
                     />
                 </>
 

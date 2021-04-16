@@ -12,7 +12,7 @@ import Moment from 'react-moment';
 import 'moment/locale/pl';
 import { Labels } from '../common/myGlobal';
 
-const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
+const FormList = ({ forms, onDeleteClick, onHeaderClick, queryStrig }) => {
 
     useEffect(() => {
         const newDiv = `<h1 class='tableTitle'>${Labels.Forms}</h1>`;
@@ -23,14 +23,17 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
                 "scrollCollapse": true,
                 "scrollX": "100%",
                 "order": [],
-                "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
+                //"iDisplayLength": -1,
+                //"paging": false,
+                "title": "xsxs",
+                "lengthMenu": [[-1, 100, 25, 10,], ["All", 100, 25, 10]],
                 "language": {
                     "lengthMenu": "Pokaż _MENU_ rekordów",
                     "search": "",
                     "zeroRecords": "Nie znaleziono rekordów",
                     "info": "Wyświetla _START_-_END_ z _TOTAL_",
                     "infoEmpty": "Nie ma rekordów",
-                    //"infoFiltered": "(filtered from _MAX_ total records)",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
                     "paginate": {
                         "previous": "<<",
                         "next": ">>"
@@ -58,9 +61,9 @@ const FormList = ({ forms, onDeleteClick, onHeaderClick }) => {
             })
             $('#dtDynamicVerticalScrollExample_length').addClass('tableSelectShow');
             $('#dtDynamicVerticalScrollExample_filter').addClass('tableSearchBar');
-            $('select[name ="dtDynamicVerticalScrollExample_length"]').val(100);
+            $('select[name ="dtDynamicVerticalScrollExample_length"]').val(-1);
             $('.dataTables_length').addClass('bs-select');
-            $("#dtDynamicVerticalScrollExample_length").after(newDiv);
+            $("#dtDynamicVerticalScrollExample_filter").after(newDiv);
             $('.dataTables_filter input').attr("placeholder", "Szukaj...");
 
             $('#thlp').attr('class', 'sorting sorting_desc');
