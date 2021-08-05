@@ -10,7 +10,7 @@ import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { isNumber, naviGateBack, stringIsPropertyInt, sortArray, toastError, getSeniorsWithRelatedForms } from "../common/Helper";
-import { Labels } from '../common/myGlobal';
+import { FORM_FINISHED, Labels } from '../common/myGlobal';
 import { useHistory } from "react-router-dom";
 
 function ManageFormPage({
@@ -84,7 +84,11 @@ function ManageFormPage({
 
     function made5forms(seniorId) {
         const s = _seniors.find(x => x.id === parseInt(seniorId, 10));
-        return s.forms.length >= 5;
+        const finishedId = formStatuses.find(fs => fs.name === FORM_FINISHED).id;
+        debugger;
+        const finishedForms = s.forms.filter(x => x.formStatusId === finishedId).length;
+        const allForms = s.forms.length;
+        return form.id ? false : finishedForms >= 5;
     }
 
     function checkHowManyForms(name, value) {

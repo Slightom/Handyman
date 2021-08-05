@@ -24,7 +24,7 @@ const SeniorList = ({ seniors, onDeleteClick, onHeaderClick }) => {
                 "sScrollX": "100%",
                 "order": [],
                 "scrollCollapse": true,
-                "lengthMenu": [[100, 25, 10, -1], [100, 25, 10, "All"]],
+                "lengthMenu": [[-1, 100, 25, 10,], ["All", 100, 25, 10]],
                 "language": {
                     "lengthMenu": "Pokaż _MENU_ rekordów",
                     "search": "",
