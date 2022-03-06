@@ -4,7 +4,6 @@ const baseUrl = process.env.REACT_APP_API_URL;
 
 
 export async function handleResponse(response) {
-    debugger;
     if (response.ok)
         return response.json();
     if (response.status === 400) {
@@ -15,7 +14,6 @@ export async function handleResponse(response) {
     }
     if (response.status === 401) {
         logout();
-        debugger;
         const error = await response.status;;
         throw new Error(error);
     }
@@ -25,7 +23,6 @@ export async function handleResponse(response) {
 
 // In a real app, would likely call an error logging service.
 export function handleError(error) {
-    debugger;
     // eslint-disable-next-line no-console
     console.error("API call failed. " + error);
     throw error;

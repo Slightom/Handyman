@@ -54,7 +54,6 @@ function LoggingContainer({ history }) {
 
         setLogging(true);
         logApi.login(user).then((err) => {
-            debugger;
             if (err) {
                 handleErrorMessage(err);
             }

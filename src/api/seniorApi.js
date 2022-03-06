@@ -35,13 +35,11 @@ function _saveSeniorAfterRefresh(senior) {
 }
 
 function _saveSeniorNow(senior) {
-    debugger;
     delete senior.forms;
     if (!senior.id) {
         delete senior.id;
         senior.createdAt = new Date();
     }
-    debugger;
     return fetch(baseUrl + (senior.id || ""), {
         method: senior.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
         headers: generateHeaders(),

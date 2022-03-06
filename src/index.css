@@ -1,9 +1,9 @@
 #root {
   /* max-width: 1450px; */
   margin: 0;
-  background-image: url("/src/img/bialystok.jpg");
+  background-image: url('/src/img/bialystok.jpg');
   height: 100vh;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
   /* Center and scale the image nicely */
   background-position: center;
   background-size: cover;
@@ -30,7 +30,7 @@ ul.unstyled {
 }
 
 nav {
-  width: 92%;
+  max-width: 1800px;
   margin: auto;
   padding: 20px 0 20px 0;
 }
@@ -80,4 +80,8 @@ nav li a:hover {
   background-color: #c8280c;
   /* color: Black; */
   font-weight: bold;
+}
+
+.MuiTableRow-root:hover {
+  background: #dedede !important;
 }

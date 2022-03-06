@@ -1,155 +1,107 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from "react-router-dom";
 import "../common/myStyle.css";
 import 'jquery/dist/jquery.min.js';
 import "datatables.net-dt/js/dataTables.dataTables"
 import "datatables.net-dt/css/jquery.dataTables.min.css"
-import $ from "jquery";
 import Moment from 'react-moment';
 import 'moment/locale/pl';
-import { Labels } from '../common/myGlobal';
+import { MyNewTitle, TableCellStyle } from "../common/Helper";
+import MaterialTable from "material-table";
 
 const BillList = ({ bills, onDeleteClick, onHeaderClick }) => {
-    useEffect(() => {
-        const newDiv = `<h1 class='tableTitle'>${Labels.Bills}</h1>`;
-        $(function () {
-            const t = $('#dtDynamicVerticalScrollExample3').DataTable({
-                "scrollY": "60vh",
-                "sScrollX": "100%",
-                "order": [],
-                "scrollCollapse": true,
-                "lengthMenu": [[-1, 100, 25, 10,], ["All", 100, 25, 10]],
-                "language": {
-                    "lengthMenu": "Pokaż _MENU_ rekordów",
-                    "search": "",
-                    "zeroRecords": "Nie znaleziono rekordów",
-                    "info": "Wyświetla _START_-_END_ z _TOTAL_",
-                    "infoEmpty": "Nie ma rekordów",
-                    "paginate": {
-                        "previous": "<<",
-                        "next": ">>"
-                    }
-                },
-                "columnDefs": [
-                    {
-                        "searchable": false,
-                        "orderable": false,
-                        "targets": 0
-                    },
-                    { orderable: false, targets: 0 },
-                    { orderable: false, targets: 1 },
-                    { orderable: false, targets: 2 },
-                    { orderable: false, targets: 3 },
-                    { orderable: false, targets: 4 },
-                ]
-            });
-            t.on('search.dt', function () {
-                t.column(0, { search: 'applied' }).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            })
-            $('#dtDynamicVerticalScrollExample3_length').addClass('tableSelectShow');
-            $('#dtDynamicVerticalScrollExample3_filter').addClass('tableSearchBar');
-            $('select[name ="dtDynamicVerticalScrollExample3_length"]').val(100);
-            $('.dataTables_length').addClass('bs-select');
-            $("#dtDynamicVerticalScrollExample3_length").after(newDiv);
-            $('.dataTables_filter input').attr("placeholder", "Szukaj...");
+    const [filter, setFilter] = useState(false);
+    const history = useHistory();
 
-            $('#thname').attr('class', 'sorting');
-            $('#thamount').attr('class', 'sorting');
-            $('#thdate').attr('class', 'sorting sorting_desc');
-
-        });
-    }, [])
-
-    const [thClasses] = useState({
-        name: 'sorting',
-        amount: 'sorting',
-        date: 'sorting sorting_desc',
-    });
-
-    const [lastSortedColumn, setLastSortedColumn] = useState("date");
-
-    function thClicked(e, col) {
-        onHeaderClick(e, col);
-        const actualClass = thClasses[col];
-        // eslint-disable-next-line default-case
-        switch (actualClass) {
-            case 'sorting sorting_desc':
-                thClasses[col] = 'sorting sorting_asc';
-                $('#th' + col).attr('class', 'sorting sorting_asc');
-                break;
-            default:
-                thClasses[col] = 'sorting sorting_desc';
-                $('#th' + col).attr('class', 'sorting sorting_desc');
-                break;
+    const columns = [
+        {
+            title: "Nazwa",
+            field: "name",
+            cellStyle: TableCellStyle
+        },
+        {
+            title: "Kwota",
+            field: "amount",
+            render: rowData => <span>{rowData.amount} zł</span>,
+            cellStyle: TableCellStyle
+        },
+        {
+            title: "Data",
+            field: "date",
+            render: rowData => <Moment format="D-MM-YY">{rowData.date}</Moment>,
+            cellStyle: TableCellStyle
         }
+    ];
 
-        debugger;
-        if (lastSortedColumn !== "" && lastSortedColumn !== col) {
-            thClasses[lastSortedColumn] = 'sorting';
-            $('#th' + lastSortedColumn).attr('class', 'sorting');
+    const actions = [
+        {
+            icon: 'edit',
+            iconProps: { style: { color: '#feac10' } },
+            tooltip: 'Edytuj formularz',
+            onClick: (event, rowData) => history.push("/bill/" + rowData.id)
+        },
+        {
+            icon: 'delete',
+            iconProps: { style: { color: 'red' } },
+            tooltip: 'Usuń Formularz',
+            onClick: (event, rowData) => onDeleteClick(rowData)
+        },
+        {
+            icon: 'filter',
+            tooltip: 'Pokaż/ukryj filtry',
+            isFreeAction: true,
+            onClick: (event) => { setFilter(!filter); }
+        },
+        {
+            icon: 'add',
+            tooltip: 'Dodaj Fakturę',
+            iconProps: { style: { color: 'blue', backgroundColor: '#deded5' } },
+            isFreeAction: true,
+            onClick: (event) => history.push("/bill")
         }
+    ];
 
-        setLastSortedColumn(col);
-    }
+    const localization = {
+        header: {
+            actions: 'Akcje'
+        },
+        pagination: {
+            labelRowsSelect: 'wierszy'
+        }
+    };
+
+    const options =
+    {
+        actionsColumnIndex: -1,
+        search: true,
+        paging: true,
+        pageSize: 100,
+        pageSizeOptions: [10, 50, 100],
+        sorting: true,
+        maxBodyHeight: "600px",
+        filtering: filter,
+        headerStyle: {
+            backgroundColor: '#bfbfbf',
+            fontWeight: 'bold',
+            borderRight: '2px solid #e5e5e5'
+        },
+        rowStyle: (rowData) => {
+            return {
+                border: '2px solid #e5e5e5'
+            }
+        }
+    };
 
     return (
-        <div className="tableContainer" style={{ width: '60%' }}>
-            <div className="tableBody">
-                <table id="dtDynamicVerticalScrollExample3" className="table table-hover table-bordered myTable" cellSpacing="0"
-                    width="100%" >
-                    <thead>
-                        <tr>
-                            <th>Nr</th>
-                            <th id="thname" onClick={(e) => thClicked(e, 'name')}>{Labels.Name}</th>
-                            <th id="thamount" onClick={(e) => thClicked(e, 'amount')}>{Labels.Amount}</th>
-                            <th id="thdate" onClick={(e) => thClicked(e, 'date')}>{Labels.Date}</th>
-                            <th>
-                                <Link to={"/bill"}>
-                                    <button
-                                        style={{ marginBottom: 0 }}
-                                        className="btn btn-primary add-form"
-                                    >
-                                        {Labels.AddBill}
-                                    </button>
-                                </Link>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="tb" >
-                        {bills.map((bill, i) => {
-                            return (
-                                <tr key={bill.id}>
-                                    <td>{i + 1}</td>
-                                    <td id="thname">{bill.name}</td>
-                                    <td id="thamount">{bill.amount} zł</td>
-                                    <td id="thdate"><Moment format="D MMM YYYY">{bill.date}</Moment></td>
-                                    <td>
-                                        <Link to={"/bill/" + bill.id}>
-                                            <button
-                                                className="btn btn-warning"
-                                            >
-                                                <FontAwesomeIcon icon={faPencilAlt} />
-                                            </button>
-                                        </Link>
-                                        {" "}
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => onDeleteClick(bill)}
-                                        >
-                                            <FontAwesomeIcon icon={faTrashAlt} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
+        <div style={{ maxWidth: "1000px", margin: 'auto' }}>
+            <MaterialTable
+                title={<MyNewTitle text="Faktury" />}
+                data={bills}
+                columns={columns}
+                options={options}
+                actions={actions}
+                localization={localization} />
         </div>
     )
 }

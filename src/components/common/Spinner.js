@@ -3,7 +3,6 @@ import "./Spinner.css";
 import { Labels } from './myGlobal';
 
 const Spinner = (props) => {
-  debugger;
   //const [backto, setBackto] = useState(null);
   useEffect(() => {
     if (props.match && props.match.params && props.match.params.backto) {

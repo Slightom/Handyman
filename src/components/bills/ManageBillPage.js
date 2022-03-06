@@ -22,7 +22,6 @@ function ManageBillPage({
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        debugger;
         if (bills.length === 0) {
             loadBills().catch(error => {
                 toastError(toast, Labels.LoadingBillsFailed + error, props.history);
@@ -69,7 +68,6 @@ function ManageBillPage({
         event.preventDefault();
         if (!formIsValid()) return;
         setSaving(true);
-        debugger;
         const parsedAmount = isNumber(bill.amount)
             ? bill.amount
             : parseFloat(bill.amount.replace(/,/, "."));

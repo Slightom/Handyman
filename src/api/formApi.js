@@ -4,7 +4,6 @@ import { refresh } from './logApi';
 const baseUrl = process.env.REACT_APP_API_URL + "/forms/";
 
 export function getForms() {
-    debugger;
     return tokenExpired() ? _getFormsAfterRefresh() : _getFormsNow();
 }
 
@@ -36,14 +35,12 @@ function _saveFormAfterRefresh(form) {
 }
 
 function _saveFormNow(form) {
-    debugger;
     if (!form.id) {
         delete form.id;
         form.createdAt = new Date();
     }
     //form.registrationDate = addHours(form.registrationDate);
     //form.repairDate = addHours(form.repairDate);
-    debugger;
     return fetch(baseUrl + (form.id || ""), {
         method: form.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
         headers: generateHeaders(),

@@ -15,7 +15,6 @@ import { sortArray, toastError } from "../common/Helper";
 import { Labels, FORM_FINISHED, FORM_WAITING, FORM_REJECTED } from '../common/myGlobal';
 
 function SummaryContainer({ handymans, bills, formStatuses, actions, loading, forms, ...props }) {
-    const [sort, setSort] = useState({ col: 'periodDate', descending: true });
     const [_summaryRows, _setSummaryRows] = useState([...props.summaryRows]);
 
     useEffect(() => {
@@ -108,7 +107,6 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
         //#region generate rows for months
         for (const [key, value] of Object.entries(formsByMonth)) {
             let handyRows = [];
-            debugger;
             const row = {
                 periodDate: value[0].repairDate,
                 period: key,
@@ -136,31 +134,17 @@ function SummaryContainer({ handymans, bills, formStatuses, actions, loading, fo
             summaryRows.push(row);
         }
         //#endregion
-        debugger;
         return summaryRows;
     }
-
-    function handleSort(event, col) {
-        event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : true);
-        _setSummaryRows(sortArray(_summaryRows, col, descending));
-        setSort({ col, descending });
-    }
-
 
     return (
         <>
             {loading
                 ? <Spinner />
-                :
-                <>
-                    <SummaryPresentation
-                        onHeaderClick={handleSort}
-                        summaryRows={_summaryRows}
-                        handymans={handymans}
-                    />
-                </>
-
+                : <SummaryPresentation
+                    summaryRows={_summaryRows}
+                    handymans={handymans}
+                />
             }
         </>
     )

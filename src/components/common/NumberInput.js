@@ -9,7 +9,6 @@ const NumberInput = ({ name, label, onChange, placeholder, value, error }) => {
 
     function handleKeyPress(event) {
 
-        debugger;
         console.log(event.charCode);
         return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? "" : event.charCode >= 48 && event.charCode <= 57;
     }

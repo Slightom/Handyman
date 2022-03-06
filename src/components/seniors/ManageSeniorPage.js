@@ -57,7 +57,6 @@ function ManageSeniorPage({
 
 
     function handleChange(event) {
-        debugger;
         const { name, value } = event.target;
         setSenior(prevForm => ({
             ...prevForm,
@@ -80,14 +79,12 @@ function ManageSeniorPage({
     }
 
     function handleSave(event) {
-        debugger;
         event.preventDefault();
         if (!formIsValid()) return;
         setSaving(true);
         saveSenior(senior).then(() => {
             // eslint-disable-next-line no-restricted-globals
             toast.success(Labels.SeniorSaved);
-            debugger;
             props.backToAddingForm
                 ? handleBackToAddForm()
                 : history.goBack()
@@ -98,7 +95,6 @@ function ManageSeniorPage({
 
     function handleBackToAddForm() {
         localStorage.setItem('justAddedSenior', "true");
-        debugger;
         history.push("/form", { from: '/senior' });
     }
 
@@ -137,7 +133,6 @@ export function getSeniorById(seniors, id) {
 }
 
 function mapStateToProps(state, ownProps) {
-    debugger;
     let param = ownProps.match.params.id;
     let id = undefined;
     if (param && stringIsPropertyUInt(param)) {
@@ -145,7 +140,6 @@ function mapStateToProps(state, ownProps) {
         param = undefined;
     }
     const _senior = id && state.seniors.length > 0 ? getSeniorById(state.seniors, id) : newSenior;
-    debugger;
     return {
         senior: (state.seniors.length === 0 || state.handymans.length === 0 || state.formStatuses.length === 0)
             ? _senior

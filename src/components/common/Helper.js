@@ -1,8 +1,8 @@
+import { Typography } from '@material-ui/core';
 import * as logApi from '../../api/logApi';
 import { SESSION_TIME } from "./myGlobal";
 
 export function getFormsAdvanced(forms, seniors, handymans, formStatuses) {
-    debugger;
     let _forms = forms.map(form => {
         const _senior = seniors.find(s => s.id === form.seniorId);
         const _handyman = handymans.find(h => h.id === form.handymanId);
@@ -22,7 +22,6 @@ export function getFormsAdvanced(forms, seniors, handymans, formStatuses) {
 
 export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) {
 
-    debugger;
     let relatedForms = forms.filter(f => f.seniorId === senior.id);
     if (relatedForms.length === 0) {
         return [];
@@ -44,7 +43,6 @@ export function getRelatedFormsAdvanced(senior, forms, handymans, formStatuses) 
 }
 
 export function getSeniorsWithRelatedForms(seniors, forms) {
-    debugger;
     const seniorsWithForms = seniors.map(senior => {
         return {
             ...senior,
@@ -74,7 +72,6 @@ export function sortArray(arr, col, descending) {
     }
 
     let newArray;
-    debugger;
     switch (col) {
         case 'lp':
         case 'forms':
@@ -128,7 +125,6 @@ export function naviGateBack(history, event, actualPath) {
         }
         return;
     }
-    debugger;
     history.goBack();
 }
 
@@ -204,3 +200,13 @@ export function toastError(toast, error, history) {
     toast.error(error);
     history.push('/logging');
 }
+
+export const TableCellStyle = { border: '2px solid #e5e5e5' };
+
+export const MyNewTitle = ({ text = "Table Title" }) => (
+    <Typography
+        style={{ fontWeight: 'bold', fontSize: '26px' }}
+    >
+        {text}
+    </Typography>
+);

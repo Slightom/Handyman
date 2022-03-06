@@ -54,27 +54,15 @@ function BillsPage({ actions, loading, ...props }) {
         });
     }
 
-    function handleSort(event, col) {
-        event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : true);
-        _setBills(sortArray(_bills, col, descending));
-        setSort({ col, descending });
-    }
-
     return (
         <>
             {loading
                 ? <Spinner />
-                :
-                <>
-                    <BillList
-                        onDeleteClick={handleDeleteBill}
-                        onHeaderClick={handleSort}
-                        bills={_bills}
-                    />
-                </>
+                : <BillList
+                    onDeleteClick={handleDeleteBill}
+                    bills={_bills}
+                />
             }
-
         </>
     )
 }
@@ -86,7 +74,6 @@ BillsPage.propTypes = {
 }
 
 function mapStateToProps(state) {
-    debugger;
     return {
         bills: state.bills.map(b => { return { ...b, amount: b.amount.toFixed(2) } }),
         loading: state.apiCallsInProgress > 0,

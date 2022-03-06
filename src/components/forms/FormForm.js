@@ -99,7 +99,7 @@ const FormForm = ({
                                 <DatePickerInput
                                     name="registrationDate"
                                     label={Labels.Registration}
-                                    value={form.registrationDate === null ? null : new Date(form.registrationDate)}
+                                    value={form.registrationDate == null ? null : new Date(form.registrationDate)}
                                     onChange={onChange}
                                     error={errors.registrationDate}
                                 />
@@ -109,7 +109,7 @@ const FormForm = ({
                                 <DatePickerInput
                                     name="repairDate"
                                     label={Labels.Repair}
-                                    value={form.repairDate === null ? null : new Date(form.repairDate)}
+                                    value={form.repairDate == null ? null : new Date(form.repairDate)}
                                     onChange={onChange}
                                     error={errors.repairDate}
 

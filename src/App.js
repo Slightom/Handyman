@@ -10,7 +10,6 @@ import ManageSeniorPage from './components/seniors/ManageSeniorPage';
 import BillsPage from './components/bills/BillsPage';
 import ManageBillPage from './components/bills/ManageBillPage';
 import SummaryContainer from './components/summary/SummaryContainer';
-import Home from './Home';
 import LoggingContainer from './components/logging/LoggingContainer';
 import { currentUser } from './components/common/Helper';
 import Spinner from './components/common/Spinner';

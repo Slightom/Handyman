@@ -10,12 +10,11 @@ import { toast } from "react-toastify";
 import SeniorList from "./SeniorList";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { sortArray, toastError } from "../common/Helper";
+import { toastError } from "../common/Helper";
 import { Labels } from '../common/myGlobal';
 
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
-    const [sort, setSort] = useState({ col: 'lastName', descending: false });
     const [_seniors, _setSeniors] = useState([...props.seniors]);
     useEffect(() => {
         if (props.seniors.length === 0) {
@@ -70,27 +69,15 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
         });
     }
 
-    function handleSort(event, col) {
-        event.preventDefault();
-        const descending = ((sort.col === col) ? !sort.descending : true);
-        _setSeniors(sortArray(_seniors, col, descending));
-        setSort({ col, descending });
-    }
-
     return (
         <>
             {loading
                 ? <Spinner />
-                :
-                <>
-                    <SeniorList
-                        onDeleteClick={handleDeleteSenior}
-                        onHeaderClick={handleSort}
-                        seniors={_seniors}
-                    />
-                </>
+                : <SeniorList
+                    onDeleteClick={handleDeleteSenior}
+                    seniors={_seniors}
+                />
             }
-
         </>
     )
 }

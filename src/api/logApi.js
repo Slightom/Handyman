@@ -11,20 +11,17 @@ export function login({ username, password }) {
         body: JSON.stringify({ username, password })
     };
 
-    debugger;
     return fetch(`${baseUrl}/authenticate`, requestOptions)
         .then(handleResponse)
         .then(user => {
-            debugger;
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             setUserAndTokenData(user);
             return null;
         })
-        .catch(error => { debugger; return error.message; });
+        .catch(error => { return error.message; });
 }
 
 export function refresh() {
-    debugger;
     const user = currentUser();
     const requestOptions = {
         method: 'POST',

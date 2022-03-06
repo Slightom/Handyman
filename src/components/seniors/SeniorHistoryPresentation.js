@@ -20,7 +20,6 @@ function SeniorHistoryPresentation({ senior, ...props }) {
     }
 
     function helperCheck(s) {
-        debugger;
         return s.forms == null || s.forms.length === 0;
     }
 
