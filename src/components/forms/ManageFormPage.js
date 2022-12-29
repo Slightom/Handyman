@@ -222,7 +222,7 @@ function mapStateToProps(state, ownProps) {
     const id = ownProps.match.params.id;
     let form = id && state.forms.length > 0
         ? getFormById(state.forms, id)
-        : { ...newForm };
+        : newForm;
 
     const justAddedSenior = localStorage.getItem('justAddedSenior');
     if (justAddedSenior) {

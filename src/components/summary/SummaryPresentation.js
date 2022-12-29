@@ -73,8 +73,8 @@ const SummaryPresentation = ({ summaryRows, handymans }) => {
         actionsColumnIndex: -1,
         search: true,
         paging: true,
-        pageSize: 12,
-        pageSizeOptions: [12, 50, 100],
+        pageSize: 13,
+        pageSizeOptions: [13, 50, 100],
         sorting: true,
         maxBodyHeight: "600px",
         headerStyle: {
