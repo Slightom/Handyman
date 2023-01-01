@@ -71,11 +71,19 @@ function ManageSeniorPage({
         if (!firstName) errors.firstName = Labels.ErrorFirstNameRequired;
         if (!lastName) errors.lastName = Labels.ErrorLastNameRequired;
         if (!address) errors.address = Labels.ErrorAddressRequired;
-        if (!phone) errors.phone = Labels.ErrorPhoneRequired;
+        if (!phone) { errors.phone = Labels.ErrorPhoneRequired; }
+        else if (!phoneNumberHasValidFormat(phone)) { errors.phone = Labels.ErrorPhoneFormtNotValid; }
+
+
 
         setErrors(errors);
 
         return Object.keys(errors).length === 0;
+    }
+
+    function phoneNumberHasValidFormat(phone) {
+        var pattern = /^\d{9}$/;
+        return phone.replace(/\s/g, "").match(pattern);
     }
 
     function handleSave(event) {

@@ -31,6 +31,11 @@ const SummaryPresentation = ({ summaryRows, handymans }) => {
                 title: "Oczekujące",
                 field: "formsWaiting",
                 cellStyle: TableCellStyle
+            },
+            {
+                title: "Rezygnacja",
+                field: "formsRejected",
+                cellStyle: TableCellStyle
             }];
 
         let _columnsPart2 =
@@ -51,7 +56,7 @@ const SummaryPresentation = ({ summaryRows, handymans }) => {
                 cellStyle: TableCellStyle
             },
             {
-                title: "Średnia kwota / naprawę",
+                title: "Śr. kwota / naprawę",
                 field: "amountAvg",
                 render: rowData => <span>{rowData.amountAvg} zł</span>,
                 cellStyle: TableCellStyle

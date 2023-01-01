@@ -69,6 +69,7 @@ export const Labels = {
     ErrorLastNameRequired: "Nazwisko jest wymagane",
     ErrorAddressRequired: "Adres jest wymagany",
     ErrorPhoneRequired: "Telefon jest wymagany",
+    ErrorPhoneFormtNotValid: "Pole nr telefonu musi składać się wyłącznie z 9 cyfr",
     ErrorSeniorRequired: "Senior jest wymagany",
     ErrorSenior5FormsAlready: "Dla tego seniora przypisano już 5 formularzy",
     ErrorHandymanRequired: "Złota Rączka jest wymagana",
