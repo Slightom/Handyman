@@ -23,6 +23,13 @@ function SeniorHistoryPresentation({ senior, ...props }) {
         return s.forms == null || s.forms.length === 0;
     }
 
+    const determineColor = (status) => {
+        debugger;
+        if (status === 'Rezygnacja') return '#ffc4c4'
+        if (status === 'Wykonane') return '#d5f6d5'
+        return 'white'
+    }
+
     return (
         <div className={classesNames}>
             {senior.id != null &&
@@ -46,7 +53,7 @@ function SeniorHistoryPresentation({ senior, ...props }) {
                             <tbody>
                                 {senior.forms.map(form => {
                                     return (
-                                        <tr key={form.id}>
+                                        <tr key={form.id} style={{ backgroundColor: determineColor(form.formStatus) }}>
                                             <td>{form.lp}</td>
                                             <td>{form.senior}</td>
                                             <td>{form.formStatus}</td>
