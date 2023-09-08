@@ -10,7 +10,7 @@ import FormForm from "./FormForm";
 import Spinner from "../common/Spinner";
 import { toast } from "react-toastify";
 import { isNumber, naviGateBack, stringIsPropertyInt, sortArray, toastError, getSeniorsWithRelatedForms } from "../common/Helper";
-import { FORM_FINISHED, Labels } from '../common/myGlobal';
+import { FORM_REJECTED, FORM_FINISHED, Labels } from '../common/myGlobal';
 import { stat } from "fs";
 
 function ManageFormPage({
@@ -125,7 +125,8 @@ function ManageFormPage({
         if (!errors.seniorId) { //jesli wiemy czyje formularze mamy sprawdzic
             const millisecondsPerDay = 24 * 60 * 60 * 1000;
             let daysBetween;
-            let formsRelated = forms.filter(x => x.seniorId === form.seniorId);
+            const rejectedId = formStatuses.find(fs => fs.name === FORM_REJECTED).id;
+            let formsRelated = forms.filter(x => ((x.seniorId === form.seniorId) && (x.formStatusId !== rejectedId)));
 
             if (formsRelated.length > 0) {
                 formsRelated = sortArray(formsRelated, 'repairDate', false);
@@ -149,8 +150,6 @@ function ManageFormPage({
                 }
             }
             return false;
-
-
         }
     }
 
