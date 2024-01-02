@@ -16,6 +16,7 @@ import { Labels } from '../common/myGlobal';
 
 function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
     const [_seniors, _setSeniors] = useState([...props.seniors]);
+    const seniorsFromThisEdition = _seniors.filter(s => s.forms > 0);
     useEffect(() => {
         if (props.seniors.length === 0) {
             actions.loadSeniors()
@@ -75,7 +76,7 @@ function SeniorsPage({ forms, formStatuses, actions, loading, ...props }) {
                 ? <Spinner />
                 : <SeniorList
                     onDeleteClick={handleDeleteSenior}
-                    seniors={_seniors}
+                    seniors={seniorsFromThisEdition}
                 />
             }
         </>
